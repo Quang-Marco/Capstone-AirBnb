@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  font-family: "Airbnb Cereal VF", Circular, -apple-system, BlinkMacSystemFont,
+    Roboto, "Helvetica Neue", sans-serif;
+}

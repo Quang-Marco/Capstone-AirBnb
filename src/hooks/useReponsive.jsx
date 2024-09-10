@@ -1,26 +1,48 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import useDebounce from "./useDebounce";
 
-// Hook để kiểm tra xem cửa sổ hiện tại có nằm trong kích thước chỉ định không
-function useResponsive(breakpoints) {
-  const [isResponsive, setIsResponsive] = useState({});
+const useResponsive = () => {
+  // screen resolutions
+  const [state, setState] = useState({
+    isMobile: false,
+    isTablet: false,
+    isDesktop: false,
+  });
 
   useEffect(() => {
-    const handleResize = () => {
-      const newIsResponsive = {};
-      for (const key in breakpoints) {
-        if (Object.hasOwnProperty.call(breakpoints, key)) {
-          newIsResponsive[key] = window.innerWidth <= breakpoints[key];
-        }
-      }
-      setIsResponsive(newIsResponsive);
+    // update the state on the initial load
+    onResizeHandler();
+    // assign the event
+    Setup();
+    return () => {
+      // remove the event
+      Cleanup();
     };
-
-    handleResize(); // Gọi ngay lập tức để kiểm tra kích thước ban đầu
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return isResponsive;
-}
+  // update the state on window resize
+  const onResizeHandler = () => {
+    const isMobile = window.innerWidth <= 524;
+    const isTablet = window.innerWidth >= 524 && window.innerWidth <= 768;
+    const isDesktop = window.innerWidth > 768 && window.innerWidth <= 1024;
+
+    setState({ isMobile, isTablet, isDesktop });
+  };
+
+  // debounce the resize call
+  const debouncedCall = useDebounce(onResizeHandler, 500);
+
+  // add event listener
+  const Setup = () => {
+    window.addEventListener("resize", debouncedCall, false);
+  };
+
+  // remove the listener
+  const Cleanup = () => {
+    window.removeEventListener("resize", debouncedCall, false);
+  };
+
+  return state;
+};
 
 export default useResponsive;

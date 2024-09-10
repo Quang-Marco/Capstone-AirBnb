@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const http = axios.create({
-  baseURL: "https://...",
+  baseURL: "https://airbnbnew.cybersoft.edu.vn/api/",
   timeout: 30000,
   headers: {
     tokenCyberSoft:
