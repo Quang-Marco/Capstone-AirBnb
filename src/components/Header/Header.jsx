@@ -4,8 +4,12 @@ import IconLogoHeader from "../Icon/IconLogoHeader";
 import { Link } from "react-router-dom";
 import { Button, Dropdown, Modal, Space, Tabs } from "antd";
 import { useSelector } from "react-redux";
+import LanguageSwitcher from "../LanguageSwicher/LanguageSwicher";
+import { useTranslation } from "react-i18next";
+import { pathDefault } from "../../common/path";
 
 const Header = () => {
+  const { t } = useTranslation();
   const { listLanguages, listCurrency } = useSelector(
     (state) => state.listSlice
   );
@@ -61,24 +65,30 @@ const Header = () => {
     {
       key: "1",
       label: (
-        <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
-          Sign up
-        </p>
+        <Link
+          to={pathDefault.register}
+          className="block p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300"
+        >
+          {t("header.user.signup")}
+        </Link>
       ),
     },
     {
       key: "2",
       label: (
-        <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
-          Log in
-        </p>
+        <Link
+          to={pathDefault.login}
+          className="block p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300"
+        >
+          {t("header.user.login")}
+        </Link>
       ),
     },
     {
       key: "3",
       label: (
         <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
-          Gift cards
+          {t("header.user.giftCard")}
         </p>
       ),
     },
@@ -86,7 +96,7 @@ const Header = () => {
       key: "4",
       label: (
         <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
-          Airbnb your home
+          {t("header.airbnbYourHome")}
         </p>
       ),
     },
@@ -94,7 +104,15 @@ const Header = () => {
       key: "5",
       label: (
         <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
-          Help Center
+          {t("header.user.experience")}
+        </p>
+      ),
+    },
+    {
+      key: "6",
+      label: (
+        <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
+          {t("header.user.helpCenter")}
         </p>
       ),
     },
@@ -105,15 +123,7 @@ const Header = () => {
     setIsBlack(!isBlack);
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  const toggleModal = () => setIsModalOpen((prev) => !prev);
 
   return (
     <header className="bg-white py-5 border-b sticky top-0 z-10">
@@ -127,16 +137,17 @@ const Header = () => {
           >
             <IconLogoHeader />
           </div>
-          <div>Search</div>
+          <div>{t("search.search")}</div>
           <div className="header_navbar">
             <Link
               to={"/"}
               className="text-sm rounded-full py-3 px-4 cursor-pointer hover:bg-gray-100 duration-300"
             >
-              Airbnb your home
+              {t("header.airbnbYourHome")}
             </Link>
+
             <button
-              onClick={showModal}
+              onClick={toggleModal}
               className="font-semibold py-2 px-3 rounded-full hover:bg-gray-100 duration-300"
             >
               <i className="fa-regular fa-globe"></i>
@@ -145,16 +156,19 @@ const Header = () => {
               centered
               width={1000}
               footer={[
-                <Button key="ok" type="primary" onClick={handleOk}>
+                <Button key="ok" type="primary" onClick={toggleModal}>
                   OK
                 </Button>,
               ]}
               open={isModalOpen}
-              onOk={handleOk}
-              onCancel={handleCancel}
+              onOk={toggleModal}
+              onCancel={toggleModal}
             >
               <Tabs defaultActiveKey="1" items={itemsLanguageCurrency}></Tabs>
             </Modal>
+
+            <LanguageSwitcher />
+
             <Dropdown
               menu={{
                 items: itemsUser,

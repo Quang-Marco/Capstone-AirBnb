@@ -2,11 +2,19 @@ import { useState } from "react";
 import "./footer.scss";
 import { Button, Modal, Tabs } from "antd";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   const { listLanguages, listCurrency } = useSelector(
     (state) => state.listSlice
   );
+
+  const [isModalLanguageOpen, setIsModalLanguageOpen] = useState(false);
+  const toggleModalLanguage = () => setIsModalLanguageOpen((prev) => !prev);
+  const [isModalCurrencyOpen, setIsModalCurrencyOpen] = useState(false);
+  const toggleModalCurrency = () => setIsModalCurrencyOpen((prev) => !prev);
+
   const listTabs = [
     {
       tabName: "Popular",
@@ -742,96 +750,39 @@ const Footer = () => {
   const listFooter = [
     {
       id: 1,
-      name: "Support",
+      name: t("footer.support"),
       subList: [
-        {
-          id: 1,
-          subName: "Help Center",
-        },
-        {
-          id: 2,
-          subName: "AirCover",
-        },
-        {
-          id: 3,
-          subName: "Anti-discrimination",
-        },
-        {
-          id: 4,
-          subName: "Disability Support",
-        },
-        {
-          id: 5,
-          subName: "Cancellation options",
-        },
-        {
-          id: 6,
-          subName: "Report neighborhood concern",
-        },
+        { id: 1, subName: t("footer.supportSubList.helpCenter") },
+        { id: 2, subName: t("footer.supportSubList.airCover") },
+        { id: 3, subName: t("footer.supportSubList.antiDiscrimination") },
+        { id: 4, subName: t("footer.supportSubList.disabilitySupport") },
+        { id: 5, subName: t("footer.supportSubList.cancellationOptions") },
+        { id: 6, subName: t("footer.supportSubList.reportConcern") },
       ],
     },
     {
       id: 2,
-      name: "Hosting",
+      name: t("footer.hosting"),
       subList: [
-        {
-          id: 1,
-          subName: "Airbnb your home",
-        },
-        {
-          id: 2,
-          subName: "AirCover for Hosts",
-        },
-        {
-          id: 3,
-          subName: "Hosting resources",
-        },
-        {
-          id: 4,
-          subName: "Community forum",
-        },
-        {
-          id: 5,
-          subName: "Hosting responsibly",
-        },
-        {
-          id: 6,
-          subName: "Airbnb-friendly apartments",
-        },
-        {
-          id: 7,
-          subName: "Join a free Hosting class",
-        },
+        { id: 1, subName: t("footer.hostingSubList.airbnbYourHome") },
+        { id: 2, subName: t("footer.hostingSubList.airCoverHosts") },
+        { id: 3, subName: t("footer.hostingSubList.hostingResources") },
+        { id: 4, subName: t("footer.hostingSubList.communityForum") },
+        { id: 5, subName: t("footer.hostingSubList.hostingResponsibly") },
+        { id: 6, subName: t("footer.hostingSubList.airbnbFriendly") },
+        { id: 7, subName: t("footer.hostingSubList.hostingClass") },
       ],
     },
     {
       id: 3,
-      name: "Airbnb",
+      name: t("footer.airbnb"),
       subList: [
-        {
-          id: 1,
-          subName: "Newsroom",
-        },
-        {
-          id: 2,
-          subName: "New features",
-        },
-        {
-          id: 3,
-          subName: "Careers",
-        },
-        {
-          id: 4,
-          subName: "Investors",
-        },
-        {
-          id: 5,
-          subName: "Gift cards",
-        },
-        {
-          id: 6,
-          subName: "Airbnb.org emergency stays",
-        },
+        { id: 1, subName: t("footer.airbnbSubList.newsroom") },
+        { id: 2, subName: t("footer.airbnbSubList.newFeatures") },
+        { id: 3, subName: t("footer.airbnbSubList.careers") },
+        { id: 4, subName: t("footer.airbnbSubList.investors") },
+        { id: 5, subName: t("footer.airbnbSubList.giftCards") },
+        { id: 6, subName: t("footer.airbnbSubList.emergencyStays") },
       ],
     },
   ];
@@ -884,33 +835,11 @@ const Footer = () => {
     },
   ];
 
-  const [isModalLanguageOpen, setIsModalLanguageOpen] = useState(false);
-  const showModalLanguage = () => {
-    setIsModalLanguageOpen(true);
-  };
-  const handleOkLanguage = () => {
-    setIsModalLanguageOpen(false);
-  };
-  const handleCancelLanguage = () => {
-    setIsModalLanguageOpen(false);
-  };
-
-  const [isModalCurrencyOpen, setIsModalCurrencyOpen] = useState(false);
-  const showModalCurrency = () => {
-    setIsModalCurrencyOpen(true);
-  };
-  const handleOkCurrency = () => {
-    setIsModalCurrencyOpen(false);
-  };
-  const handleCancelCurrency = () => {
-    setIsModalCurrencyOpen(false);
-  };
-
   return (
     <footer className="bg-gray-100 pt-10 pb-5 mt-10">
       <div className="container px-2">
         <h2 className="text-2xl font-semibold mb-3">
-          Inspiration for future getaways
+          {t("footer.inspiration")}
         </h2>
         <Tabs
           defaultActiveKey="1"
@@ -939,7 +868,7 @@ const Footer = () => {
                 {item.subList.map((subItem, subIndex) => (
                   <li
                     key={subIndex + 1}
-                    className="text-sm text-gray-700 cursor-pointer hover:underline duration-300"
+                    className="text-sm text-gray-900 cursor-pointer hover:underline duration-300"
                   >
                     {subItem.subName}
                   </li>
@@ -953,17 +882,17 @@ const Footer = () => {
             <span>© 2024 Airbnb, Inc.</span>
             <ol className="list-disc flex flex-wrap gap-6">
               <li className="cursor-pointer hover:underline duration-300">
-                Terms
+                {t("footer.term")}
               </li>
               <li className="cursor-pointer hover:underline duration-300">
-                Sitemap
+                {t("footer.sitemap")}
               </li>
               <li className="cursor-pointer hover:underline duration-300">
-                Privacy
+                {t("footer.privacy")}
               </li>
               <li className="cursor-pointer hover:underline duration-300">
                 <span className="flex items-center gap-4">
-                  Your Privacy Choices{" "}
+                  {t("footer.yourPrivacy")}{" "}
                   <svg width="26" height="12" fill="none">
                     <rect
                       x="0.5"
@@ -998,41 +927,41 @@ const Footer = () => {
           <div className="text-sm flex gap-5 order-first lg:order-last">
             {/* Language */}
             <button
-              onClick={showModalLanguage}
+              onClick={toggleModalLanguage}
               className="font-semibold hover:underline duration-300"
             >
-              <i className="fa-regular fa-globe"></i> English (US)
+              <i className="fa-regular fa-globe"></i> {t("footer.language")}
             </button>
             <Modal
               centered
               width={1000}
               footer={[
-                <Button key="ok" type="primary" onClick={handleOkLanguage}>
+                <Button key="ok" type="primary" onClick={toggleModalLanguage}>
                   OK
                 </Button>,
               ]}
               open={isModalLanguageOpen}
-              onOk={handleOkLanguage}
-              onCancel={handleCancelLanguage}
+              onOk={toggleModalLanguage}
+              onCancel={toggleModalLanguage}
             >
               <Tabs items={itemsLanguageCurrency.slice(0, 1)}></Tabs>
             </Modal>
 
             {/* Currency */}
-            <button onClick={showModalCurrency} className="font-semibold">
+            <button onClick={toggleModalCurrency} className="font-semibold">
               $ <span className="hover:underline duration-300">USD</span>
             </button>
             <Modal
               centered
               width={1000}
               footer={[
-                <Button key="ok" type="primary" onClick={handleOkCurrency}>
+                <Button key="ok" type="primary" onClick={toggleModalCurrency}>
                   OK
                 </Button>,
               ]}
               open={isModalCurrencyOpen}
-              onOk={handleOkCurrency}
-              onCancel={handleCancelCurrency}
+              onOk={toggleModalCurrency}
+              onCancel={toggleModalCurrency}
             >
               <Tabs items={itemsLanguageCurrency.slice(1)}></Tabs>
             </Modal>
