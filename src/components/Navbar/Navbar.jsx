@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./navbar.scss";
 import { Button, Tabs } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { phongThueService } from "../../services/phongThue.service";
+import { NotificationContext } from "../../App";
 
 const Navbar = () => {
+  const { handleNotification } = useContext(NotificationContext);
   const [listCategories, setListCategories] = useState([]);
   const listNavbar = [
     {
@@ -142,7 +144,9 @@ const Navbar = () => {
   useEffect(() => {
     phongThueService
       .getRooms()
-      .then((res) => setListCategories(res.data.content))
+      .then((res) => {
+        setListCategories(res.data.content);
+      })
       .catch((err) => console.log(err));
   }, []);
 
