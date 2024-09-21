@@ -48,8 +48,7 @@ Node v20.14.0
 
 # Clone repo
 
-git clone <repository-url>
-(nếu đã clone trước đó => git pull origin master => xóa 2 file node_modules và package-lock.json => npm i)
+git clone <repo-url>
 
 # Checkout sang nhánh được giao
 
@@ -57,6 +56,6 @@ git checkout feature/<tên_nhánh>
 
 # Đẩy code lên nhánh tính năng
 
-git add .
-git commit -m "Update feature"
-git push origin feature/<tên_nhánh>
+- git add .
+- git commit -m "Update feature"
+- git push origin feature/<tên_nhánh>
