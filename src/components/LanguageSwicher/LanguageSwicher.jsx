@@ -31,7 +31,7 @@ const LanguageSwitcher = () => {
     <Dropdown
       menu={{ items }}
       // trigger={["click"]}
-      className="cursor-pointer font-semibold py-3 px-4 rounded-full hover:bg-gray-100 duration-300"
+      className="cursor-pointer text-gray-600 font-semibold py-3 px-4 rounded-full hover:bg-gray-100 duration-300"
     >
       <Space>{i18n.language === "en" ? "English" : "Tiếng Việt"}</Space>
     </Dropdown>

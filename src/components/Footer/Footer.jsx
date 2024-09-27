@@ -3,6 +3,7 @@ import "./footer.scss";
 import { Button, Modal, Tabs } from "antd";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import Container from "../Container";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -837,7 +838,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-100 pt-10 pb-5 mt-10">
-      <div className="container px-2">
+      <Container>
         <h2 className="text-2xl font-semibold mb-3">
           {t("footer.inspiration")}
         </h2>
@@ -979,7 +980,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 };

@@ -1,13 +1,10 @@
-import React from "react";
-import Navbar from "../Navbar/Navbar";
-import Content from "../Content/Content";
+import Categories from "./Categories";
 
 const Body = () => {
   return (
-    <div>
-      <Navbar />
-      {/* <Content /> */}
-    </div>
+    <>
+      <Categories />
+    </>
   );
 };
 
