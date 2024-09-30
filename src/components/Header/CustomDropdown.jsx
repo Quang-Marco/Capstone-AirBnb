@@ -28,7 +28,7 @@ const CustomDropdown = ({
 
   return (
     <div
-      className={`relative py-2 sm:py-4 hover:rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 duration-300 ${classWrapper}`}
+      className={`relative py-2 sm:py-4 hover:rounded-full hover:bg-gray-100 duration-300 ${classWrapper}`}
       ref={dropdownRef}
     >
       <div className="cursor-pointer" onClick={toggleDropdown}>
@@ -36,7 +36,7 @@ const CustomDropdown = ({
       </div>
       {isOpen && (
         <div
-          className={`absolute mt-6 w-80 bg-white dark:bg-gray-900 border border-gray-300 rounded-lg shadow-lg z-10 ${classContent}`}
+          className={`absolute mt-6 w-80 bg-white border border-gray-300 rounded-lg shadow-lg z-10 ${classContent}`}
         >
           {items.map((item, index) => (
             <div key={index} className="p-2">

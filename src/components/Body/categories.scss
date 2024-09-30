@@ -1,0 +1,6 @@
+.tabs-categories.overflow-x-auto::-webkit-scrollbar {
+  display: none; /* Chrome, Safari và Edge */
+}
+.tabs-categories.overflow-x-auto {
+  scrollbar-width: none; /* Firefox */
+}

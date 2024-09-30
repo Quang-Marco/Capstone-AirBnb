@@ -16,6 +16,8 @@ import ManageUser from "../pages/Manage/ManageUser";
 import ManageInfoLocation from "../pages/Manage/ManageInfoLocation";
 import ManageInfoRoom from "../pages/Manage/ManageInfoRoom";
 import ManageRoomBook from "../pages/Manage/ManageRoomBook";
+import LocationRooms from "../pages/LocationRooms/LocationRooms";
+
 const useRoutesCustom = () => {
   const routes = useRoutes([
     {
@@ -27,16 +29,8 @@ const useRoutesCustom = () => {
           element: <Body />,
         },
         {
-          path: pathDefault.profile,
-          element: <UserProfile />,
-        },
-        {
-          path: pathDefault.listRooms,
+          path: "/location-rooms",
           element: <LocationRooms />,
-        },
-        {
-          path: pathDefault.roomDetail,
-          element: <RoomDetail />,
         },
       ],
     },

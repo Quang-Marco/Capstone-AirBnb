@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import "./categories.scss";
 import Container from "../Container";
 import { phongThueService } from "../../services/phongThue.service";
 import { Link } from "react-router-dom";
@@ -7,41 +8,11 @@ import { pathDefault } from "../../common/path";
 const Categories = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [listCategories, setListCategories] = useState([]);
-  const tabsRef = useRef(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const checkScrollPosition = () => {
-    const { scrollLeft, scrollWidth, clientWidth } = tabsRef.current;
-
-    setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
-  };
-
-  useEffect(() => {
-    checkScrollPosition();
-
-    const tabs = tabsRef.current;
-    tabs.addEventListener("scroll", checkScrollPosition);
-
-    return () => tabs.removeEventListener("scroll", checkScrollPosition);
-  }, []);
-
-  const listTabs = [
+  const listNavbar = [
     {
       imgURL:
         "https://a0.muscache.com/pictures/7630c83f-96a8-4232-9a10-0398661e2e6f.jpg",
       name: "Rooms",
-    },
-    {
-      imgURL:
-        "https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg",
-      name: "Amazing views",
-    },
-    {
-      imgURL:
-        "https://a0.muscache.com/pictures/10ce1091-c854-40f3-a2fb-defc2995bcaf.jpg",
-      name: "Beach",
     },
     {
       imgURL:
@@ -80,8 +51,23 @@ const Categories = () => {
     },
     {
       imgURL:
-        "https://a0.muscache.com/pictures/3726d94b-534a-42b8-bca0-a0304d912260.jpg",
-      name: "Trending",
+        "https://a0.muscache.com/pictures/ddd13204-a5ae-4532-898c-2e595b1bb15f.jpg",
+      name: "Chef's kitchens",
+    },
+    {
+      imgURL:
+        "https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg",
+      name: "Amazing views",
+    },
+    {
+      imgURL:
+        "https://a0.muscache.com/pictures/8eccb972-4bd6-43c5-ac83-27822c0d3dcd.jpg",
+      name: "Grand pianos",
+    },
+    {
+      imgURL:
+        "https://a0.muscache.com/pictures/747b326c-cb8f-41cf-a7f9-809ab646e10c.jpg",
+      name: "Shepherd's huts",
     },
     {
       imgURL:
@@ -183,11 +169,8 @@ const Categories = () => {
     <>
       <div className="bg-white dark:bg-gray-900 pt-5 pb-2 sticky top-[90px] z-[1]">
         <Container>
-          <div
-            ref={tabsRef}
-            className="tabs-headers flex gap-10 overflow-x-auto"
-          >
-            {listTabs.map((item, index) => (
+          <div className="tabs-categories flex gap-10 overflow-x-auto">
+            {listNavbar.map((item, index) => (
               <button
                 type="button"
                 key={index + 1}
@@ -245,24 +228,22 @@ const Categories = () => {
       </div>
 
       <Container>
-        <div className="tab-content py-5">
+        <div className="tab-content mt-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10">
             {listCategories
               .filter((category) => category.maViTri === activeTab)
               .map((category) => (
                 <Link
-                  to={`${pathDefault.roomDetail}?id=${category.id}`}
+                  to={pathDefault.homePage}
                   key={category.id}
-                  className="cursor-pointer relative group"
+                  className="cursor-pointer relative overflow-hidden group"
                 >
-                  <div className="rounded-lg overflow-hidden mb-5">
-                    <img
-                      className="rounded-lg w-full h-64 sm:h-56 lg:h-72 object-cover group-hover:scale-105 duration-300"
-                      src={category.hinhAnh}
-                      alt={category.tenPhong}
-                    />
-                  </div>
-                  <h3 className="dark:text-white text-base font-semibold hover:underline duration-300">
+                  <img
+                    className="rounded-lg  w-full mb-5 h-64 sm:h-56 lg:h-72 group-hover:scale-105 duration-300"
+                    src={category.hinhAnh}
+                    alt={category.tenPhong}
+                  />
+                  <h3 className="text-base font-semibold hover:underline duration-300">
                     {category.tenPhong}
                   </h3>
                   <p className="dark:text-white">

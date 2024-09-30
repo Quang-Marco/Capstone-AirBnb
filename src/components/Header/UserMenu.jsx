@@ -1,21 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Button, Dropdown, Modal, Space, Tabs } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { pathDefault } from "../../common/path";
 import { useSelector } from "react-redux";
-import LanguageSwitcher from "../LanguageSwicher";
-import { ThemeContext } from "../ThemeContext";
-import { getLocalStorage } from "../../utils/utils";
-import { NotificationContext } from "../../App";
 import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../LanguageSwicher/LanguageSwicher";
 
 const UserMenu = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { handleNotification } = useContext(NotificationContext);
-  const { toggleTheme } = useContext(ThemeContext);
-  const user = getLocalStorage("user");
-  // const { user } = useSelector((state) => state.authSlice);
   const { listLanguages, listCurrency } = useSelector(
     (state) => state.listSlice
   );
@@ -96,14 +88,11 @@ const UserMenu = () => {
     },
     {
       key: "3",
-      label: user ? (
-        <Link
-          to={pathDefault.profile}
-          className="block p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300"
-        >
-          {t("header.user.profile")}
-        </Link>
-      ) : null,
+      label: (
+        <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
+          {t("header.user.giftCard")}
+        </p>
+      ),
     },
     {
       key: "4",
@@ -129,31 +118,14 @@ const UserMenu = () => {
         </p>
       ),
     },
-    {
-      key: "7",
-      label: user ? (
-        <div
-          onClick={() => {
-            localStorage.removeItem("user");
-            handleNotification("User logged out successfully", "success");
-            navigate(pathDefault.home);
-          }}
-          className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300"
-        >
-          {t("header.user.logout")}
-        </div>
-      ) : null,
-    },
   ];
 
   return (
     <div>
-      <LanguageSwitcher classContent="text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700" />
-
-      {/* <button
+      <button
         type="button"
         onClick={toggleModal}
-        className="text-gray-600 dark:text-white font-semibold py-2 px-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 duration-300"
+        className="text-gray-600 font-semibold py-2 px-3 rounded-full hover:bg-gray-100 duration-300"
       >
         <i className="fa-regular fa-globe"></i>
       </button>
@@ -170,34 +142,19 @@ const UserMenu = () => {
         onCancel={toggleModal}
       >
         <Tabs defaultActiveKey="1" items={itemsLanguageCurrency}></Tabs>
-      </Modal> */}
+      </Modal>
 
-      <button
-        onClick={toggleTheme}
-        className="px-[10px] py-2 rounded-full text-gray-600 dark:text-white font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 duration-300"
-      >
-        <i className="fa-regular fa-lightbulb-on text-orange-500 dark:hidden"></i>
-        <i className="fa-regular fa-lightbulb w-5 hidden dark:inline-block"></i>
-      </button>
-
+      <LanguageSwitcher />
       <Dropdown
         menu={{
           items: itemsUser,
         }}
         trigger={["click"]}
-        className="cursor-pointer px-4 py-2 min-[368px]:ml-2 rounded-full border hover:shadow-md duration-300"
+        className="cursor-pointer px-4 py-2 ml-2 rounded-full border hover:shadow-md duration-300"
       >
         <Space>
-          <i className="fa-regular fa-bars dark:text-white"></i>
-          {user?.user.avatar ? (
-            <img
-              className="w-8 h-8 rounded-full"
-              src={user?.user.avatar}
-              alt="avatar"
-            />
-          ) : (
-            <i className="fa-solid fa-circle-user text-gray-500 dark:text-white text-2xl ml-2"></i>
-          )}
+          <i className="fa-regular fa-bars"></i>
+          <i className="fa-solid fa-circle-user text-gray-500 text-2xl ml-2"></i>
         </Space>
       </Dropdown>
     </div>

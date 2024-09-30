@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { pathDefault } from "../../common/path";
 
 const LogoHeader = () => {
   const [isBlack, setIsBlack] = useState(false);
@@ -9,11 +7,10 @@ const LogoHeader = () => {
   };
 
   return (
-    <Link
-      to={pathDefault.homePage}
+    <div
       onClick={handleClickLogo}
-      className={`cursor-pointer hover:text-[#ff385c] dark:hover:text-[#ff385c] duration-300 ${
-        isBlack ? "text-black dark:text-white" : "text-[#ff385c]"
+      className={`cursor-pointer hover:text-[#ff385c] duration-300 ${
+        isBlack ? "text-black" : "text-[#ff385c]"
       }`}
     >
       <svg width="102" height="32">
@@ -26,7 +23,7 @@ const LogoHeader = () => {
           fill="currentcolor"
         ></path>
       </svg>
-    </Link>
+    </div>
   );
 };
 

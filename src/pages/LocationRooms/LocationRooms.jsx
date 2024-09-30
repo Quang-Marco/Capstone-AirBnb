@@ -1,32 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Container from "../../components/Container";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { phongThueService } from "../../services/phongThue.service";
 import { pathDefault } from "../../common/path";
 import { viTriService } from "../../services/viTri.service";
 import { Breadcrumb } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
-import Mapbox from "../../components/MapComponent/Mapbox";
-import { mapLocationData } from "../../common/staticData";
 
 const LocationRooms = () => {
-  const navigate = useNavigate();
   const [listLocationRooms, setListLocationRooms] = useState([]);
   const [params, setParams] = useSearchParams();
-  const [tenViTriTitle, setTenViTriTitle] = useState("");
-  const idLocation = params.get("idLocation");
-
-  const mapDetail = mapLocationData.find(
-    (location) => location.id === parseInt(idLocation)
-  );
+  const [tenViTri, setTenViTri] = useState("");
+  const maViTri = params.get("maViTri");
 
   const fetchData = async () => {
     try {
-      const result = await viTriService.getLocationsById(idLocation);
-      setTenViTriTitle(
+      const result = await viTriService.getLocationsFromId(maViTri);
+      setTenViTri(
         `${result.data.content.tenViTri}, ${result.data.content.tinhThanh}`
       );
-      const res = await phongThueService.getRoomsByLocation(idLocation);
+
+      const res = await phongThueService.getLocationRooms(maViTri);
       setListLocationRooms(res.data.content);
     } catch (err) {
       console.log(err);
@@ -35,87 +29,72 @@ const LocationRooms = () => {
 
   useEffect(() => {
     fetchData();
-  }, [idLocation]);
+  }, [maViTri]);
 
   return (
     <Container>
       {listLocationRooms.length > 0 ? (
-        <div className="py-5">
+        <div className="mt-5">
           <Breadcrumb
             items={[
               {
                 title: (
-                  <Link to={pathDefault.homePage} className="dark:text-white">
+                  <Link to={pathDefault.homePage}>
                     <HomeOutlined />
                   </Link>
                 ),
               },
               {
-                title: <p className="dark:text-white">location</p>,
+                title: "location",
               },
             ]}
           />
-          <h2 className="dark:text-white text-xl sm:text-2xl lg:text-3xl mt-5 mb-10">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl mt-5 mb-10">
             {listLocationRooms.length} places for{" "}
-            <span className="font-semibold">"{tenViTriTitle}"</span>
+            <span className="font-semibold">"{tenViTri}"</span>
           </h2>
-          <div className="lg:flex gap-8">
-            <div className="basis-full grid grid-cols-1 sm:grid-cols-2 sm:gap-5 lg:basis-3/5 lg:grid-cols-3 lg:gap-3">
-              {listLocationRooms.map((category) => (
-                <div
-                  onClick={() => {
-                    navigate(`${pathDefault.roomDetail}?id=${category.id}`);
-                  }}
-                  key={category.id}
-                  className="cursor-pointer relative overflow-hidden group"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10">
+            {listLocationRooms.map((category) => (
+              <div
+                // to={pathDefault.homePage}
+                key={category.id}
+                className="cursor-pointer relative overflow-hidden group"
+              >
+                <img
+                  className="rounded-lg  w-full mb-5 h-64 sm:h-56 lg:h-72 group-hover:scale-105 duration-300"
+                  src={category.hinhAnh}
+                  alt={category.tenPhong}
+                />
+                <h3 className="text-base font-semibold hover:underline duration-300">
+                  {category.tenPhong}
+                </h3>
+                <p>
+                  <span className="font-semibold">${category.giaTien}</span>{" "}
+                  night
+                </p>
+                <button
+                  type="button"
+                  className="heart h-10 w-10 rounded-full text-center text-gray-500 focus:text-red-500 bg-white hover:bg-gray-100 absolute top-2 right-2 opacity-0 duration-300 group-hover:opacity-100"
                 >
-                  <div className="rounded-lg overflow-hidden mb-5">
-                    <img
-                      className="rounded-lg w-full h-64 sm:h-56 lg:h-72 object-cover group-hover:scale-105 duration-300"
-                      src={category.hinhAnh}
-                      alt={category.tenPhong}
-                    />
-                  </div>
-                  <h3 className="dark:text-white text-base font-semibold hover:underline duration-300">
-                    {category.tenPhong}
-                  </h3>
-                  <p className="dark:text-white">
-                    <span className="font-semibold">${category.giaTien}</span>{" "}
-                    night
-                  </p>
-                  <button
-                    type="button"
-                    className="heart h-10 w-10 rounded-full text-center text-gray-500 focus:text-red-500 bg-white hover:bg-gray-100 absolute top-2 right-2 opacity-0 duration-300 group-hover:opacity-100"
-                  >
-                    <i className="fa-regular fa-heart"></i>
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div className="map basis-full h-72 lg:basis-2/5 lg:max-h-fit">
-              <Mapbox
-                longitude={mapDetail.longitude}
-                latitude={mapDetail.latitude}
-                tenViTri={mapDetail.tenViTri}
-                tinhThanh={mapDetail.tinhThanh}
-                image={mapDetail.hinhAnh}
-              />
-            </div>
+                  <i className="fa-regular fa-heart"></i>
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       ) : (
-        <div className="pt-5">
+        <div className="mt-5">
           <Breadcrumb
             items={[
               {
                 title: (
-                  <Link to={pathDefault.homePage} className="dark:text-white">
+                  <Link to={pathDefault.homePage}>
                     <HomeOutlined />
                   </Link>
                 ),
               },
               {
-                title: <p className="dark:text-white">location</p>,
+                title: "location",
               },
             ]}
           />

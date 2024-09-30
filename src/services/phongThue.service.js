@@ -21,4 +21,7 @@ export const phongThueService = {
     http.post(`/phong-thue/upload-hinh-phong?maPhong=${maPhong}`, img, {
       headers: { token },
     }),
+
+  getLocationRooms: (maViTri) =>
+    http.get(`/phong-thue/lay-phong-theo-vi-tri?maViTri=${maViTri}`),
 };
