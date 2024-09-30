@@ -18,7 +18,7 @@ const UserProfile = () => {
 
   return (
     <Container>
-      <div className="grid grid-cols-3 gap-5 sm:gap-10 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-10 mt-10">
         <div className="card">
           <div className="border rounded-lg sm:rounded-3xl shadow-xl p-5 sm:p-8 flex flex-col justify-center items-center">
             <img
@@ -30,7 +30,7 @@ const UserProfile = () => {
               <i className="fa-solid fa-circle-camera"></i>
               <span> update</span>
             </button>
-            <h2 className="text-3xl font-semibold mt-5">Name</h2>
+            <h2 className="text-2xl sm:text-3xl font-semibold mt-5">Name</h2>
           </div>
           <div className="border rounded-3xl p-5 sm:p-8 mt-10">
             <div className="border-b mb-5">
@@ -55,8 +55,10 @@ const UserProfile = () => {
           </div>
         </div>
 
-        <div className="rooms col-span-2">
-          <h3 className="text-3xl font-semibold mb-10">Phòng đã thuê</h3>
+        <div className="rooms sm:col-span-2">
+          <h3 className="text-2xl sm:text-3xl font-semibold mb-10">
+            Phòng đã thuê
+          </h3>
           {listCategories.slice(0, 3).map((category) => (
             <div
               //   to={pathDefault.homePage}

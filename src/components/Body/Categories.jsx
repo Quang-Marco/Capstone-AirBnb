@@ -139,7 +139,7 @@ const Categories = () => {
 
   return (
     <>
-      <div className="bg-white pt-5 pb-2 sticky top-[90px] z-[1]">
+      <div className="bg-white pt-5 sm:pt-10 pb-2 sticky top-[90px] z-[1]">
         <Container>
           <div className="tabs-categories flex gap-10 overflow-x-auto">
             {listNavbar.map((item, index) => (
