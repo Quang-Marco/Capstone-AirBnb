@@ -123,6 +123,7 @@ const UserMenu = () => {
   return (
     <div>
       <button
+        type="button"
         onClick={toggleModal}
         className="text-gray-600 font-semibold py-2 px-3 rounded-full hover:bg-gray-100 duration-300"
       >

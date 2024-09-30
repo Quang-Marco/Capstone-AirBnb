@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const CustomDropdown = ({ items, children, classCustom = "" }) => {
+const CustomDropdown = ({
+  items,
+  classWrapper = "",
+  classContent = "",
+  children,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -23,14 +28,16 @@ const CustomDropdown = ({ items, children, classCustom = "" }) => {
 
   return (
     <div
-      className={`relative py-4 hover:rounded-full hover:bg-gray-100 duration-300 ${classCustom}`}
+      className={`relative py-2 sm:py-4 hover:rounded-full hover:bg-gray-100 duration-300 ${classWrapper}`}
       ref={dropdownRef}
     >
       <div className="cursor-pointer" onClick={toggleDropdown}>
         {children}
       </div>
       {isOpen && (
-        <div className="absolute left-0 mt-6 w-96 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+        <div
+          className={`absolute mt-6 w-80 bg-white border border-gray-300 rounded-lg shadow-lg z-10 ${classContent}`}
+        >
           {items.map((item, index) => (
             <div key={index} className="p-2">
               {item.label}

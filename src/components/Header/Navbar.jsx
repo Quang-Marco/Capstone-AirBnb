@@ -1,12 +1,14 @@
 import React from "react";
 
-const Navbar = () => {
+const Navbar = ({ setLocationOpen }) => {
   const handleClick = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+    setLocationOpen(true);
   };
+
   return (
     <div
       onClick={handleClick}

@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
+import "./categories.scss";
 import Container from "../Container";
 import { phongThueService } from "../../services/phongThue.service";
+import { Link } from "react-router-dom";
+import { pathDefault } from "../../common/path";
 
 const Categories = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [listCategories, setListCategories] = useState([]);
   const listNavbar = [
+    {
+      imgURL:
+        "https://a0.muscache.com/pictures/7630c83f-96a8-4232-9a10-0398661e2e6f.jpg",
+      name: "Rooms",
+    },
     {
       imgURL:
         "https://a0.muscache.com/im/pictures/mediaverse/category_icon/original/3e5243c8-4d15-4c6b-97e3-7ba2bb7bb880.png",
@@ -35,11 +43,6 @@ const Categories = () => {
       imgURL:
         "https://a0.muscache.com/pictures/ddd13204-a5ae-4532-898c-2e595b1bb15f.jpg",
       name: "Chef's kitchens",
-    },
-    {
-      imgURL:
-        "https://a0.muscache.com/pictures/7630c83f-96a8-4232-9a10-0398661e2e6f.jpg",
-      name: "Rooms",
     },
     {
       imgURL:
@@ -138,9 +141,10 @@ const Categories = () => {
     <>
       <div className="bg-white pt-5 pb-2 sticky top-[90px] z-[1]">
         <Container>
-          <div className="tabs flex gap-10">
-            {listNavbar.slice(0, 14).map((item, index) => (
+          <div className="tabs-categories flex gap-10 overflow-x-auto">
+            {listNavbar.map((item, index) => (
               <button
+                type="button"
                 key={index + 1}
                 className={`tab-item flex flex-col justify-center items-center pb-2 border-b-[3px] opacity-70 hover:opacity-100 focus:opacity-100 duration-300 cursor-pointer ${
                   activeTab === index + 1 ? "border-black" : ""
@@ -159,28 +163,38 @@ const Categories = () => {
 
       <Container>
         <div className="tab-content mt-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10">
             {listCategories
               .filter((category) => category.maViTri === activeTab)
               .map((category) => (
-                <div key={category.id} className="cursor-pointer">
+                <Link
+                  to={pathDefault.homePage}
+                  key={category.id}
+                  className="cursor-pointer relative overflow-hidden group"
+                >
                   <img
-                    className="rounded-lg h-64 sm:h-56 lg:h-52 w-full mb-5"
+                    className="rounded-lg  w-full mb-5 h-64 sm:h-56 lg:h-72 group-hover:scale-105 duration-300"
                     src={category.hinhAnh}
                     alt={category.tenPhong}
                   />
-                  <h3 className="font-semibold text-base">
+                  <h3 className="text-base font-semibold hover:underline duration-300">
                     {category.tenPhong}
                   </h3>
                   <p>
                     <span className="font-semibold">${category.giaTien}</span>{" "}
                     night
                   </p>
-                </div>
+                  <button
+                    type="button"
+                    className="heart h-10 w-10 rounded-full text-center text-gray-500 focus:text-red-500 bg-white hover:bg-gray-100 absolute top-2 right-2 opacity-0 duration-300 group-hover:opacity-100"
+                  >
+                    <i className="fa-regular fa-heart"></i>
+                  </button>
+                </Link>
               ))}
             {listCategories.filter((category) => category.maViTri === activeTab)
               .length === 0 && (
-              <p className="col-span-4 text-center text-gray-500 h-72 flex items-center justify-center">
+              <p className="col-span-4 text-center text-gray-500 h-10 sm:h-[350px] flex items-center justify-center">
                 No rooms available for this tab.
               </p>
             )}
