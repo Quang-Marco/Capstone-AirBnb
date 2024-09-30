@@ -34,22 +34,22 @@ const LocationRooms = () => {
   return (
     <Container>
       {listLocationRooms.length > 0 ? (
-        <div className="mt-5">
+        <div className="py-5">
           <Breadcrumb
             items={[
               {
                 title: (
-                  <Link to={pathDefault.homePage}>
+                  <Link to={pathDefault.homePage} className="dark:text-white">
                     <HomeOutlined />
                   </Link>
                 ),
               },
               {
-                title: "location",
+                title: <p className="dark:text-white">location</p>,
               },
             ]}
           />
-          <h2 className="text-xl sm:text-2xl lg:text-3xl mt-5 mb-10">
+          <h2 className="dark:text-white text-xl sm:text-2xl lg:text-3xl mt-5 mb-10">
             {listLocationRooms.length} places for{" "}
             <span className="font-semibold">"{tenViTri}"</span>
           </h2>
@@ -67,10 +67,10 @@ const LocationRooms = () => {
                     alt={category.tenPhong}
                   />
                 </div>
-                <h3 className="text-base font-semibold hover:underline duration-300">
+                <h3 className="dark:text-white text-base font-semibold hover:underline duration-300">
                   {category.tenPhong}
                 </h3>
-                <p>
+                <p className="dark:text-white">
                   <span className="font-semibold">${category.giaTien}</span>{" "}
                   night
                 </p>
@@ -85,18 +85,18 @@ const LocationRooms = () => {
           </div>
         </div>
       ) : (
-        <div className="mt-5">
+        <div className="pt-5">
           <Breadcrumb
             items={[
               {
                 title: (
-                  <Link to={pathDefault.homePage}>
+                  <Link to={pathDefault.homePage} className="dark:text-white">
                     <HomeOutlined />
                   </Link>
                 ),
               },
               {
-                title: "location",
+                title: <p className="dark:text-white">location</p>,
               },
             ]}
           />

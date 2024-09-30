@@ -16,6 +16,16 @@ const Categories = () => {
     },
     {
       imgURL:
+        "https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg",
+      name: "Amazing views",
+    },
+    {
+      imgURL:
+        "https://a0.muscache.com/im/pictures/mediaverse/category_icon/original/3e5243c8-4d15-4c6b-97e3-7ba2bb7bb880.png",
+      name: "Icons",
+    },
+    {
+      imgURL:
         "https://a0.muscache.com/pictures/ddd13204-a5ae-4532-898c-2e595b1bb15f.jpg",
       name: "Chef's kitchens",
     },
@@ -51,23 +61,8 @@ const Categories = () => {
     },
     {
       imgURL:
-        "https://a0.muscache.com/pictures/ddd13204-a5ae-4532-898c-2e595b1bb15f.jpg",
-      name: "Chef's kitchens",
-    },
-    {
-      imgURL:
-        "https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg",
-      name: "Amazing views",
-    },
-    {
-      imgURL:
-        "https://a0.muscache.com/pictures/8eccb972-4bd6-43c5-ac83-27822c0d3dcd.jpg",
-      name: "Grand pianos",
-    },
-    {
-      imgURL:
-        "https://a0.muscache.com/pictures/747b326c-cb8f-41cf-a7f9-809ab646e10c.jpg",
-      name: "Shepherd's huts",
+        "https://a0.muscache.com/pictures/3726d94b-534a-42b8-bca0-a0304d912260.jpg",
+      name: "Trending",
     },
     {
       imgURL:
@@ -165,6 +160,13 @@ const Categories = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth",
+  //   });
+  // }, [activeTab]);
+
   return (
     <>
       <div className="bg-white dark:bg-gray-900 pt-5 pb-2 sticky top-[90px] z-[1]">
@@ -174,7 +176,7 @@ const Categories = () => {
               <button
                 type="button"
                 key={index + 1}
-                className={`tab-item flex flex-col justify-center items-center pb-2 border-b-[3px] opacity-70 hover:opacity-100 focus:opacity-100 duration-300 ${
+                className={`tab-item flex flex-col justify-center items-center pb-2 border-b-[3px] opacity-70 hover:opacity-100 focus:opacity-100 duration-300 cursor-pointer ${
                   activeTab === index + 1
                     ? "border-black dark:border-white"
                     : ""
@@ -228,7 +230,7 @@ const Categories = () => {
       </div>
 
       <Container>
-        <div className="tab-content mt-5">
+        <div className="tab-content py-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10">
             {listCategories
               .filter((category) => category.maViTri === activeTab)
@@ -245,7 +247,7 @@ const Categories = () => {
                       alt={category.tenPhong}
                     />
                   </div>
-                  <h3 className="text-base font-semibold hover:underline duration-300">
+                  <h3 className="dark:text-white text-base font-semibold hover:underline duration-300">
                     {category.tenPhong}
                   </h3>
                   <p className="dark:text-white">

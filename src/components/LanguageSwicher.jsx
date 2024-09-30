@@ -30,8 +30,8 @@ const LanguageSwitcher = ({ trigger = ["click"], classContent = "" }) => {
   return (
     <Dropdown
       menu={{ items }}
-      trigger={trigger}
-      className={`cursor-pointer dark:text-white font-semibold py-2 px-4 rounded-full duration-300 ${classContent}`}
+      // trigger={["click"]}
+      className="cursor-pointer text-gray-600 dark:text-white font-semibold py-2 px-4 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 duration-300"
     >
       <Space>
         <i className="fa-regular fa-globe"></i>

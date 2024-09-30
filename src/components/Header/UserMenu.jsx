@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Dropdown, Modal, Space, Tabs } from "antd";
 import { Link } from "react-router-dom";
 import { pathDefault } from "../../common/path";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../LanguageSwicher/LanguageSwicher";
+import { ThemeContext } from "../ThemeContext";
 
 const UserMenu = () => {
   const { t } = useTranslation();
+  const { toggleTheme } = useContext(ThemeContext);
   const { listLanguages, listCurrency } = useSelector(
     (state) => state.listSlice
   );
@@ -125,10 +127,12 @@ const UserMenu = () => {
 
   return (
     <div>
+      <LanguageSwitcher />
+
       <button
         type="button"
         onClick={toggleModal}
-        className="text-gray-600 font-semibold py-2 px-3 rounded-full hover:bg-gray-100 duration-300"
+        className="text-gray-600 dark:text-white font-semibold py-2 px-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 duration-300"
       >
         <i className="fa-regular fa-globe"></i>
       </button>
@@ -147,7 +151,14 @@ const UserMenu = () => {
         <Tabs defaultActiveKey="1" items={itemsLanguageCurrency}></Tabs>
       </Modal>
 
-      <LanguageSwitcher />
+      <button
+        onClick={toggleTheme}
+        className="px-3 py-2 rounded-full text-gray-600 dark:text-white font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 duration-300"
+      >
+        <i className="fa-regular fa-lightbulb-on text-orange-500 dark:hidden"></i>
+        <i className="fa-regular fa-lightbulb w-5 hidden dark:inline-block"></i>
+      </button>
+
       <Dropdown
         menu={{
           items: itemsUser,
@@ -156,8 +167,8 @@ const UserMenu = () => {
         className="cursor-pointer px-4 py-2 ml-2 rounded-full border hover:shadow-md duration-300"
       >
         <Space>
-          <i className="fa-regular fa-bars"></i>
-          <i className="fa-solid fa-circle-user text-gray-500 text-2xl ml-2"></i>
+          <i className="fa-regular fa-bars dark:text-white"></i>
+          <i className="fa-solid fa-circle-user text-gray-500 dark:text-white text-2xl ml-2"></i>
         </Space>
       </Dropdown>
     </div>
