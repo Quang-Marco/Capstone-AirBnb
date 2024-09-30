@@ -14,7 +14,7 @@ const Navbar = ({ setLocationOpen }) => {
       onClick={handleClick}
       className="border w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md duration-300 cursor-pointer hidden sm:block"
     >
-      <div className="flex items-center justify-between text-gray-600">
+      <div className="flex items-center justify-between text-gray-600 dark:text-white">
         <div className="text-sm font-semibold px-6">Anywhere</div>
         <div className="text-sm font-semibold px-6 border-x flex-1 text-center">
           Any week

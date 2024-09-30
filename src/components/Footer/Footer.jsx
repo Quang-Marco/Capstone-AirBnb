@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./footer.scss";
 import { Button, Modal, Tabs } from "antd";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -837,24 +836,26 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-100 pt-10 pb-5 mt-10">
+    <footer className="bg-gray-100 dark:bg-gray-900 pt-10 pb-5">
       <Container>
-        <h2 className="text-2xl font-semibold mb-3">
+        <h2 className="dark:text-white text-2xl font-semibold mb-3">
           {t("footer.inspiration")}
         </h2>
         <Tabs
           defaultActiveKey="1"
           items={listTabs.map((item, index) => ({
             key: index + 1,
-            label: item.tabName,
+            label: <h3 className="dark:text-white">{item.tabName}</h3>,
             children: (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                 {item.subList.map((subItem, subIndex) => (
                   <div key={subIndex + 1} className="cursor-pointer">
-                    <h4 className="font-semibold hover:underline duration-300">
+                    <h4 className="dark:text-white font-semibold hover:underline duration-300">
                       {subItem.name}
                     </h4>
-                    <p className="text-gray-700">{subItem.content}</p>
+                    <p className="text-gray-700 dark:text-white">
+                      {subItem.content}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -864,12 +865,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 border-y-2 py-10 mt-10">
           {listFooter.map((item, index) => (
             <div key={index + 1} className="mb-5 lg:mb-0">
-              <h4 className="text-sm font-semibold mb-5">{item.name}</h4>
+              <h4 className="dark:text-white text-sm font-semibold mb-5">
+                {item.name}
+              </h4>
               <ul className="space-y-3">
                 {item.subList.map((subItem, subIndex) => (
                   <li
                     key={subIndex + 1}
-                    className="text-sm text-gray-900 cursor-pointer hover:underline duration-300"
+                    className="text-sm text-gray-900 dark:text-white cursor-pointer hover:underline duration-300"
                   >
                     {subItem.subName}
                   </li>
@@ -880,18 +883,18 @@ const Footer = () => {
         </div>
         <div className="mt-5 flex justify-between gap-6 flex-col lg:flex-row">
           <div className="text-sm text-gray-700 flex flex-col lg:flex-row gap-6">
-            <span>© 2024 Airbnb, Inc.</span>
+            <span className="dark:text-white">© 2024 Airbnb, Inc.</span>
             <ol className="list-disc flex flex-wrap gap-6">
-              <li className="cursor-pointer hover:underline duration-300">
+              <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 {t("footer.term")}
               </li>
-              <li className="cursor-pointer hover:underline duration-300">
+              <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 {t("footer.sitemap")}
               </li>
-              <li className="cursor-pointer hover:underline duration-300">
+              <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 {t("footer.privacy")}
               </li>
-              <li className="cursor-pointer hover:underline duration-300">
+              <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 <span className="flex items-center gap-4">
                   {t("footer.yourPrivacy")}{" "}
                   <svg width="26" height="12" fill="none">
@@ -929,7 +932,7 @@ const Footer = () => {
             {/* Language */}
             <button
               onClick={toggleModalLanguage}
-              className="font-semibold hover:underline duration-300"
+              className="dark:text-white font-semibold hover:underline duration-300"
             >
               <i className="fa-regular fa-globe"></i> {t("footer.language")}
             </button>
@@ -949,7 +952,10 @@ const Footer = () => {
             </Modal>
 
             {/* Currency */}
-            <button onClick={toggleModalCurrency} className="font-semibold">
+            <button
+              onClick={toggleModalCurrency}
+              className="dark:text-white font-semibold"
+            >
               $ <span className="hover:underline duration-300">USD</span>
             </button>
             <Modal
@@ -967,7 +973,7 @@ const Footer = () => {
               <Tabs items={itemsLanguageCurrency.slice(1)}></Tabs>
             </Modal>
 
-            <div className="space-x-5 hidden lg:block">
+            <div className="dark:text-white space-x-5 hidden lg:block">
               <a target="_blank" href="https://www.facebook.com/airbnb">
                 <i className="fa-brands fa-square-facebook text-xl hover:opacity-70 duration-300"></i>
               </a>

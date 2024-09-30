@@ -18,7 +18,7 @@ const UserProfile = () => {
 
   return (
     <Container>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-10 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-10 pt-10">
         <div className="card">
           <div className="border rounded-lg sm:rounded-3xl shadow-xl p-5 sm:p-8 flex flex-col justify-center items-center">
             <img
@@ -30,25 +30,29 @@ const UserProfile = () => {
               <i className="fa-solid fa-circle-camera"></i>
               <span> update</span>
             </button>
-            <h2 className="text-2xl sm:text-3xl font-semibold mt-5">Name</h2>
+            <h2 className="dark:text-white text-2xl sm:text-3xl font-semibold mt-5">
+              Name
+            </h2>
           </div>
           <div className="border rounded-3xl p-5 sm:p-8 mt-10">
             <div className="border-b mb-5">
-              <h3 className="text-xl font-semibold">
+              <h3 className="dark:text-white text-xl font-semibold">
                 Name's confirmed information
               </h3>
-              <p className="my-5">
+              <p className="my-5 dark:text-white">
                 <i className="fa-duotone fa-solid fa-check"></i>
                 <span> Email address</span>
               </p>
             </div>
             <div>
-              <h3 className="text-xl font-semibold">Verify your identity</h3>
-              <p className="my-5">
+              <h3 className="dark:text-white text-xl font-semibold">
+                Verify your identity
+              </h3>
+              <p className="my-5 dark:text-white">
                 Before you book or host on Airbnb, you’ll need to complete this
                 step.
               </p>
-              <button className="px-5 py-3 font-semibold border border-black rounded-lg hover:bg-gray-100 duration-300">
+              <button className="dark:text-white px-5 py-3 font-semibold border border-black dark:border-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 duration-300">
                 Get Verified
               </button>
             </div>
@@ -56,7 +60,7 @@ const UserProfile = () => {
         </div>
 
         <div className="rooms sm:col-span-2">
-          <h3 className="text-2xl sm:text-3xl font-semibold mb-10">
+          <h3 className="dark:text-white text-2xl sm:text-3xl font-semibold mb-10">
             Phòng đã thuê
           </h3>
           {listCategories.slice(0, 3).map((category) => (
@@ -72,10 +76,10 @@ const UserProfile = () => {
                   alt={category.tenPhong}
                 />
               </div>
-              <h3 className="text-base font-semibold hover:underline duration-300">
+              <h3 className="dark:text-white text-base font-semibold hover:underline duration-300">
                 {category.tenPhong}
               </h3>
-              <p>
+              <p className="dark:text-white">
                 <span className="font-semibold">${category.giaTien}</span> night
               </p>
               <button

@@ -9,6 +9,20 @@ const resources = {
         subtitle: "Your internationalized experience starts here!",
         airbnbYourHome: "Airbnb your home",
 
+        navbar: {
+          search: "Search",
+          stays: "Stays",
+          experiences: "Experiences",
+          where: "Where",
+          who: "Who",
+          date: "Date",
+          checkin: "Check in",
+          checkout: "Check out",
+          searchDestination: "Search Destination",
+          addDates: "Add dates",
+          addGuests: "Add guests",
+        },
+
         user: {
           signup: "Sign up",
           login: "Log in",
@@ -18,16 +32,7 @@ const resources = {
           helpCenter: "Help Center",
         },
       },
-      search: {
-        search: "Search",
-        stays: "Stays",
-        experiences: "Experiences",
-      },
-      content: {
-        description:
-          "This is a demonstration of how to use i18next with React to create a multilingual application.",
-        instruction: "Click on the buttons below to switch the language.",
-      },
+      content: {},
       footer: {
         inspiration: "Inspiration for future getaways",
 
@@ -84,6 +89,20 @@ const resources = {
         subtitle: "Trải nghiệm quốc tế hóa bắt đầu từ đây!",
         airbnbYourHome: "Cho thuê chỗ ở qua Airbnb",
 
+        navbar: {
+          search: "Tìm kiếm",
+          stays: "Chỗ ở",
+          experiences: "Trải nghiệm",
+          where: "Địa điểm",
+          who: "Khách",
+          date: "Ngày",
+          checkin: "Nhận phòng",
+          checkout: "Trả phòng",
+          searchDestination: "Tìm kiếm điểm đến",
+          addDates: "Thêm ngày",
+          addGuests: "Thêm khách",
+        },
+
         user: {
           signup: "Đăng ký",
           login: "Đăng nhập",
@@ -93,16 +112,7 @@ const resources = {
           helpCenter: "Trung tâm trợ giúp",
         },
       },
-      search: {
-        search: "Tìm kiếm",
-        stays: "Chỗ ở",
-        experiences: "Trải nghiệm",
-      },
-      content: {
-        description:
-          "Đây là một ví dụ về cách sử dụng i18next với React để tạo ứng dụng đa ngôn ngữ.",
-        instruction: "Nhấn vào các nút bên dưới để thay đổi ngôn ngữ.",
-      },
+      content: {},
       footer: {
         inspiration: "Nguồn cảm hứng cho những kỳ nghỉ sau này",
 
