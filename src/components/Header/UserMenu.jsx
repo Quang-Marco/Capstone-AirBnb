@@ -89,9 +89,12 @@ const UserMenu = () => {
     {
       key: "3",
       label: (
-        <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
-          {t("header.user.giftCard")}
-        </p>
+        <Link
+          to={"/user-profile"}
+          className="block p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300"
+        >
+          {t("header.user.profile")}
+        </Link>
       ),
     },
     {

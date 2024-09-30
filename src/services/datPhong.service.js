@@ -1,5 +1,8 @@
 import { http } from "./config";
 
 export const datPhongService = {
-  getPhongDaDat: () => http.get(`/dat-phong`),
+  getBookedRooms: () => http.get(`/dat-phong`),
+
+  getBookedRoomsFromUser: (maNguoiDung) =>
+    http.get(`/dat-phong/lay-theo-nguoi-dung/${maNguoiDung}`),
 };
