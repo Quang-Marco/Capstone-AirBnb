@@ -1,9 +1,9 @@
-import { createContext } from "react";
+import React from "react";
 import useRoutesCustom from "./hooks/useRoutesCustom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const NotificationContext = createContext();
+export const NotificationContext = React.createContext();
 
 function App() {
   const handleNotification = (content, type = "success") =>
