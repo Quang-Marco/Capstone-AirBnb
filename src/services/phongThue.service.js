@@ -22,6 +22,8 @@ export const phongThueService = {
       headers: { token },
     }),
 
-  getLocationRooms: (maViTri) =>
+  getRoomsFromLocation: (maViTri) =>
     http.get(`/phong-thue/lay-phong-theo-vi-tri?maViTri=${maViTri}`),
+
+  getRoomsFromId: (id) => http.get(`/phong-thue/{id}`),
 };

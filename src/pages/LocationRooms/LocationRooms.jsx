@@ -20,7 +20,7 @@ const LocationRooms = () => {
         `${result.data.content.tenViTri}, ${result.data.content.tinhThanh}`
       );
 
-      const res = await phongThueService.getLocationRooms(maViTri);
+      const res = await phongThueService.getRoomsFromLocation(maViTri);
       setListLocationRooms(res.data.content);
     } catch (err) {
       console.log(err);
@@ -60,11 +60,13 @@ const LocationRooms = () => {
                 key={category.id}
                 className="cursor-pointer relative overflow-hidden group"
               >
-                <img
-                  className="rounded-lg  w-full mb-5 h-64 sm:h-56 lg:h-72 group-hover:scale-105 duration-300"
-                  src={category.hinhAnh}
-                  alt={category.tenPhong}
-                />
+                <div className="rounded-lg overflow-hidden mb-5">
+                  <img
+                    className="rounded-lg w-full h-64 sm:h-56 lg:h-72 object-cover group-hover:scale-105 duration-300"
+                    src={category.hinhAnh}
+                    alt={category.tenPhong}
+                  />
+                </div>
                 <h3 className="text-base font-semibold hover:underline duration-300">
                   {category.tenPhong}
                 </h3>
