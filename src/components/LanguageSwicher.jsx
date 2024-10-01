@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Dropdown, Space } from "antd";
 
-const LanguageSwitcher = () => {
+const LanguageSwitcher = ({ trigger = ["click"], classContent = "" }) => {
   const { i18n } = useTranslation();
 
   const handleChange = (e) => {
@@ -30,10 +30,13 @@ const LanguageSwitcher = () => {
   return (
     <Dropdown
       menu={{ items }}
-      // trigger={["click"]}
-      className="cursor-pointer text-gray-600 dark:text-white font-semibold py-2 px-4 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 duration-300"
+      trigger={trigger}
+      className={`cursor-pointer dark:text-white font-semibold py-2 px-4 rounded-full duration-300 ${classContent}`}
     >
-      <Space>{i18n.language === "en" ? "English" : "Tiếng Việt"}</Space>
+      <Space>
+        <i className="fa-regular fa-globe"></i>
+        {i18n.language === "en" ? "English" : "Tiếng Việt"}
+      </Space>
     </Dropdown>
   );
 };

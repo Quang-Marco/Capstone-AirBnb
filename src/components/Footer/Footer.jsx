@@ -3,6 +3,8 @@ import { Button, Modal, Tabs } from "antd";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import Container from "../Container";
+import LanguageSwitcher from "../LanguageSwicher";
+import CustomTabs from "./CustomTabs";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -838,41 +840,23 @@ const Footer = () => {
   return (
     <footer className="bg-gray-100 dark:bg-gray-900 pt-10 pb-5">
       <Container>
-        <h2 className="dark:text-white text-2xl font-semibold mb-3">
+        <h2 className="dark:text-white text-2xl sm:text-3xl font-semibold mb-3">
           {t("footer.inspiration")}
         </h2>
-        <Tabs
-          defaultActiveKey="1"
-          items={listTabs.map((item, index) => ({
-            key: index + 1,
-            label: <h3 className="dark:text-white">{item.tabName}</h3>,
-            children: (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                {item.subList.map((subItem, subIndex) => (
-                  <div key={subIndex + 1} className="cursor-pointer">
-                    <h4 className="dark:text-white font-semibold hover:underline duration-300">
-                      {subItem.name}
-                    </h4>
-                    <p className="text-gray-700 dark:text-white">
-                      {subItem.content}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ),
-          }))}
-        ></Tabs>
+
+        <CustomTabs tabs={listTabs} />
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 border-y-2 py-10 mt-10">
           {listFooter.map((item, index) => (
             <div key={index + 1} className="mb-5 lg:mb-0">
-              <h4 className="dark:text-white text-sm font-semibold mb-5">
+              <h4 className="dark:text-white text-sm sm:text-base font-semibold mb-5">
                 {item.name}
               </h4>
               <ul className="space-y-3">
                 {item.subList.map((subItem, subIndex) => (
                   <li
                     key={subIndex + 1}
-                    className="text-sm text-gray-900 dark:text-white cursor-pointer hover:underline duration-300"
+                    className="text-sm sm:text-base text-gray-900 dark:text-white cursor-pointer hover:underline duration-300"
                   >
                     {subItem.subName}
                   </li>
@@ -881,6 +865,7 @@ const Footer = () => {
             </div>
           ))}
         </div>
+
         <div className="mt-5 flex justify-between gap-6 flex-col lg:flex-row">
           <div className="text-sm text-gray-700 flex flex-col lg:flex-row gap-6">
             <span className="dark:text-white">© 2024 Airbnb, Inc.</span>
@@ -928,9 +913,8 @@ const Footer = () => {
               </li>
             </ol>
           </div>
-          <div className="text-sm flex gap-5 order-first lg:order-last">
-            {/* Language */}
-            <button
+          <div className="text-sm flex items-center gap-5 order-first lg:order-last">
+            {/* <button
               onClick={toggleModalLanguage}
               className="dark:text-white font-semibold hover:underline duration-300"
             >
@@ -949,7 +933,9 @@ const Footer = () => {
               onCancel={toggleModalLanguage}
             >
               <Tabs items={itemsLanguageCurrency.slice(0, 1)}></Tabs>
-            </Modal>
+            </Modal> */}
+
+            <LanguageSwitcher classContent="hover:underline" />
 
             {/* Currency */}
             <button
@@ -974,6 +960,12 @@ const Footer = () => {
             </Modal>
 
             <div className="dark:text-white space-x-5 hidden lg:block">
+              <a
+                target="_blank"
+                href="https://github.com/Quang-Marco/Capstone-AirBnb"
+              >
+                <i className="fa-brands fa-square-github text-xl hover:opacity-70 duration-300"></i>
+              </a>
               <a target="_blank" href="https://www.facebook.com/airbnb">
                 <i className="fa-brands fa-square-facebook text-xl hover:opacity-70 duration-300"></i>
               </a>

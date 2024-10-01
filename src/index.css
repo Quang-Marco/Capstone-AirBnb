@@ -6,3 +6,10 @@
   font-family: "Airbnb Cereal VF", Circular, -apple-system, BlinkMacSystemFont,
     Roboto, "Helvetica Neue", sans-serif;
 }
+
+.tabs-headers.overflow-x-auto::-webkit-scrollbar {
+  display: none; /* Chrome, Safari và Edge */
+}
+.tabs-headers.overflow-x-auto {
+  scrollbar-width: none; /* Firefox */
+}

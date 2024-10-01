@@ -499,7 +499,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="bg-white dark:bg-gray-900 py-5 border-b sticky top-0 z-10">
+    <header className="bg-white dark:bg-gray-900 py-3 sm:py-4 lg:py-5 border-b sticky top-0 z-10">
       <Container>
         <div className="flex items-center justify-between w-full">
           {/* Logo */}
@@ -539,9 +539,7 @@ const Header = () => {
                 activeTab === tab.key && (
                   <div
                     key={tab.key}
-                    className={`tab-pane ${
-                      activeTab === tab.key ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`tab-pane shadow-lg rounded-full`}
                   >
                     {tab.content}
                   </div>
