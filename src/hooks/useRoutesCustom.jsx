@@ -4,6 +4,8 @@ import UserTemplate from "../templates/UserTemplate/UserTemplate";
 import RegisterPage from "../pages/Register/RegisterPage";
 import LoginPage from "../pages/Login/LoginPage";
 import Body from "../components/Body/Body";
+import ListRoomsPage from "../pages/ListRoomsPage/ListRoomsPage";
+import RoomDetail from "../pages/RoomDetail/RoomDetail";
 
 const useRoutesCustom = () => {
   const routes = useRoutes([
@@ -14,6 +16,14 @@ const useRoutesCustom = () => {
         {
           index: true,
           element: <Body />,
+        },
+        {
+          path: pathDefault.listRooms,
+          element: <ListRoomsPage />,
+        },
+        {
+          path: pathDefault.roomDetail,
+          element: <RoomDetail />,
         },
       ],
     },
