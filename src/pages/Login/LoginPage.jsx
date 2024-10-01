@@ -7,6 +7,7 @@ import { NotificationContext } from "../../App";
 import { pathDefault } from "../../common/path";
 import { notiValidation } from "../../common/notiValidation";
 import * as yup from "yup";
+import { setLocalStorage } from "../../utils/utils";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const LoginPage = () => {
           .signIn({ ...values })
           .then((res) => {
             console.log(res);
+            setLocalStorage("user", res.data.content);
             handleNotification(
               "Signin successfully. You will be redirected to Airbnb Homepage.",
               "success"
