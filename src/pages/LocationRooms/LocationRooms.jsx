@@ -15,12 +15,12 @@ const LocationRooms = () => {
 
   const fetchData = async () => {
     try {
-      const result = await viTriService.getLocationsFromId(maViTri);
+      const result = await viTriService.getLocationsById(maViTri);
       setTenViTri(
         `${result.data.content.tenViTri}, ${result.data.content.tinhThanh}`
       );
 
-      const res = await phongThueService.getRoomsFromLocation(maViTri);
+      const res = await phongThueService.getRoomsByLocation(maViTri);
       setListLocationRooms(res.data.content);
     } catch (err) {
       console.log(err);

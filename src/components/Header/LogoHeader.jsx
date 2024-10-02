@@ -12,8 +12,8 @@ const LogoHeader = () => {
     <Link
       to={pathDefault.homePage}
       onClick={handleClickLogo}
-      className={`cursor-pointer hover:text-[#ff385c] duration-300 ${
-        isBlack ? "text-black" : "text-[#ff385c]"
+      className={`cursor-pointer hover:text-[#ff385c] dark:hover:text-[#ff385c] duration-300 ${
+        isBlack ? "text-black dark:text-white" : "text-[#ff385c]"
       }`}
     >
       <svg width="102" height="32">
