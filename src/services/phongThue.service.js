@@ -22,8 +22,22 @@ export const phongThueService = {
       headers: { token },
     }),
 
-  getRoomsFromLocation: (maViTri) =>
+  postRoom: (room, token) =>
+    http.post(`/phong-thue`, room, { headers: { token } }),
+
+  updateRoom: (id, newRoom, token) =>
+    http.put(`/phong-thue${id}`, newRoom, { headers: { token } }),
+
+  deleteRoom: (id, token) =>
+    http.delete(`/phong-thue${id}`, { headers: { token } }),
+
+  getRoomsByLocation: (maViTri) =>
     http.get(`/phong-thue/lay-phong-theo-vi-tri?maViTri=${maViTri}`),
 
-  getRoomsFromId: (id) => http.get(`/phong-thue/{id}`),
+  getRoomsById: (id) => http.get(`/phong-thue/${id}`),
+
+  uploadImageRoom: (maPhong, img, token) =>
+    http.post(`/phong-thue/upload-hinh-phong?maPhong=${maPhong}`, img, {
+      headers: { token },
+    }),
 };

@@ -246,7 +246,7 @@ const Header = () => {
       content: (
         <form
           onSubmit={handleSubmit}
-          className="text-gray-600 dark:text-white border lg:w-[900px] rounded-full shadow-sm hover:shadow-md duration-300 cursor-pointer"
+          className="text-gray-600 dark:text-white border lg:w-[900px] rounded-full shadow-sm hover:shadow-md transition-shadow cursor-pointer"
         >
           <div className="grid grid-cols-4 sm:grid-cols-6 items-center text-sm">
             <div className="sm:col-span-2 px-2 sm:px-6 py-2 sm:py-4 rounded-full flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 duration-300">
@@ -280,7 +280,7 @@ const Header = () => {
               <button
                 type="button"
                 onClick={() => setSearchValue("")}
-                className={`w-6 h-6 hidden md:flex justify-center items-center rounded-full hover:bg-gray-300 duration-300 ${
+                className={`w-6 h-6 hidden md:flex justify-center items-center rounded-full hover:bg-gray-300 ${
                   searchValue ? "" : "md:hidden"
                 }`}
               >
@@ -362,7 +362,7 @@ const Header = () => {
       content: (
         <form
           onSubmit={handleSubmit}
-          className="text-gray-600 dark:text-white border lg:w-[900px] rounded-full shadow-sm hover:shadow-md duration-300 cursor-pointer"
+          className="text-gray-600 dark:text-white border lg:w-[900px] rounded-full shadow-sm hover:shadow-md transition-shadow cursor-pointer"
         >
           <div className="grid grid-cols-3 sm:grid-cols-6 items-center text-sm">
             <div className="sm:col-span-2 px-2 sm:px-6 py-2 sm:py-4 rounded-full flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 duration-300">
@@ -396,7 +396,7 @@ const Header = () => {
               <button
                 type="button"
                 onClick={() => setSearchValue("")}
-                className={`w-6 h-6 hidden md:flex justify-center items-center rounded-full hover:bg-gray-300 duration-300 ${
+                className={`w-6 h-6 hidden md:flex justify-center items-center rounded-full hover:bg-gray-300 ${
                   searchValue ? "" : "md:hidden"
                 }`}
               >

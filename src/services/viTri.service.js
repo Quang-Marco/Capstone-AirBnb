@@ -18,6 +18,4 @@ export const viTriService = {
     http.post(`/vi-tri/upload-hinh-vitri?maViTri=${maViTri}`, img, {
       headers: { token },
     }),
-
-  getLocationsFromId: (id) => http.get(`/vi-tri/${id}`),
 };

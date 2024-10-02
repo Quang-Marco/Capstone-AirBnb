@@ -1,10 +1,7 @@
 import { http } from "./config";
 
 export const authService = {
-  signUp: (data) => {
-    return http.post("/auth/signup", data);
-  },
-  signIn: (data) => {
-    return http.post("/auth/signin", data);
-  },
+  signup: (user) => http.post(`/auth/signup`, user),
+
+  signin: (user) => http.post(`/auth/signin`, user),
 };
