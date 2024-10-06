@@ -1,48 +1,31 @@
 import { useEffect, useState } from "react";
-import useDebounce from "./useDebounce";
 
 const useResponsive = () => {
-  // screen resolutions
-  const [state, setState] = useState({
-    isMobile: false,
-    isTablet: false,
-    isDesktop: false,
-  });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 524);
+  const [isTablet, setIsTablet] = useState(
+    window.innerWidth > 524 && window.innerWidth <= 768
+  );
+  const [isIpadAir5, setIsIpadAir5] = useState(
+    window.innerWidth > 768 && window.innerWidth <= 1024
+  );
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 524);
+    setIsTablet(window.innerWidth > 524 && window.innerWidth <= 768);
+    setIsIpadAir5(window.innerWidth > 768 && window.innerWidth <= 1024);
+    setIsDesktop(window.innerWidth > 1024);
+  };
 
   useEffect(() => {
-    // update the state on the initial load
-    onResizeHandler();
-    // assign the event
-    Setup();
-    return () => {
-      // remove the event
-      Cleanup();
-    };
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // update the state on window resize
-  const onResizeHandler = () => {
-    const isMobile = window.innerWidth <= 524;
-    const isTablet = window.innerWidth >= 524 && window.innerWidth <= 768;
-    const isDesktop = window.innerWidth > 768 && window.innerWidth <= 1024;
-
-    setState({ isMobile, isTablet, isDesktop });
-  };
-
-  // debounce the resize call
-  const debouncedCall = useDebounce(onResizeHandler, 500);
-
-  // add event listener
-  const Setup = () => {
-    window.addEventListener("resize", debouncedCall, false);
-  };
-
-  // remove the listener
-  const Cleanup = () => {
-    window.removeEventListener("resize", debouncedCall, false);
-  };
-
-  return state;
+  return { isMobile, isTablet, isIpadAir5, isDesktop };
 };
 
 export default useResponsive;
