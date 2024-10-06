@@ -4,4 +4,5 @@ export const pathDefault = {
   login: "/login",
   listRooms: "/listRooms",
   roomDetail: "/roomDetail",
+  admin: "/admin",
 };

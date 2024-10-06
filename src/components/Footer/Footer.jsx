@@ -1,8 +1,10 @@
 import { useState } from "react";
-import "./footer.scss";
 import { Button, Modal, Tabs } from "antd";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import Container from "../Container";
+import LanguageSwitcher from "../LanguageSwicher";
+import CustomTabs from "./CustomTabs";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -87,6 +89,10 @@ const Footer = () => {
           name: "Sonoma",
           content: "Cottage rentals",
         },
+        {
+          name: "La Serena",
+          content: "Beachfront rentals",
+        },
       ],
     },
     {
@@ -97,68 +103,72 @@ const Footer = () => {
           content: "Villa rentals",
         },
         {
-          name: "Benalmádena",
-          content: "House rentals",
+          name: "Hot Springs",
+          content: "Lakehouse rentals",
         },
         {
-          name: "Marbella",
-          content: "House rentals",
+          name: "Los Angeles",
+          content: "Bed and breakfasts",
         },
         {
-          name: "Mijas",
-          content: "House rentals",
-        },
-        {
-          name: "Prescott",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Scottsdale",
-          content: "Rentals with pools",
-        },
-        {
-          name: "Tucson",
-          content: "Pet-friendly rentals",
-        },
-        {
-          name: "Jasper",
-          content: "Cabin rentals",
-        },
-        {
-          name: "Mountain View",
-          content: "Cabin rentals",
-        },
-        {
-          name: "Devonport",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Mallacoota",
-          content: "Beach house rentals",
-        },
-        {
-          name: "Ibiza",
-          content: "Vacation rentals",
-        },
-        {
-          name: "Anaheim",
-          content: "Family-friendly rentals",
-        },
-        {
-          name: "Monterey",
+          name: "San Diego",
           content: "Bungalow rentals",
         },
         {
-          name: "Paso Robles",
+          name: "San Francisco",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Barcelona",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Prague",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Washington",
           content: "House rentals",
         },
         {
-          name: "Santa Barbara",
-          content: "House rentals",
+          name: "Keswick",
+          content: "Apartment rentals",
         },
         {
-          name: "Sonoma",
+          name: "London",
+          content: "Villa rentals",
+        },
+        {
+          name: "Scarborough",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Sherwood Forest",
+          content: "Cabin rentals",
+        },
+        {
+          name: "York",
+          content: "Apartment rentals",
+        },
+        {
+          name: "Paris",
+          content: "Villa rentals",
+        },
+        {
+          name: "Rhodes",
           content: "Cottage rentals",
+        },
+        {
+          name: "Nashville",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Dublin",
+          content: "House rentals",
+        },
+        {
+          name: "Florence",
+          content: "Villa rentals",
         },
       ],
     },
@@ -170,68 +180,72 @@ const Footer = () => {
           content: "Lakehouse rentals",
         },
         {
-          name: "Benalmádena",
-          content: "House rentals",
+          name: "Banff",
+          content: "Chalet rentals",
         },
         {
-          name: "Marbella",
-          content: "House rentals",
+          name: "Nerja",
+          content: "Apartment rentals",
         },
         {
-          name: "Mijas",
-          content: "House rentals",
-        },
-        {
-          name: "Prescott",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Scottsdale",
-          content: "Rentals with pools",
-        },
-        {
-          name: "Tucson",
-          content: "Pet-friendly rentals",
-        },
-        {
-          name: "Jasper",
+          name: "Greer",
           content: "Cabin rentals",
         },
         {
-          name: "Mountain View",
-          content: "Cabin rentals",
+          name: "Lake Havasu City",
+          content: "Condo rentals",
         },
         {
-          name: "Devonport",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Mallacoota",
-          content: "Beach house rentals",
-        },
-        {
-          name: "Ibiza",
+          name: "Lake Powell",
           content: "Vacation rentals",
         },
         {
-          name: "Anaheim",
-          content: "Family-friendly rentals",
+          name: "North Rim",
+          content: "Vacation rentals",
         },
         {
-          name: "Monterey",
-          content: "Bungalow rentals",
+          name: "Payson",
+          content: "Vacation rentals",
         },
         {
-          name: "Paso Robles",
-          content: "House rentals",
+          name: "Pinetop-Lakeside",
+          content: "Cabin rentals",
         },
         {
-          name: "Santa Barbara",
-          content: "House rentals",
+          name: "Red Rock",
+          content: "Cabin rentals",
         },
         {
-          name: "Sonoma",
-          content: "Cottage rentals",
+          name: "Dinner Plain",
+          content: "Pet-friendly rentals",
+        },
+        {
+          name: "Streaky Bay",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Emerald Lake",
+          content: "Cabin rentals",
+        },
+        {
+          name: "Vancouver Island",
+          content: "Condo rentals",
+        },
+        {
+          name: "Victoria",
+          content: "Cabin rentals",
+        },
+        {
+          name: "Idyllwild-Pine Cove",
+          content: "Cabin rentals",
+        },
+        {
+          name: "Mammoth Lakes",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Palm Desert",
+          content: "Pet-friendly rentals",
         },
       ],
     },
@@ -240,63 +254,63 @@ const Footer = () => {
       subList: [
         {
           name: "Mentone",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Benalmádena",
-          content: "House rentals",
-        },
-        {
-          name: "Marbella",
-          content: "House rentals",
-        },
-        {
-          name: "Mijas",
-          content: "House rentals",
-        },
-        {
-          name: "Prescott",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Scottsdale",
-          content: "Rentals with pools",
-        },
-        {
-          name: "Tucson",
-          content: "Pet-friendly rentals",
-        },
-        {
-          name: "Jasper",
           content: "Cabin rentals",
         },
         {
-          name: "Mountain View",
+          name: "Sedona",
+          content: "House rentals",
+        },
+        {
+          name: "Helen",
           content: "Cabin rentals",
         },
         {
-          name: "Devonport",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Mallacoota",
-          content: "Beach house rentals",
-        },
-        {
-          name: "Ibiza",
+          name: "Pine Mountain",
           content: "Vacation rentals",
         },
         {
-          name: "Anaheim",
-          content: "Family-friendly rentals",
+          name: "Stone Mountain",
+          content: "Cabin rentals",
         },
         {
-          name: "Monterey",
-          content: "Bungalow rentals",
+          name: "Island Park",
+          content: "Cabin rentals",
         },
         {
-          name: "Paso Robles",
+          name: "Blue Mountains",
+          content: "Chalet rentals",
+        },
+        {
+          name: "Asheville",
           content: "House rentals",
+        },
+        {
+          name: "Blowing Rock",
+          content: "Cottage rentals",
+        },
+        {
+          name: "Boone",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Hochatown",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Pigeon Forge",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Townsend",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Wears Valley",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Cabins",
+          content: "Vacation rentals",
         },
         {
           name: "Santa Barbara",
@@ -305,6 +319,10 @@ const Footer = () => {
         {
           name: "Sonoma",
           content: "Cottage rentals",
+        },
+        {
+          name: "Benalmádena",
+          content: "House rentals",
         },
       ],
     },
@@ -313,71 +331,75 @@ const Footer = () => {
       subList: [
         {
           name: "Dauphin Island",
-          content: "Cabin rentals",
-        },
-        {
-          name: "Benalmádena",
-          content: "House rentals",
-        },
-        {
-          name: "Marbella",
-          content: "House rentals",
-        },
-        {
-          name: "Mijas",
-          content: "House rentals",
-        },
-        {
-          name: "Prescott",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Scottsdale",
-          content: "Rentals with pools",
-        },
-        {
-          name: "Tucson",
           content: "Pet-friendly rentals",
         },
         {
-          name: "Jasper",
-          content: "Cabin rentals",
-        },
-        {
-          name: "Mountain View",
-          content: "Cabin rentals",
-        },
-        {
-          name: "Devonport",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Mallacoota",
-          content: "Beach house rentals",
-        },
-        {
-          name: "Ibiza",
+          name: "Fort Morgan",
           content: "Vacation rentals",
         },
         {
-          name: "Anaheim",
-          content: "Family-friendly rentals",
+          name: "Gulf Shores",
+          content: "Vacation rentals",
         },
         {
-          name: "Monterey",
-          content: "Bungalow rentals",
+          name: "Bruny Island",
+          content: "Vacation rentals",
         },
         {
-          name: "Paso Robles",
-          content: "House rentals",
+          name: "Crescent Head",
+          content: "Pet-friendly rentals",
         },
         {
-          name: "Santa Barbara",
-          content: "House rentals",
+          name: "Gerringong",
+          content: "Vacation rentals",
         },
         {
-          name: "Sonoma",
+          name: "Hamilton Island",
+          content: "Apartment rentals",
+        },
+        {
+          name: "Lancelin",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Melbourne Beach",
+          content: "Beach condo rentals",
+        },
+        {
+          name: "Moonta Bay",
+          content: "Beachfront rentals",
+        },
+        {
+          name: "Ocean Grove",
+          content: "Beachfront rentals",
+        },
+        {
+          name: "Majorca",
           content: "Cottage rentals",
+        },
+        {
+          name: "Big Sur",
+          content: "Beach house rentals",
+        },
+        {
+          name: "Bodega Bay",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Cambria",
+          content: "Pet-friendly rentals",
+        },
+        {
+          name: "Cayucos",
+          content: "Vacation rentals",
+        },
+        {
+          name: "Huntington Beach",
+          content: "Apartment rentals",
+        },
+        {
+          name: "la Jolla Shores Beach",
+          content: "Vacation rentals",
         },
       ],
     },
@@ -385,72 +407,76 @@ const Footer = () => {
       tabName: "Unique stays",
       subList: [
         {
-          name: "Canmore",
-          content: "Apartment rentals",
+          name: "Cabins",
+          content: "United States",
         },
         {
-          name: "Benalmádena",
-          content: "House rentals",
+          name: "Treehouses",
+          content: "United States",
         },
         {
-          name: "Marbella",
-          content: "House rentals",
+          name: "Glamping",
+          content: "United States",
         },
         {
-          name: "Mijas",
-          content: "House rentals",
+          name: "Tiny Houses",
+          content: "United States",
         },
         {
-          name: "Prescott",
-          content: "Cottage rentals",
+          name: "Beach Houses",
+          content: "United States",
         },
         {
-          name: "Scottsdale",
-          content: "Rentals with pools",
+          name: "Campers and RVs",
+          content: "United States",
         },
         {
-          name: "Tucson",
-          content: "Pet-friendly rentals",
+          name: "Lakehouses",
+          content: "United States",
         },
         {
-          name: "Jasper",
-          content: "Cabin rentals",
+          name: "Yurt Rentals",
+          content: "United States",
         },
         {
-          name: "Mountain View",
-          content: "Cabin rentals",
+          name: "Yurt Rentals",
+          content: "United Kingdom",
         },
         {
-          name: "Devonport",
-          content: "Cottage rentals",
+          name: "Castle Rentals",
+          content: "United States",
         },
         {
-          name: "Mallacoota",
-          content: "Beach house rentals",
+          name: "Houseboats",
+          content: "United States",
         },
         {
-          name: "Ibiza",
-          content: "Vacation rentals",
+          name: "Holiday Caravans",
+          content: "United Kingdom",
         },
         {
-          name: "Anaheim",
-          content: "Family-friendly rentals",
+          name: "Private Island Rentals",
+          content: "United States",
         },
         {
-          name: "Monterey",
-          content: "Bungalow rentals",
+          name: "Farm Houses",
+          content: "United States",
         },
         {
-          name: "Paso Robles",
-          content: "House rentals",
+          name: "Farm Cottages",
+          content: "United Kingdom",
         },
         {
-          name: "Santa Barbara",
-          content: "House rentals",
+          name: "Cabin Rentals",
+          content: "Australia",
         },
         {
-          name: "Sonoma",
-          content: "Cottage rentals",
+          name: "Luxury Cabins",
+          content: "United Kingdom",
+        },
+        {
+          name: "Luxury Cabins",
+          content: "United States",
         },
       ],
     },
@@ -458,72 +484,76 @@ const Footer = () => {
       tabName: "Categories",
       subList: [
         {
-          name: "Canmore",
-          content: "Apartment rentals",
+          name: "Rooms",
+          content: "",
         },
         {
-          name: "Benalmádena",
-          content: "House rentals",
+          name: "Amazing pools",
+          content: "",
         },
         {
-          name: "Marbella",
-          content: "House rentals",
+          name: "Arctic",
+          content: "",
         },
         {
-          name: "Mijas",
-          content: "House rentals",
+          name: "Camping",
+          content: "",
         },
         {
-          name: "Prescott",
-          content: "Cottage rentals",
+          name: "Campers",
+          content: "",
         },
         {
-          name: "Scottsdale",
-          content: "Rentals with pools",
+          name: "Castles",
+          content: "",
         },
         {
-          name: "Tucson",
-          content: "Pet-friendly rentals",
+          name: "Containers",
+          content: "",
         },
         {
-          name: "Jasper",
-          content: "Cabin rentals",
+          name: "Countryside",
+          content: "",
         },
         {
-          name: "Mountain View",
-          content: "Cabin rentals",
+          name: "Design",
+          content: "",
         },
         {
-          name: "Devonport",
-          content: "Cottage rentals",
+          name: "Earth homes",
+          content: "",
         },
         {
-          name: "Mallacoota",
-          content: "Beach house rentals",
+          name: "Farms",
+          content: "",
         },
         {
-          name: "Ibiza",
-          content: "Vacation rentals",
+          name: "National parks",
+          content: "",
         },
         {
-          name: "Anaheim",
-          content: "Family-friendly rentals",
+          name: "Vineyards",
+          content: "",
         },
         {
-          name: "Monterey",
-          content: "Bungalow rentals",
+          name: "OMG!",
+          content: "",
         },
         {
-          name: "Paso Robles",
-          content: "House rentals",
+          name: "Tiny homes",
+          content: "",
         },
         {
-          name: "Santa Barbara",
-          content: "House rentals",
+          name: "Towers",
+          content: "",
         },
         {
-          name: "Sonoma",
-          content: "Cottage rentals",
+          name: "Windmills",
+          content: "",
+        },
+        {
+          name: "Luxe",
+          content: "",
         },
       ],
     },
@@ -531,72 +561,76 @@ const Footer = () => {
       tabName: "Things to do",
       subList: [
         {
-          name: "Canmore",
-          content: "Apartment rentals",
+          name: "London",
+          content: "England",
         },
         {
-          name: "Benalmádena",
-          content: "House rentals",
+          name: "Paris",
+          content: "Île-de-France",
         },
         {
-          name: "Marbella",
-          content: "House rentals",
+          name: "New York",
+          content: "New York",
         },
         {
-          name: "Mijas",
-          content: "House rentals",
+          name: "Barcelona",
+          content: "Catalonia",
         },
         {
-          name: "Prescott",
-          content: "Cottage rentals",
+          name: "İstanbul",
+          content: "İstanbul",
         },
         {
-          name: "Scottsdale",
-          content: "Rentals with pools",
+          name: "Bali",
+          content: "Indonesia",
         },
         {
-          name: "Tucson",
-          content: "Pet-friendly rentals",
+          name: "Amsterdam",
+          content: "North Holland",
         },
         {
-          name: "Jasper",
-          content: "Cabin rentals",
+          name: "Miami",
+          content: "Florida",
         },
         {
-          name: "Mountain View",
-          content: "Cabin rentals",
+          name: "Madrid",
+          content: "Community of Madrid",
         },
         {
-          name: "Devonport",
-          content: "Cottage rentals",
+          name: "Los Angeles",
+          content: "California",
         },
         {
-          name: "Mallacoota",
-          content: "Beach house rentals",
+          name: "Rome",
+          content: "Lazio",
         },
         {
-          name: "Ibiza",
-          content: "Vacation rentals",
+          name: "Lisbon",
+          content: "Lisbon",
         },
         {
-          name: "Anaheim",
-          content: "Family-friendly rentals",
+          name: "Tokyo",
+          content: "Tokyo",
         },
         {
-          name: "Monterey",
-          content: "Bungalow rentals",
+          name: "Vienna",
+          content: "Vienna",
         },
         {
-          name: "Paso Robles",
-          content: "House rentals",
+          name: "Athens",
+          content: "Greece",
         },
         {
-          name: "Santa Barbara",
-          content: "House rentals",
+          name: "Prague",
+          content: "Czechia",
         },
         {
-          name: "Sonoma",
-          content: "Cottage rentals",
+          name: "Orlando",
+          content: "Florida",
+        },
+        {
+          name: "San Francisco",
+          content: "California",
         },
       ],
     },
@@ -604,72 +638,32 @@ const Footer = () => {
       tabName: "Travel tips & inspiration",
       subList: [
         {
-          name: "Canmore",
-          content: "Apartment rentals",
+          name: "Family travel hub",
+          content: "Tips and inspiration",
         },
         {
-          name: "Benalmádena",
-          content: "House rentals",
+          name: "Family budget travel",
+          content: "Get there for less",
         },
         {
-          name: "Marbella",
-          content: "House rentals",
+          name: "Vacation ideas for any budget",
+          content: "Make it special without making it spendy",
         },
         {
-          name: "Mijas",
-          content: "House rentals",
+          name: "Travel Europe on a budget",
+          content: "How to take the kids to Europe for less",
         },
         {
-          name: "Prescott",
-          content: "Cottage rentals",
+          name: "Outdoor adventure",
+          content: "Explore nature with the family",
         },
         {
-          name: "Scottsdale",
-          content: "Rentals with pools",
+          name: "Bucket list national parks",
+          content: "Must-see parks for family travel",
         },
         {
-          name: "Tucson",
-          content: "Pet-friendly rentals",
-        },
-        {
-          name: "Jasper",
-          content: "Cabin rentals",
-        },
-        {
-          name: "Mountain View",
-          content: "Cabin rentals",
-        },
-        {
-          name: "Devonport",
-          content: "Cottage rentals",
-        },
-        {
-          name: "Mallacoota",
-          content: "Beach house rentals",
-        },
-        {
-          name: "Ibiza",
-          content: "Vacation rentals",
-        },
-        {
-          name: "Anaheim",
-          content: "Family-friendly rentals",
-        },
-        {
-          name: "Monterey",
-          content: "Bungalow rentals",
-        },
-        {
-          name: "Paso Robles",
-          content: "House rentals",
-        },
-        {
-          name: "Santa Barbara",
-          content: "House rentals",
-        },
-        {
-          name: "Sonoma",
-          content: "Cottage rentals",
+          name: "Kid-friendly state parks",
+          content: "Check out these family-friendly hikes",
         },
       ],
     },
@@ -677,72 +671,76 @@ const Footer = () => {
       tabName: "Airbnb-friendly apartments",
       subList: [
         {
-          name: "Canmore",
-          content: "Apartment rentals",
+          name: "Atlanta Metro",
+          content: "Georgia",
         },
         {
-          name: "Benalmádena",
-          content: "House rentals",
+          name: "Augusta",
+          content: "Georgia",
         },
         {
-          name: "Marbella",
-          content: "House rentals",
+          name: "Austin Metro",
+          content: "Texas",
         },
         {
-          name: "Mijas",
-          content: "House rentals",
+          name: "Birmingham",
+          content: "Alabama",
         },
         {
-          name: "Prescott",
-          content: "Cottage rentals",
+          name: "Boise",
+          content: "Idaho",
         },
         {
-          name: "Scottsdale",
-          content: "Rentals with pools",
+          name: "Boston Metro",
+          content: "Massachusetts",
         },
         {
-          name: "Tucson",
-          content: "Pet-friendly rentals",
+          name: "Boulder",
+          content: "Colorado",
         },
         {
-          name: "Jasper",
-          content: "Cabin rentals",
+          name: "Charlotte",
+          content: "North Carolina",
         },
         {
-          name: "Mountain View",
-          content: "Cabin rentals",
+          name: "Cincinnati",
+          content: "Ohio",
         },
         {
-          name: "Devonport",
-          content: "Cottage rentals",
+          name: "Columbia",
+          content: "South Carolina",
         },
         {
-          name: "Mallacoota",
-          content: "Beach house rentals",
+          name: "Columbus",
+          content: "Ohio",
         },
         {
-          name: "Ibiza",
-          content: "Vacation rentals",
+          name: "Dallas",
+          content: "Texas",
         },
         {
-          name: "Anaheim",
-          content: "Family-friendly rentals",
+          name: "Denver",
+          content: "Colorado",
         },
         {
-          name: "Monterey",
-          content: "Bungalow rentals",
+          name: "Fort Worth",
+          content: "Texas",
         },
         {
-          name: "Paso Robles",
-          content: "House rentals",
+          name: "Frankfort",
+          content: "Kentucky",
         },
         {
-          name: "Santa Barbara",
-          content: "House rentals",
+          name: "Gainesville",
+          content: "Florida",
         },
         {
-          name: "Sonoma",
-          content: "Cottage rentals",
+          name: "Greeley",
+          content: "Colorado",
+        },
+        {
+          name: "Hoboken",
+          content: "New Jersey",
         },
       ],
     },
@@ -836,39 +834,25 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-100 pt-10 pb-5 mt-10">
-      <div className="container px-2">
-        <h2 className="text-2xl font-semibold mb-3">
+    <footer className="bg-gray-100 dark:bg-gray-900 pt-10 pb-5">
+      <Container>
+        <h2 className="dark:text-white text-2xl sm:text-3xl font-semibold mb-3">
           {t("footer.inspiration")}
         </h2>
-        <Tabs
-          defaultActiveKey="1"
-          items={listTabs.map((item, index) => ({
-            key: index + 1,
-            label: item.tabName,
-            children: (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                {item.subList.map((subItem, subIndex) => (
-                  <div key={subIndex + 1} className="cursor-pointer">
-                    <h4 className="font-semibold hover:underline duration-300">
-                      {subItem.name}
-                    </h4>
-                    <p className="text-gray-700">{subItem.content}</p>
-                  </div>
-                ))}
-              </div>
-            ),
-          }))}
-        ></Tabs>
+
+        <CustomTabs tabs={listTabs} />
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 border-y-2 py-10 mt-10">
           {listFooter.map((item, index) => (
             <div key={index + 1} className="mb-5 lg:mb-0">
-              <h4 className="text-sm font-semibold mb-5">{item.name}</h4>
+              <h4 className="dark:text-white text-sm sm:text-base font-semibold mb-5">
+                {item.name}
+              </h4>
               <ul className="space-y-3">
                 {item.subList.map((subItem, subIndex) => (
                   <li
                     key={subIndex + 1}
-                    className="text-sm text-gray-900 cursor-pointer hover:underline duration-300"
+                    className="text-sm sm:text-base text-gray-900 dark:text-white cursor-pointer hover:underline duration-300"
                   >
                     {subItem.subName}
                   </li>
@@ -877,20 +861,21 @@ const Footer = () => {
             </div>
           ))}
         </div>
+
         <div className="mt-5 flex justify-between gap-6 flex-col lg:flex-row">
           <div className="text-sm text-gray-700 flex flex-col lg:flex-row gap-6">
-            <span>© 2024 Airbnb, Inc.</span>
+            <span className="dark:text-white">© 2024 Airbnb, Inc.</span>
             <ol className="list-disc flex flex-wrap gap-6">
-              <li className="cursor-pointer hover:underline duration-300">
+              <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 {t("footer.term")}
               </li>
-              <li className="cursor-pointer hover:underline duration-300">
+              <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 {t("footer.sitemap")}
               </li>
-              <li className="cursor-pointer hover:underline duration-300">
+              <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 {t("footer.privacy")}
               </li>
-              <li className="cursor-pointer hover:underline duration-300">
+              <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 <span className="flex items-center gap-4">
                   {t("footer.yourPrivacy")}{" "}
                   <svg width="26" height="12" fill="none">
@@ -924,11 +909,10 @@ const Footer = () => {
               </li>
             </ol>
           </div>
-          <div className="text-sm flex gap-5 order-first lg:order-last">
-            {/* Language */}
-            <button
+          <div className="text-sm flex items-center gap-5 order-first lg:order-last">
+            {/* <button
               onClick={toggleModalLanguage}
-              className="font-semibold hover:underline duration-300"
+              className="dark:text-white font-semibold hover:underline duration-300"
             >
               <i className="fa-regular fa-globe"></i> {t("footer.language")}
             </button>
@@ -945,10 +929,15 @@ const Footer = () => {
               onCancel={toggleModalLanguage}
             >
               <Tabs items={itemsLanguageCurrency.slice(0, 1)}></Tabs>
-            </Modal>
+            </Modal> */}
+
+            <LanguageSwitcher classContent="hover:underline" />
 
             {/* Currency */}
-            <button onClick={toggleModalCurrency} className="font-semibold">
+            <button
+              onClick={toggleModalCurrency}
+              className="dark:text-white font-semibold"
+            >
               $ <span className="hover:underline duration-300">USD</span>
             </button>
             <Modal
@@ -966,7 +955,13 @@ const Footer = () => {
               <Tabs items={itemsLanguageCurrency.slice(1)}></Tabs>
             </Modal>
 
-            <div className="space-x-5 hidden lg:block">
+            <div className="dark:text-white space-x-5 hidden lg:block">
+              <a
+                target="_blank"
+                href="https://github.com/Quang-Marco/Capstone-AirBnb"
+              >
+                <i className="fa-brands fa-square-github text-xl hover:opacity-70 duration-300"></i>
+              </a>
               <a target="_blank" href="https://www.facebook.com/airbnb">
                 <i className="fa-brands fa-square-facebook text-xl hover:opacity-70 duration-300"></i>
               </a>
@@ -979,7 +974,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 };

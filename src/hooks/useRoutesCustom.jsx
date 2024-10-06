@@ -4,6 +4,10 @@ import UserTemplate from "../templates/UserTemplate/UserTemplate";
 import RegisterPage from "../pages/Register/RegisterPage";
 import LoginPage from "../pages/Login/LoginPage";
 import Body from "../components/Body/Body";
+import LocationRooms from "../pages/LocationRooms/LocationRooms";
+import UserProfile from "../pages/User/UserProfile";
+import AdminTemplate from "../templates/AdminTemplate/AdminTemplate";
+import NotFound from "../pages/NotFound/NotFound";
 import ListRoomsPage from "../pages/ListRoomsPage/ListRoomsPage";
 import RoomDetail from "../pages/RoomDetail/RoomDetail";
 
@@ -16,6 +20,14 @@ const useRoutesCustom = () => {
         {
           index: true,
           element: <Body />,
+        },
+        {
+          path: "/location-rooms",
+          element: <LocationRooms />,
+        },
+        {
+          path: "/user-profile",
+          element: <UserProfile />,
         },
         {
           path: pathDefault.listRooms,
@@ -34,6 +46,14 @@ const useRoutesCustom = () => {
     {
       path: pathDefault.login,
       element: <LoginPage />,
+    },
+    {
+      path: pathDefault.admin,
+      element: <AdminTemplate />,
+    },
+    {
+      path: "/*",
+      element: <NotFound />,
     },
   ]);
   return routes;
