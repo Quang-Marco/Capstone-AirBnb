@@ -251,7 +251,7 @@ const Categories = () => {
               .filter((category) => category.maViTri === activeTab)
               .map((category) => (
                 <Link
-                  to={pathDefault.homePage}
+                  to={`${pathDefault.roomDetail}?id=${category.id}`}
                   key={category.id}
                   className="cursor-pointer relative group"
                 >

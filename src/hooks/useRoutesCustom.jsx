@@ -8,7 +8,6 @@ import LocationRooms from "../pages/LocationRooms/LocationRooms";
 import UserProfile from "../pages/User/UserProfile";
 import AdminTemplate from "../templates/AdminTemplate/AdminTemplate";
 import NotFound from "../pages/NotFound/NotFound";
-import ListRoomsPage from "../pages/ListRoomsPage/ListRoomsPage";
 import RoomDetail from "../pages/RoomDetail/RoomDetail";
 import AdminLogin from "../pages/AdminLogin/AdminLogin";
 
@@ -23,20 +22,12 @@ const useRoutesCustom = () => {
           element: <Body />,
         },
         {
-          path: pathDefault.listRooms,
-          element: <LocationRooms />,
-        },
-        {
-          path: pathDefault.roomDetail,
-          element: <LocationRooms />,
-        },
-        {
           path: "/user-profile",
           element: <UserProfile />,
         },
         {
           path: pathDefault.listRooms,
-          element: <ListRoomsPage />,
+          element: <LocationRooms />,
         },
         {
           path: pathDefault.roomDetail,

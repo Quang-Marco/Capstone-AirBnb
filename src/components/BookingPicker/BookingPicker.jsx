@@ -8,7 +8,7 @@ import { NotificationContext } from "../../App";
 
 const { RangePicker } = DatePicker;
 
-const BookingForm = ({ roomPrice, roomId }) => {
+const BookingPicker = ({ roomPrice, roomId }) => {
   const { handleNotification } = useContext(NotificationContext);
   const [bookingDays, setBookingDays] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -55,7 +55,9 @@ const BookingForm = ({ roomPrice, roomId }) => {
       title: (
         <div>
           Pets <br />{" "}
-          <span className="underline text-sm">Bringing a service animal?</span>
+          <span className="underline text-xs lg:text-sm">
+            Bringing a service animal?
+          </span>
         </div>
       ),
       field: "pets",
@@ -94,7 +96,7 @@ const BookingForm = ({ roomPrice, roomId }) => {
     onSubmit: (values) => {
       console.log("Booking values:", values);
       datPhongService
-        .bookRoom({
+        .postBookedRoom({
           maPhong: roomId,
           ngayDen: values.checkin,
           ngayDi: values.checkout,
@@ -138,8 +140,9 @@ const BookingForm = ({ roomPrice, roomId }) => {
       {/* Guest Picker */}
       <div className="guestPicker">
         <button
+          type="button"
           onClick={toggleDropdown}
-          className="dropdown-button font-semibold text-sm text-left border w-full rounded-b-lg"
+          className="dropdown-button font-semibold text-xs lg:text-sm text-left border border-gray-400 w-full rounded-b-lg"
           style={{ padding: "10px" }}
         >
           GUESTS
@@ -149,22 +152,22 @@ const BookingForm = ({ roomPrice, roomId }) => {
           </span>
           <div>
             {values.adults !== 0 ? (
-              <span className="text-gray-500 text-xs">
+              <span className="text-gray-500 text-xs lg:text-md font-normal">
                 {values.adults} adults
               </span>
             ) : null}
             {values.children !== 0 ? (
-              <span className="text-gray-500 text-xs">
+              <span className="text-gray-500 text-xs lg:text-md font-normal">
                 , {values.children} children
               </span>
             ) : null}
             {values.infants !== 0 ? (
-              <span className="text-gray-500 text-xs">
+              <span className="text-gray-500 text-xs lg:text-md font-normal">
                 , {values.infants} infants
               </span>
             ) : null}
             {values.pets !== 0 ? (
-              <span className="text-gray-500 text-xs">
+              <span className="text-gray-500 text-xs lg:text-md font-normal">
                 , {values.pets} pets
               </span>
             ) : null}
@@ -172,7 +175,7 @@ const BookingForm = ({ roomPrice, roomId }) => {
         </button>
 
         {isGuestPickerOpen && (
-          <div className="guestDropdown p-3">
+          <div className="guestDropdown border rounded-md shadow-md p-3">
             {guestPicker.map((item, index) => {
               return (
                 <div
@@ -180,9 +183,14 @@ const BookingForm = ({ roomPrice, roomId }) => {
                   className="guest-option flex justify-between mb-4"
                 >
                   <div>
-                    <span className="font-semibold">{item.title}</span> <br />
+                    <span className="text-sm lg:text-base font-semibold">
+                      {item.title}
+                    </span>{" "}
+                    <br />
                     {item.age && (
-                      <span className="text-gray-500 text-sm">{item.age}</span>
+                      <span className="text-xs lg:text-sm text-gray-500">
+                        {item.age}
+                      </span>
                     )}
                   </div>
                   <div>
@@ -195,37 +203,41 @@ const BookingForm = ({ roomPrice, roomId }) => {
                         )
                       }
                       disabled={values[item.field] <= item.minValue}
-                      className="px-2 py-1 bg-gray-200 rounded"
+                      className="px-1 py-[2px] rounded-full border border-black dark:border-white opacity-60 hover:opacity-100 duration-300"
                     >
-                      -
+                      <i className="fa-regular fa-minus w-5 h-5"></i>
                     </button>
-                    <span className="mx-2">{values[item.field]}</span>
+                    <span className="mx-2 text-sm lg:text-base">
+                      {values[item.field]}
+                    </span>
                     <button
                       type="button"
                       onClick={() =>
                         setFieldValue(item.field, values[item.field] + 1)
                       }
-                      className="px-2 py-1 bg-gray-200 rounded"
+                      className="px-1 py-[2px] rounded-full border border-black dark:border-white opacity-60 hover:opacity-100 duration-300"
                     >
-                      +
+                      <i className="fa-regular fa-plus w-5 h-5"></i>
                     </button>
                   </div>
                 </div>
               );
             })}
-            <div className="text-sm text-gray-500">
+            <div className="text-xs lg:text-sm text-gray-500">
               This place has a maximum of 2 guests, not including infants. If
               you're bringing more than 2 pets, please let your Host know.
             </div>
-            <button
-              onClick={() => {
-                setIsGuestPickerOpen(false);
-              }}
-              className="underline block font-semibold"
-              style={{ textAlign: "right" }}
-            >
-              Close
-            </button>
+            <div className="flex justify-end">
+              <button
+                onClick={() => {
+                  setIsGuestPickerOpen(false);
+                }}
+                className="underline block font-semibold text-sm lg:text-base"
+                style={{ textAlign: "right" }}
+              >
+                Close
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -233,17 +245,17 @@ const BookingForm = ({ roomPrice, roomId }) => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-[#DB0B64] text-white rounded-md cursor-pointer font-semibold mt-5"
+        className="w-full bg-[#DB0B64] text-white rounded-md cursor-pointer font-semibold text-base lg:text-md mt-5"
         style={{ padding: "12px 0" }}
       >
         Reserve
       </button>
 
       {/* Booking Summary */}
-      <span className="block text-center text-base mt-3">
+      <span className="block text-center text-sm lg:text-base mt-3">
         You won't be charged yet
       </span>
-      <div>
+      <div className="text-sm lg:text-base">
         <div className="py-6" style={{ lineHeight: "2" }}>
           <div className="flex justify-between">
             <span className="underline">
@@ -261,11 +273,11 @@ const BookingForm = ({ roomPrice, roomId }) => {
           </div>
         </div>
         <div className="flex justify-between font-semibold border-t py-5">
-          <span>Total</span>
+          <span>Total before taxes</span>
           <span>${finalPrice}</span>
         </div>
       </div>
     </form>
   );
 };
-export default BookingForm;
+export default BookingPicker;

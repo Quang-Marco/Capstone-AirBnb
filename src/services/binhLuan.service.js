@@ -1,6 +1,6 @@
 import { http } from "./config";
 
-export const commentService = {
+export const binhLuanService = {
   getComments: () => http.get(`/binh-luan`),
 
   postComment: (comment, token) =>
