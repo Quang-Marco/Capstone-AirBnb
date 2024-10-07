@@ -11,7 +11,7 @@ const UserTemplate = () => {
       <Outlet />
       <Footer />
       <ScrollToTop
-        className="hover:bg-green-500 duration-300 flex items-center justify-center"
+        className="hover:bg-rose-500 duration-300 flex items-center justify-center"
         width="16"
         height="16"
         smooth
