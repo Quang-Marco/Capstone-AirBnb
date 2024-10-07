@@ -10,6 +10,7 @@ import AdminTemplate from "../templates/AdminTemplate/AdminTemplate";
 import NotFound from "../pages/NotFound/NotFound";
 import ListRoomsPage from "../pages/ListRoomsPage/ListRoomsPage";
 import RoomDetail from "../pages/RoomDetail/RoomDetail";
+import AdminLogin from "../pages/AdminLogin/AdminLogin";
 
 const useRoutesCustom = () => {
   const routes = useRoutes([
@@ -22,7 +23,11 @@ const useRoutesCustom = () => {
           element: <Body />,
         },
         {
-          path: "/location-rooms",
+          path: pathDefault.listRooms,
+          element: <LocationRooms />,
+        },
+        {
+          path: pathDefault.roomDetail,
           element: <LocationRooms />,
         },
         {
@@ -54,6 +59,10 @@ const useRoutesCustom = () => {
     {
       path: "/*",
       element: <NotFound />,
+    },
+    {
+      path: pathDefault.adminLogin,
+      element: <AdminLogin />,
     },
   ]);
   return routes;
