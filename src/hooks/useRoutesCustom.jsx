@@ -21,7 +21,11 @@ const useRoutesCustom = () => {
           element: <Body />,
         },
         {
-          path: "/location-rooms",
+          path: pathDefault.listRooms,
+          element: <LocationRooms />,
+        },
+        {
+          path: pathDefault.roomDetail,
           element: <LocationRooms />,
         },
         {
