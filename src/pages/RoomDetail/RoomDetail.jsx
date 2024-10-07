@@ -411,7 +411,7 @@ const RoomDetail = () => {
           console.log(err);
         });
       commentService
-        .getCommentById(roomId)
+        .getCommentsByRoomId(roomId)
         .then((res) => {
           console.log(res);
           setListComment(res.data.content);
