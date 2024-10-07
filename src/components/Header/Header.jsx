@@ -11,6 +11,7 @@ import Navbar from "./Navbar";
 import UserMenu from "./UserMenu";
 import CustomDropdown from "./CustomDropdown";
 import { viTriService } from "../../services/viTri.service";
+import { pathDefault } from "../../common/path";
 
 const removeAccents = (str) =>
   str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -18,7 +19,7 @@ const removeAccents = (str) =>
 const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [maViTri, setMaViTri] = useState(0);
+  const [idLocation, setIdLocation] = useState(0);
   const [listLocation, setListLocation] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [locationOpen, setLocationOpen] = useState(false);
@@ -54,7 +55,7 @@ const Header = () => {
           <div
             onClick={() => {
               setSearchValue(`${item.tenViTri}, ${item.tinhThanh}`);
-              setMaViTri(item.id);
+              setIdLocation(item.id);
             }}
             className="flex items-center gap-3"
           >
@@ -236,7 +237,7 @@ const Header = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/location-rooms?maViTri=${maViTri}`);
+    navigate(`${pathDefault.listRooms}?idLocation=${idLocation}`);
   };
 
   const tabs = [

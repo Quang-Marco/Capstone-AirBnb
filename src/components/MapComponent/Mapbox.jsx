@@ -4,9 +4,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 const Mapbox = ({ longitude, latitude, tenViTri, tinhThanh, image }) => {
   const [popupInfo, setPopupInfo] = useState(null);
-  const mapRef = useRef(null); // Tạo ref cho map
+  const mapRef = useRef(null);
 
-  // Hàm để xử lý khi nhấn vào Marker
   const handleMarkerClick = () => {
     const locationInfo = {
       name: tenViTri,
@@ -20,23 +19,22 @@ const Mapbox = ({ longitude, latitude, tenViTri, tinhThanh, image }) => {
       setPopupInfo(locationInfo);
     }, 300);
 
-    setPopupInfo(null); // Reset popup
+    setPopupInfo(null);
   };
 
-  // Cập nhật bản đồ khi tọa độ thay đổi
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.flyTo({
         center: [longitude, latitude],
         zoom: 10,
-        essential: true, // Mọi animation cần được hoàn thành
+        essential: true,
       });
     }
   }, [longitude, latitude]);
 
   return (
     <Map
-      ref={mapRef} // Đặt ref cho map
+      ref={mapRef}
       mapboxAccessToken="pk.eyJ1IjoiZ2FpbG5ndXllbiIsImEiOiJjbTFxaW54dngwMGhnMmpwcTk2ZWNuZjZ4In0.HPELIvfx_t6_c7mLzgfbBA"
       initialViewState={{
         longitude: longitude,

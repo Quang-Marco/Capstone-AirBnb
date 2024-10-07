@@ -14,19 +14,19 @@ const LocationRooms = () => {
   const [listLocationRooms, setListLocationRooms] = useState([]);
   const [params, setParams] = useSearchParams();
   const [tenViTriTitle, setTenViTriTitle] = useState("");
-  const maViTri = params.get("maViTri");
+  const idLocation = params.get("idLocation");
 
   const mapDetail = mapLocationData.find(
-    (location) => location.id === parseInt(maViTri)
+    (location) => location.id === parseInt(idLocation)
   );
 
   const fetchData = async () => {
     try {
-      const result = await viTriService.getLocationsById(maViTri);
+      const result = await viTriService.getLocationsById(idLocation);
       setTenViTriTitle(
         `${result.data.content.tenViTri}, ${result.data.content.tinhThanh}`
       );
-      const res = await phongThueService.getRoomsByLocation(maViTri);
+      const res = await phongThueService.getRoomsByLocation(idLocation);
       setListLocationRooms(res.data.content);
     } catch (err) {
       console.log(err);
@@ -35,7 +35,7 @@ const LocationRooms = () => {
 
   useEffect(() => {
     fetchData();
-  }, [maViTri]);
+  }, [idLocation]);
 
   return (
     <Container>
@@ -63,11 +63,9 @@ const LocationRooms = () => {
             <div className="basis-full grid grid-cols-1 sm:grid-cols-2 sm:gap-5 lg:basis-3/5 lg:grid-cols-3 lg:gap-3">
               {listLocationRooms.map((category) => (
                 <div
-                  // to={pathDefault.homePage}
                   onClick={() => {
-                    navigate(`/roomDetail?id=${category.id}`);
+                    navigate(`${pathDefault.roomDetail}?id=${category.id}`);
                   }}
-                  // to={`/roomDetail?id=${category.id}`}
                   key={category.id}
                   className="cursor-pointer relative overflow-hidden group"
                 >

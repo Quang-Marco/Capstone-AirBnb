@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import Container from "../Container";
 import { phongThueService } from "../../services/phongThue.service";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { pathDefault } from "../../common/path";
 
 const Categories = () => {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(1);
   const [listCategories, setListCategories] = useState([]);
   const tabsRef = useRef(null);
@@ -252,7 +251,7 @@ const Categories = () => {
               .filter((category) => category.maViTri === activeTab)
               .map((category) => (
                 <Link
-                  to={`/roomDetail?id=${category.id}`}
+                  to={`${pathDefault.roomDetail}?id=${category.id}`}
                   key={category.id}
                   className="cursor-pointer relative group"
                 >
