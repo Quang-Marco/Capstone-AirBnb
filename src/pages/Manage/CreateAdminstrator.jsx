@@ -6,7 +6,7 @@ import InputCustom from "../../components/FormInput/FormInput";
 const CreateAdminstrator = () => {
   const { handleNotification } = useContext(NotificationContext);
   const { user } = useSelector((state) => state.authSlice);
-  const [userValue, setUserValue] = useState({
+  const initialUserValue = {
     name: "",
     email: "",
     password: "",
@@ -17,12 +17,8 @@ const CreateAdminstrator = () => {
     role: "ADMIN",
     skill: [],
     certification: [],
-  });
-
-  const [uploadImage, setUploadImage] = useState(null);
-  const [errorImage, setErrorImage] = useState("");
-  const inputFileRef = useRef(null);
-
+  };
+  const [userValue, setUserValue] = useState({ initialUserValue });
   const [errors, setErrors] = useState({});
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
@@ -45,26 +41,28 @@ const CreateAdminstrator = () => {
       "role",
     ];
     for (const field of requiredFields) {
-      if (!userValue[field].trim()) {
+      if (typeof userValue[field] === "string" && !userValue[field].trim()) {
         formErrors[field] = "This field cannot be left blank";
+      } else if (userValue[field] == null || userValue[field] === undefined) {
+        formErrors[field] = "This field is required";
       }
     }
-    if (userValue.email.trim()) {
+    if (userValue.email && typeof userValue.email === "string") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(userValue.email)) {
+      if (!emailRegex.test(userValue.email.trim())) {
         formErrors.email = "Please enter a valid email address";
       }
     }
-    if (userValue.phone.trim()) {
+    if (userValue.phone && typeof userValue.phone === "string") {
       const phoneRegex = /^(0|\+84)[3|5|7|8|9][0-9]{8}$/;
-      if (!phoneRegex.test(userValue.phone)) {
+      if (!phoneRegex.test(userValue.phone.trim())) {
         formErrors.phone = "Please enter a valid phone number (digits only)";
       }
     }
-    if (userValue.password.trim()) {
+    if (userValue.password && typeof userValue.password === "string") {
       const minPasswordLength = 8;
       const passwordRegex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Check for lowercase, uppercase, digits, and special characters
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       if (
         userValue.password.length < minPasswordLength ||
         !passwordRegex.test(userValue.password)
@@ -76,7 +74,10 @@ const CreateAdminstrator = () => {
 
     return formErrors;
   };
-
+  const resetForm = () => {
+    setUserValue(initialUserValue);
+    setErrors({});
+  };
   const handleSubmitFormCreateUser = (e) => {
     e.preventDefault();
     const formErrors = validateForm();
@@ -86,10 +87,11 @@ const CreateAdminstrator = () => {
       setErrors({});
       console.log(userValue);
       userService
-        .postUser(user.token, userValue)
+        .postUser(userValue, user.token)
         .then((res) => {
           console.log(res);
           handleNotification("Add successfully", "success");
+          resetForm();
         })
         .catch((err) => {
           console.log(err);
@@ -177,7 +179,7 @@ const CreateAdminstrator = () => {
           name="role"
           onChange={handleChangeValue}
           value={"ADMIN"}
-          disabled
+          // disabled
         ></input>
         {errors.role && (
           <p className="italic mt-5 text-red-500 text-sm">*{errors.role}</p>

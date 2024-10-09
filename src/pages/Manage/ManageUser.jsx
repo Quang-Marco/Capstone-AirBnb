@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Button, Modal, Space, Table, Tag } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { NotificationContext } from "../../App";
@@ -10,11 +10,15 @@ import { notiValidation } from "../../common/notiValidation";
 import InputCustom from "../../components/FormInput/FormInput";
 import CreateAdminstrator from "./CreateAdminstrator";
 const ManageUser = () => {
-  const { user } = useSelector((state) => state.authSlice);
   const { handleNotification } = useContext(NotificationContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalUploadOpen, setIsModalUploadOpen] = useState(false);
   const [isModalAdminOpen, setIsModalAdminOpen] = useState(false);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.authSlice);
+  const [uploadImage, setUploadImage] = useState(null);
+  const [errorImage, setErrorImage] = useState("");
+  const inputFileRef = useRef(null);
   const { listUsers } = useSelector((state) => state.userSlice);
   const {
     handleBlur,
@@ -40,12 +44,7 @@ const ManageUser = () => {
       console.log(values);
       setIsModalOpen(false);
       userService
-        .updateUser(
-          //user.token
-          " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNDQ0IiwiZW1haWwiOiJ0b255QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsIm5iZiI6MTcyNzYwMzA3OCwiZXhwIjoxNzI4MjA3ODc4fQ.UoUgPraEvtpJvp9dObRjgalLesPwwgMrPs1AGHzUvSs",
-          values.id,
-          values
-        )
+        .updateUser(values.id, values)
         .then((res) => {
           console.log(res);
           handleNotification("Update thành công", "success");
@@ -88,11 +87,42 @@ const ManageUser = () => {
         console.log(err);
       });
   };
-  const showAddAdmin = () => {
-    setIsModalAdminOpen(true);
+
+  const handleSubmitAvatar = (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    if (uploadImage) {
+      formData.append("formFile", uploadImage.img);
+      userService
+        .uploadAvatar(
+          formData,
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNDc4IiwiZW1haWwiOiJ0b255MDAxQHlhaG9vLmNvbSIsInJvbGUiOiJBRE1JTiIsIm5iZiI6MTcyODEyMDM1MiwiZXhwIjoxNzI4NzI1MTUyfQ.UMDrAn8hSPUOKuCq6QqmBv0LCXmQUvSuvLucVw_L248"
+          // user.token
+        )
+        .then((res) => {
+          console.log(res);
+          handleNotification("Upload avatar successfully", "success");
+          dispatch(getValueUserApi());
+        })
+        .catch((err) => {
+          console.log(err);
+          handleNotification(err.message, "error");
+          dispatch(getValueUserApi());
+        });
+    }
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+  const showModalUpload = () => {
+    setIsModalUploadOpen(true);
+  };
+  const handleUploadCancel = () => {
+    setIsModalUploadOpen(false);
+  };
+  const showAddAdmin = () => {
+    setIsModalAdminOpen(true);
   };
   const handleAdminCancel = () => {
     setIsModalAdminOpen(false);
@@ -112,7 +142,7 @@ const ManageUser = () => {
       title: "Avatar",
       dataIndex: "avatar",
       key: "avatar",
-      render: (text) => <img className="h-14" src={text} alt="avatar" />,
+      render: (text) => <img className="h-20 w-24" src={text} alt="avatar" />,
     },
     {
       title: "Email",
@@ -145,11 +175,7 @@ const ManageUser = () => {
           <button
             onClick={() => {
               userService
-                .deleteUser(
-                  //user.token,
-                  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNDQ0IiwiZW1haWwiOiJ0b255QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsIm5iZiI6MTcyNzYwMzA3OCwiZXhwIjoxNzI4MjA3ODc4fQ.UoUgPraEvtpJvp9dObRjgalLesPwwgMrPs1AGHzUvSs",
-                  record.id
-                )
+                .deleteUser(record.id)
                 .then((res) => {
                   console.log(res);
                   handleNotification(res.data.message, "success");
@@ -269,6 +295,66 @@ const ManageUser = () => {
               </div>
             </form>
           </Modal>
+
+          <button
+            onClick={() => {
+              showModalUpload(record.id);
+            }}
+            className="bg-green-500 text-white py-2 px-5 rounded-md hover:bg-yellow-500/80 duration-300"
+          >
+            Upload Avartar
+          </button>
+          <Modal
+            open={isModalUploadOpen}
+            // onOk={handleSubmitAvatar}
+            onCancel={handleUploadCancel}
+            okButtonProps={{ style: { display: "none" } }}
+          >
+            <form onSubmit={handleSubmitAvatar} className="space-y-2">
+              <h2 className="text-2xl">Upload new avatar</h2>
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Choose an image
+                </label>
+                <input
+                  accept="image/png, image/jpeg"
+                  type="file"
+                  ref={inputFileRef}
+                  onChange={(e) => {
+                    const img = e.target.files[0];
+                    if (img) {
+                      if (img.size > 1024 * 1024) {
+                        setErrorImage("Vui lòng upload hình ảnh dưới 1MB");
+                        return;
+                      }
+                      const imgURL = URL.createObjectURL(img);
+                      setUploadImage({ img, imgURL });
+                    }
+                  }}
+                />
+              </div>
+              <p className="text-red-500">{errorImage}</p>
+              {uploadImage ? (
+                <img className="w-32" src={uploadImage?.imgURL} alt="avatar" />
+              ) : null}
+              <button
+                type="submit"
+                className="py-2 px-5 bg-green-700 text-white rounded-md hover:bg-green-600 duration-300"
+              >
+                Upload
+              </button>
+              <button
+                onClick={() => {
+                  setUploadImage(null);
+                  setErrorImage("");
+                  inputFileRef.current.value = "";
+                }}
+                className="py-2 px-5 ml-5 bg-red-600 text-white rounded-md hover:bg-red-500 duration-300"
+              >
+                Delete
+              </button>
+            </form>
+          </Modal>
         </Space>
       ),
     },
@@ -284,7 +370,7 @@ const ManageUser = () => {
             onClick={showAddAdmin}
             className="px-4 py-2 bg-gray-200 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-300"
           >
-            Thêm quản trị viên
+            Add Admin
           </Button>
           <Modal
             title="Adding Adminstrator"
@@ -298,10 +384,10 @@ const ManageUser = () => {
             <input
               className="w-[280px] border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="text"
-              placeholder="Nhập tài khoản hoặc tên người dùng"
+              placeholder="Search by name or account"
             />
             <button className="px-4 py-2 bg-gray-200 text-gray-800 border-r  text-sx border-gray-300 hover:bg-gray-300 rounded-lg">
-              Tìm <i className="fa-solid fa-magnifying-glass"></i>
+              Search <i className="fa-solid fa-magnifying-glass"></i>
             </button>
           </div>
         </div>

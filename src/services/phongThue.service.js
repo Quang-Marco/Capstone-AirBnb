@@ -26,10 +26,10 @@ export const phongThueService = {
     http.post(`/phong-thue`, room, { headers: { token } }),
 
   updateRoom: (id, newRoom, token) =>
-    http.put(`/phong-thue${id}`, newRoom, { headers: { token } }),
+    http.put(`/phong-thue/${id}`, newRoom, { headers: { token } }),
 
   deleteRoom: (id, token) =>
-    http.delete(`/phong-thue${id}`, { headers: { token } }),
+    http.delete(`/phong-thue/${id}`, { headers: { token } }),
 
   getRoomsByLocation: (maViTri) =>
     http.get(`/phong-thue/lay-phong-theo-vi-tri?maViTri=${maViTri}`),

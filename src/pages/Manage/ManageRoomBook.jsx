@@ -64,7 +64,7 @@ const ManageRoomBook = () => {
   const showModal = (roomId) => {
     setIsModalOpen(true);
     datPhongService
-      .getRoomById(roomId)
+      .getBookedRoomsById(roomId)
       .then((res) => {
         console.log(res);
         setValues(res.data.content);
@@ -87,32 +87,32 @@ const ManageRoomBook = () => {
 
   const columns = [
     {
-      title: "ID",
+      title: "ID ",
       dataIndex: "id",
       key: "id",
     },
     {
-      title: "Mã Nhân Viên",
+      title: "User ID",
       dataIndex: "maNguoiDung",
       key: "maNguoiDung",
     },
     {
-      title: "Mã Phòng",
+      title: "Room ID",
       dataIndex: "maPhong",
       key: "maPhong",
     },
     {
-      title: "Ngày Đến",
+      title: "Arrival",
       dataIndex: "ngayDen",
       key: "ngayDen",
     },
     {
-      title: "Ngày Đi",
+      title: "Departure",
       dataIndex: "ngayDi",
       key: "ngayDi",
     },
     {
-      title: "Số Lượng Khách",
+      title: "Guest",
       dataIndex: "soLuongKhach",
       key: "soLuongKhach",
     },

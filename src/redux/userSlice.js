@@ -3,14 +3,15 @@ import { userService } from "../services/user.service";
 
 export const getValueUserApi = createAsyncThunk(
   "user/getValueUserApi",
-  async (_, ThunkAPI) => {
-    const result = await userService.getAllUser();
+  async () => {
+    const result = await userService.getUsers();
+    console.log(result.data.content);
     return result.data.content;
   }
 );
 export const updateUser = createAsyncThunk(
   "user/updateUser",
-  async ({ userId, userData }, ThunkAPI) => {
+  async ({ userId, userData }) => {
     const result = await userService.updateUser(userId, userData);
     return result.data.content;
   }

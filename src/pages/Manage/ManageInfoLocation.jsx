@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { getViTriApi } from "../../redux/viTriSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -6,12 +6,48 @@ import { Button, Modal, Space, Table } from "antd";
 import { viTriService } from "../../services/viTri.service";
 import InputCustom from "../../components/FormInput/FormInput";
 import { NotificationContext } from "../../App";
+import CreateNewLocation from "./CreateNewLocation";
 const ManageInfoLocation = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.authSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isModalLocationOpen, setIsModalLocationOpen] = useState(false);
+  const [isModalUploadOpen, setIsModalUploadOpen] = useState(false);
   const { handleNotification } = useContext(NotificationContext);
   const { listViTri } = useSelector((state) => state.viTriSlice);
+  const [selectedId, setSelectedId] = useState(null);
+  const handleSelectedId = (id) => {
+    setSelectedId(id);
+  };
+  const [uploadImage, setUploadImage] = useState(null);
+  const [errorImage, setErrorImage] = useState("");
+  const inputFileRef = useRef(null);
+
+  const handleSubmitImage = (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    if (uploadImage) {
+      formData.append("formFile", uploadImage.img);
+      viTriService
+        .uploadImageLocation(
+          selectedId,
+          formData,
+          // user.token
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNDc4IiwiZW1haWwiOiJ0b255MDAxQHlhaG9vLmNvbSIsInJvbGUiOiJBRE1JTiIsIm5iZiI6MTcyODIwMjczMywiZXhwIjoxNzI4ODA3NTMzfQ.QklrvJVCLqtAt2IGJm5jnldQOuNu7ABgzGHmNLm9RSo"
+        )
+        .then((res) => {
+          console.log(res);
+          handleNotification("Upload avatar successfully", "success");
+          dispatch(getViTriApi());
+        })
+        .catch((err) => {
+          console.log(err);
+          handleNotification(err.message, "error");
+          dispatch(getViTriApi());
+        });
+    }
+  };
+
   const {
     handleBlur,
     handleChange,
@@ -28,28 +64,34 @@ const ManageInfoLocation = () => {
       tenViTri: "",
       tinhThanh: "",
       quocGia: "",
-      hinhAnh: "",
     },
     onSubmit: (values) => {
       console.log(values);
-      setIsModalOpen(false);
+
       viTriService
-        .updateViTri(values.id, values)
+        .updateLocation(
+          values.id,
+          values, //user.token
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNDc4IiwiZW1haWwiOiJ0b255MDAxQHlhaG9vLmNvbSIsInJvbGUiOiJBRE1JTiIsIm5iZiI6MTcyODIwMjczMywiZXhwIjoxNzI4ODA3NTMzfQ.QklrvJVCLqtAt2IGJm5jnldQOuNu7ABgzGHmNLm9RSo"
+        )
         .then((res) => {
           console.log(res);
           handleNotification("Update thành công", "success");
+          setIsModalOpen(false);
           dispatch(getViTriApi());
         })
         .catch((err) => {
           console.log(err);
           handleNotification("Update thất bại", "error");
+          setIsModalOpen(true);
+          dispatch(getViTriApi());
         });
     },
   });
   const showModal = (id) => {
     setIsModalOpen(true);
     viTriService
-      .getViTriById(id)
+      .getLocationsById(id)
       .then((res) => {
         console.log(res);
         setValues(res.data.content);
@@ -58,9 +100,16 @@ const ManageInfoLocation = () => {
         console.log(err);
       });
   };
-
+  const showCreateNewLocationModal = () => {
+    setIsModalLocationOpen(true);
+  };
+  const showUploadImageModal = () => {
+    setIsModalUploadOpen(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsModalLocationOpen(false);
+    setIsModalUploadOpen(false);
   };
   const columns = [
     {
@@ -74,18 +123,18 @@ const ManageInfoLocation = () => {
       key: "tenViTri",
     },
     {
-      title: "Hình Ảnh",
+      title: "Image",
       dataIndex: "hinhAnh",
       key: "hinhAnh",
-      render: (text) => <img className="h-14" src={text} alt="avatar" />,
+      render: (text) => <img className="h-20 w-24" src={text} alt="avatar" />,
     },
     {
-      title: "Tỉnh Thành",
+      title: "Province",
       key: "tinhThanh",
       dataIndex: "tinhThanh",
     },
     {
-      title: "Quốc Gia",
+      title: "Nation",
       dataIndex: "quocGia",
       key: "quocGia",
     },
@@ -98,7 +147,10 @@ const ManageInfoLocation = () => {
           <button
             onClick={() => {
               viTriService
-                .deleteUser(record.id)
+                .deleteLocation(
+                  record.id, //user.token
+                  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNDc4IiwiZW1haWwiOiJ0b255MDAxQHlhaG9vLmNvbSIsInJvbGUiOiJBRE1JTiIsIm5iZiI6MTcyODIwMjczMywiZXhwIjoxNzI4ODA3NTMzfQ.QklrvJVCLqtAt2IGJm5jnldQOuNu7ABgzGHmNLm9RSo"
+                )
                 .then((res) => {
                   console.log(res);
                   handleNotification(res.data.message, "success");
@@ -126,10 +178,11 @@ const ManageInfoLocation = () => {
             Edit Info
           </button>
           <Modal
-            title="User Information"
+            title="Location Information"
             open={isModalOpen}
             onOk={handleSubmit}
             onCancel={handleCancel}
+            okText="Update"
           >
             <form className="space-y-5" onSubmit={handleSubmit}>
               <InputCustom
@@ -170,6 +223,71 @@ const ManageInfoLocation = () => {
               />
             </form>
           </Modal>
+          <button
+            onClick={() => {
+              showUploadImageModal(true);
+              handleSelectedId(record.id);
+            }}
+            className="bg-green-500 text-white py-2 px-5 rounded-md hover:bg-yellow-500/80 duration-300"
+          >
+            Upload Image
+          </button>
+          <Modal
+            open={isModalUploadOpen}
+            okButtonProps={{ style: { display: "none" } }}
+            onCancel={handleCancel}
+          >
+            <div>
+              <form onSubmit={handleSubmitImage} className="space-y-2">
+                <h2 className="text-2xl">Upload Image Location</h2>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Choose an image
+                  </label>
+                  <input
+                    accept="image/png, image/jpeg"
+                    type="file"
+                    ref={inputFileRef}
+                    onChange={(e) => {
+                      const img = e.target.files[0];
+                      if (img) {
+                        if (img.size > 1024 * 1024) {
+                          setErrorImage("Vui lòng upload hình ảnh dưới 1mb ");
+                          return;
+                        }
+                        const imgURL = URL.createObjectURL(img);
+                        setUploadImage({ img, imgURL });
+                      }
+                    }}
+                  />
+                </div>
+                <p className="text-red-500">{errorImage}</p>
+                {uploadImage ? (
+                  <img
+                    className="w-32"
+                    src={uploadImage?.imgURL}
+                    alt="avatar"
+                  />
+                ) : null}
+                <button
+                  type="submit"
+                  className="py-2 px-5 bg-green-700 text-white rounded-md hover:bg-green-600 duration-300"
+                >
+                  Upload
+                </button>
+                <button
+                  onClick={() => {
+                    setUploadImage(null);
+                    setErrorImage("");
+                    inputFileRef.current.value = "";
+                  }}
+                  className="py-2 px-5 ml-5 bg-red-600 text-white rounded-md hover:bg-red-500 duration-300"
+                >
+                  Delete
+                </button>
+              </form>
+            </div>
+          </Modal>
         </Space>
       ),
     },
@@ -177,20 +295,32 @@ const ManageInfoLocation = () => {
   useEffect(() => {
     dispatch(getViTriApi());
   }, []);
+
   return (
     <div>
       <div className="flex space-x-4 mb-5">
-        <Button className="px-4 py-2 bg-gray-200 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-300">
-          Thêm địa điểm
+        <Button
+          onClick={showCreateNewLocationModal}
+          className="px-4 py-2 bg-gray-200 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-300"
+        >
+          Add Location
         </Button>
+        <Modal
+          title={"Add Location"}
+          open={isModalLocationOpen}
+          okButtonProps={{ style: { display: "none" } }}
+          onCancel={handleCancel}
+        >
+          <CreateNewLocation />
+        </Modal>
         <div className="flex space-x-3">
           <input
             className="w-[280px] border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="text"
-            placeholder="Nhập tên địa điểm"
+            placeholder="Search by name location"
           />
           <button className="px-4 py-2 bg-gray-200 text-gray-800 border-r  text-sx border-gray-300 hover:bg-gray-300 rounded-lg">
-            Tìm <i className="fa-solid fa-magnifying-glass"></i>
+            Search <i className="fa-solid fa-magnifying-glass"></i>
           </button>
         </div>
       </div>

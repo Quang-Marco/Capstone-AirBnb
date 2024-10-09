@@ -4,7 +4,7 @@ import { datPhongService } from "../services/datPhong.service";
 export const getBookedRoomApi = createAsyncThunk(
   "bookedRoom/getBookedRoomApi",
   async () => {
-    const result = await datPhongService.getPhongDaDat();
+    const result = await datPhongService.getBookedRooms();
     return result.data.content;
     //convert date ở đây
   }

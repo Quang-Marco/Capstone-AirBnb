@@ -1,16 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { viTriService } from "../services/viTri.service";
-export const getViTriApi = createAsyncThunk(
-  "viTri/getViTriApi",
-  async (_, ThunkAPI) => {
-    const result = await viTriService.getViTri();
-    return result.data.content;
-  }
-);
-export const updateViTri = createAsyncThunk(
-  "viTri/updateViTri",
-  async ({ id, data }, ThunkAPI) => {
-    const result = await viTriService.updateViTri(id, data);
+export const getViTriApi = createAsyncThunk("viTri/getViTriApi", async () => {
+  const result = await viTriService.getLocations();
+  return result.data.content;
+});
+export const updateLocation = createAsyncThunk(
+  "viTri/updateLocation",
+  async ({ id, data }) => {
+    const result = await viTriService.updateLocation(
+      id,
+      data,
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNDc4IiwiZW1haWwiOiJ0b255MDAxQHlhaG9vLmNvbSIsInJvbGUiOiJBRE1JTiIsIm5iZiI6MTcyODA1NTExMCwiZXhwIjoxNzI4NjU5OTEwfQ.Sk89Y-mpYVXuVzZe8hoNeBwF35DzYt3WaF989BpHdrw"
+    );
     return result.data.content;
   }
 );
@@ -23,25 +24,25 @@ const viTriSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getViTriApi.fulfilled, (state, action) => {
-      console.log("Call API user thành công");
+      console.log("Call API Location thành công");
       state.listViTri = action.payload;
     });
-    builder.addCase(getViTriApi.pending, (state, action) => {
-      console.log("Đang chờ xử lý API user");
+    builder.addCase(getViTriApi.pending, () => {
+      console.log("Đang chờ xử lý API Location");
     });
-    builder.addCase(getViTriApi.rejected, (state, action) => {
-      console.log("Call API Bị lỗi user");
+    builder.addCase(getViTriApi.rejected, () => {
+      console.log("Call API Bị lỗi Location");
     });
-    builder.addCase(updateViTri.fulfilled, (state, action) => {
+    builder.addCase(updateLocation.fulfilled, (state, action) => {
       console.log(action);
-      console.log("Cập nhật người dùng thành công");
+      console.log("Cập nhật vị trí thành công");
 
-      state.listUsers = state.listUsers.map((user) => {
-        user.id === action.payload.id ? action.payload : user;
+      state.listViTri = state.listViTri.map((vitri) => {
+        vitri.id === action.payload.id ? action.payload : vitri;
       });
       state.updatingViTri = action.payload;
     });
-    builder.addCase(updateViTri.pending, () => {
+    builder.addCase(updateLocation.pending, () => {
       console.log("Đang chờ xử lý cập nhật");
     });
   },

@@ -8,9 +8,6 @@ import LocationRooms from "../pages/LocationRooms/LocationRooms";
 import UserProfile from "../pages/User/UserProfile";
 import AdminTemplate from "../templates/AdminTemplate/AdminTemplate";
 import NotFound from "../pages/NotFound/NotFound";
-import RoomDetail from "../pages/RoomDetail/RoomDetail";
-import AdminLogin from "../pages/AdminLogin/AdminLogin";
-
 import AdminTemplate from "../templates/AdminTemplate/AdminTemplate";
 import ManageUser from "../pages/Manage/ManageUser";
 import ManageInfoLocation from "../pages/Manage/ManageInfoLocation";
