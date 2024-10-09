@@ -22,7 +22,7 @@ const useRoutesCustom = () => {
           element: <Body />,
         },
         {
-          path: "/user-profile",
+          path: pathDefault.profile,
           element: <UserProfile />,
         },
         {
@@ -48,12 +48,12 @@ const useRoutesCustom = () => {
       element: <AdminTemplate />,
     },
     {
-      path: "/*",
-      element: <NotFound />,
-    },
-    {
       path: pathDefault.adminLogin,
       element: <AdminLogin />,
+    },
+    {
+      path: "/*",
+      element: <NotFound />,
     },
   ]);
   return routes;

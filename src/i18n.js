@@ -26,6 +26,7 @@ const resources = {
         user: {
           signup: "Sign up",
           login: "Log in",
+          logout: "Log out",
           giftCard: "Gift cards",
           profile: "Profile",
           experience: "Host an experience",
@@ -106,6 +107,7 @@ const resources = {
         user: {
           signup: "Đăng ký",
           login: "Đăng nhập",
+          logout: "Đăng xuất",
           giftCard: "Thẻ quà tặng",
           profile: "Trang cá nhân",
           experience: "Tổ chức trải nghiệm",

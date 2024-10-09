@@ -1,15 +1,21 @@
 import React, { useContext, useState } from "react";
 import { Button, Dropdown, Modal, Space, Tabs } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { pathDefault } from "../../common/path";
 import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../LanguageSwicher";
 import { ThemeContext } from "../ThemeContext";
+import { getLocalStorage } from "../../utils/utils";
+import { NotificationContext } from "../../App";
+import { useTranslation } from "react-i18next";
 
 const UserMenu = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { handleNotification } = useContext(NotificationContext);
   const { toggleTheme } = useContext(ThemeContext);
+  const user = getLocalStorage("user");
+  // const { user } = useSelector((state) => state.authSlice);
   const { listLanguages, listCurrency } = useSelector(
     (state) => state.listSlice
   );
@@ -90,14 +96,14 @@ const UserMenu = () => {
     },
     {
       key: "3",
-      label: (
+      label: user ? (
         <Link
-          to={"/user-profile"}
+          to={pathDefault.profile}
           className="block p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300"
         >
           {t("header.user.profile")}
         </Link>
-      ),
+      ) : null,
     },
     {
       key: "4",
@@ -122,6 +128,21 @@ const UserMenu = () => {
           {t("header.user.helpCenter")}
         </p>
       ),
+    },
+    {
+      key: "7",
+      label: user ? (
+        <div
+          onClick={() => {
+            localStorage.removeItem("user");
+            handleNotification("User logged out successfully", "success");
+            navigate(pathDefault.home);
+          }}
+          className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300"
+        >
+          {t("header.user.logout")}
+        </div>
+      ) : null,
     },
   ];
 
@@ -168,7 +189,15 @@ const UserMenu = () => {
       >
         <Space>
           <i className="fa-regular fa-bars dark:text-white"></i>
-          <i className="fa-solid fa-circle-user text-gray-500 dark:text-white text-2xl ml-2"></i>
+          {user?.user.avatar ? (
+            <img
+              className="w-8 h-8 rounded-full"
+              src={user?.user.avatar}
+              alt="avatar"
+            />
+          ) : (
+            <i className="fa-solid fa-circle-user text-gray-500 dark:text-white text-2xl ml-2"></i>
+          )}
         </Space>
       </Dropdown>
     </div>
