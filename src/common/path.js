@@ -2,7 +2,6 @@ export const pathDefault = {
   homePage: "/",
   register: "/register",
   login: "/login",
-  listRooms: "/listRooms",
-  roomDetail: "/roomDetail",
+  adminLogin: "/adminLogin",
   admin: "/admin",
 };
