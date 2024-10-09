@@ -7,13 +7,13 @@ import { NotificationContext } from "../../App";
 import { pathDefault } from "../../common/path";
 import { notiValidation } from "../../common/notiValidation";
 import * as yup from "yup";
-import { setLocalStorage } from "../../utils/utils";
+import { getLocalStorage, setLocalStorage } from "../../utils/utils";
 import { useDispatch } from "react-redux";
 import { setValueUser } from "../../redux/authSlice";
 import Container from "../../components/Container";
-import "./loginPage.scss";
+import "./adminLogin.scss";
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { handleNotification } = useContext(NotificationContext);
@@ -28,15 +28,32 @@ const LoginPage = () => {
           .signIn({ ...values })
           .then((res) => {
             console.log(res);
-            dispatch(setValueUser(res.data.content));
-            setLocalStorage("user", res.data.content);
-            handleNotification(
-              "Signin successfully. You will be redirected to Airbnb Homepage.",
-              "success"
-            );
-            setTimeout(() => {
-              navigate(pathDefault.homePage);
-            }, 2000);
+            if (res.data.content.user.role == "USER") {
+              handleNotification(
+                "You are not allowed to access Admin Page",
+                "error"
+              );
+              let warningAccess = getLocalStorage("warningAccess");
+              if (!warningAccess) {
+                setLocalStorage("warningAccess", 1);
+              } else {
+                warningAccess++;
+                warningAccess == 3
+                  ? (window.location.href = "https://google.com")
+                  : setLocalStorage("warningAccess", warningAccess);
+              }
+            } else {
+              setLocalStorage("user", res.data.content);
+              dispatch(setValueUser(res.data.content));
+              localStorage.removeItem("warningAccess");
+              handleNotification(
+                "Signin successfully. You will be redirected to Admin Page.",
+                "success"
+              );
+              setTimeout(() => {
+                navigate(pathDefault.admin);
+              }, 2000);
+            }
           })
           .catch((err) => {
             console.log(err);
@@ -59,10 +76,10 @@ const LoginPage = () => {
     });
   return (
     <Container
-      sectionName="loginPage"
-      backgroundImage="https://image.cnbcfm.com/api/v1/image/106011877-1562774879189za_120942_cape_town_beyond_000_webhero_1612_jva.jpg?v=1562774912"
+      sectionName="adminLoginPage"
+      backgroundImage="https://hips.hearstapps.com/hmg-prod/images/za-120942-cape-town-beyond-039-outdoorspace2-grid1-2070-edit-tc1-1561501672.jpg"
     >
-      <div className="loginOverlay">
+      <div className="adminLoginOverlay">
         <div className="flex justify-center border-b-2 gap-5 ">
           <svg width="102" height="32" className="my-auto">
             <path
@@ -75,11 +92,11 @@ const LoginPage = () => {
             ></path>
           </svg>
           <div className="py-5 text-center font-extrabold text-xl text-white">
-            Sign in
+            Admin
           </div>
         </div>
-        <h2 className="text-center font-extrabold text-3xl text-[#F1295D] my-6">
-          Welcome back to Airbnb
+        <h2 className="text-center font-extrabold text-3xl text-white my-6">
+          Login to manage Admin Task
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="lg:flex lg:flex-wrap">
@@ -122,4 +139,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AdminLoginPage;
