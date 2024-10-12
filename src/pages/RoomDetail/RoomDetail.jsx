@@ -35,27 +35,6 @@ const RoomDetail = () => {
   const [rating, setRating] = useState(0);
   const [starHover, setStarHover] = useState(0);
 
-  const bookingCardRef = useRef(null);
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const parentHeight = bookingCardRef.current.parentNode.offsetHeight;
-      const cardHeight = bookingCardRef.current.offsetHeight;
-      const maxScroll = parentHeight - cardHeight - 20;
-      if (window.scrollY >= cardHeight) {
-        const newScrollY = Math.min(window.scrollY - cardHeight, maxScroll);
-        setScrollY(newScrollY);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   useEffect(() => {
     if (roomId) {
       phongThueService
@@ -95,7 +74,6 @@ const RoomDetail = () => {
         }
       }
     };
-    // Chạy hàm getLocationDetail mỗi khi idLocation thay đổi
     getLocationDetail();
   }, [roomDetail, idLocation]);
 
@@ -159,9 +137,9 @@ const RoomDetail = () => {
         alt=""
         className="rounded-xl"
       />
-      <div className="relative">
+      <div className="lg:flex justify-between">
         {/* room info */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 dark:text-white">
+        <div className="grid grid-cols-1 lg:basis-2/3 lg:grid-cols-3 dark:text-white">
           <div className="lg:col-span-2">
             {/* room title */}
             <div className="py-6 border-b">
@@ -227,11 +205,10 @@ const RoomDetail = () => {
               <h3 className="font-semibold text-xl lg:text-2xl mb-5">
                 Where you'll sleep
               </h3>
-              <div className="overflow-hidden rounded-xl">
+              <div className="overflow-hidden w-full">
                 <img
                   src={roomDetail?.hinhAnh}
-                  className="w-full h-[180px] lg:h-[350px] object-cover"
-                  style={{ clipPath: "inset(0 50% 0 0)" }}
+                  className="w-1/2 h-44 sm:w-1/2 sm:h-72 lg:w-1/2 lg:h-72 object-cover object-left rounded-xl"
                   alt=""
                 />
               </div>
@@ -262,28 +239,26 @@ const RoomDetail = () => {
         </div>
 
         {/* booking card */}
-        <div
-          ref={bookingCardRef}
-          className="booking-card lg:absolute top-2 right-12 w-96"
-          style={{ top: `${scrollY}px` }}
-        >
-          <div
-            className="rounded-md bg-white shadow-lg"
-            style={{ top: "10px", padding: "20px 30px" }} // Khởi đầu từ 10px từ trên cùng
-          >
-            <div className="price-info text-sm lg:text-base mb-4">
-              <span className="text-xl lg:text-2xl font-semibold">
-                ${roomDetail?.giaTien}
-              </span>{" "}
-              night
-            </div>
+        <div className="relative">
+          <div className="booking-card w-auto sm:w-96 lg:sticky top-24 right-0 lg:w-96">
+            <div
+              className="rounded-md bg-white shadow-lg"
+              style={{ top: "10px", padding: "20px 30px" }} // Khởi đầu từ 10px từ trên cùng
+            >
+              <div className="price-info text-sm lg:text-base mb-4">
+                <span className="text-xl lg:text-2xl font-semibold">
+                  ${roomDetail?.giaTien}
+                </span>{" "}
+                night
+              </div>
 
-            <BookingPicker roomPrice={roomDetail?.giaTien} roomId={roomId} />
-          </div>
-          <div className="flex items-center justify-center gap-2 my-6">
-            {reportIcon}
-            <div className="text-sm text-center font-semibold text-gray-500 underline">
-              Report this listing
+              <BookingPicker roomPrice={roomDetail?.giaTien} roomId={roomId} />
+            </div>
+            <div className="flex items-center justify-center gap-2 py-6">
+              {reportIcon}
+              <div className="text-sm text-center font-semibold text-gray-500 underline dark:text-white">
+                Report this listing
+              </div>
             </div>
           </div>
         </div>
@@ -497,8 +472,8 @@ const RoomDetail = () => {
                 focusable="false"
                 style={{
                   display: "block",
-                  height: 24,
-                  width: 24,
+                  height: 22,
+                  width: 22,
                   fill: "currentcolor",
                 }}
               >
@@ -533,7 +508,7 @@ const RoomDetail = () => {
               </button>
             </div>
 
-            <p className="flex-grow text-sm lg:text-base underline">
+            <p className="flex-grow text-sm cursor-pointer lg:text-base underline">
               Individual Host
             </p>
             <div className="flex-grow text-sm lg:text-base pt-5 border-t">

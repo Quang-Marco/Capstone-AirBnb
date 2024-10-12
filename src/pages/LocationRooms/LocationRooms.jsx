@@ -60,7 +60,7 @@ const LocationRooms = () => {
             <span className="font-semibold">"{tenViTriTitle}"</span>
           </h2>
           <div className="lg:flex gap-8">
-            <div className="basis-full grid grid-cols-1 sm:grid-cols-2 sm:gap-5 lg:basis-3/5 lg:grid-cols-3 lg:gap-3">
+            <div className="basis-full grid grid-cols-1 sm:grid-cols-2 sm:gap-5 lg:basis-3/5 lg:grid-cols-3 lg:gap-7 lg:h-auto">
               {listLocationRooms.map((category) => (
                 <div
                   onClick={() => {
@@ -69,9 +69,9 @@ const LocationRooms = () => {
                   key={category.id}
                   className="cursor-pointer relative overflow-hidden group"
                 >
-                  <div className="rounded-lg overflow-hidden mb-5">
+                  <div className="w-full rounded-lg overflow-hidden mb-5">
                     <img
-                      className="rounded-lg w-full h-64 sm:h-56 lg:h-72 object-cover group-hover:scale-105 duration-300"
+                      className="rounded-lg w-full h-64 sm:h-56 lg:h-72 object-cover lg:object-left group-hover:scale-105 duration-300"
                       src={category.hinhAnh}
                       alt={category.tenPhong}
                     />
@@ -92,7 +92,7 @@ const LocationRooms = () => {
                 </div>
               ))}
             </div>
-            <div className="map basis-full h-72 lg:basis-2/5 lg:max-h-fit">
+            <div className="map basis-full h-72 lg:basis-2/5 lg:h-auto lg:max-h-fit">
               <Mapbox
                 longitude={mapDetail.longitude}
                 latitude={mapDetail.latitude}
