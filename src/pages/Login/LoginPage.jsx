@@ -115,7 +115,7 @@ const LoginPage = () => {
                 type="submit"
                 className="py-2 my-3 bg-[#F1295D] text-white font-bold border-none rounded-md w-full hover:scale-105 transition duration-300 ease-in-out"
               >
-                Signin
+                Sign in
               </button>
             </div>
             <div className="py-2 text-white text-center italic lg:w-full">
@@ -124,7 +124,7 @@ const LoginPage = () => {
                 to={pathDefault.register}
                 className="text-[#F1295D] font-bold"
               >
-                Sign Up
+                Sign up
               </Link>
             </div>
           </form>
