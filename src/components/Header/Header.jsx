@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Dropdown } from "antd";
 import dayjs from "dayjs";
@@ -11,7 +11,6 @@ import Navbar from "./Navbar";
 import UserMenu from "./UserMenu";
 import CustomDropdown from "./CustomDropdown";
 import { viTriService } from "../../services/viTri.service";
-import { pathDefault } from "../../common/path";
 
 const removeAccents = (str) =>
   str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -19,7 +18,7 @@ const removeAccents = (str) =>
 const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [idLocation, setIdLocation] = useState(0);
+  const [maViTri, setMaViTri] = useState(0);
   const [listLocation, setListLocation] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [locationOpen, setLocationOpen] = useState(false);
@@ -55,7 +54,7 @@ const Header = () => {
           <div
             onClick={() => {
               setSearchValue(`${item.tenViTri}, ${item.tinhThanh}`);
-              setIdLocation(item.id);
+              setMaViTri(item.id);
             }}
             className="flex items-center gap-3"
           >
@@ -237,7 +236,7 @@ const Header = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`${pathDefault.listRooms}?idLocation=${idLocation}`);
+    navigate(`/location-rooms?maViTri=${maViTri}`);
   };
 
   const tabs = [
@@ -464,11 +463,13 @@ const Header = () => {
   ];
   const [activeTab, setActiveTab] = useState(tabs[0].key);
 
-  const [scrollY, setScrollY] = useState(0);
-  const debouncedScrollY = useDebounce(scrollY, 100);
-  const [isScroll, setIsScroll] = useState(false);
-
+  // const [scrollY, setScrollY] = useState(0);
+  // const debouncedScrollY = useDebounce(scrollY, 100);
+  // const [isScroll, setIsScroll] = useState(false);
   const { isMobile } = useResponsive();
+  const [isMerged, setIsMerged] = useState(false);
+  const isThrottled = useRef(false); // manage function call limit
+  const [showDiv, setShowDiv] = useState(false);
 
   useEffect(() => {
     if (isMobile) {
@@ -476,19 +477,50 @@ const Header = () => {
     }
   }, [isMobile]);
 
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+
+    if (isThrottled.current) return;
+
+    if (scrollPosition > 100 && !isMerged) {
+      setIsMerged(true);
+      isThrottled.current = true;
+      setTimeout(() => (isThrottled.current = false), 100);
+    }
+
+    if (scrollPosition <= 100 && isMerged) {
+      setIsMerged(false);
+      isThrottled.current = true;
+      setTimeout(() => (isThrottled.current = false), 100);
+    }
+  };
+
+  console.log(isMerged);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+    if (!isMerged) {
+      // isMerged false
+      setShowDiv(true);
+    } else {
+      // isMerged true
+      const timer = setTimeout(() => {
+        setShowDiv(false);
+      }, 300); // set same as duration
+
+      return () => clearTimeout(timer);
+    }
+  }, [isMerged]);
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isMerged]);
 
-  useEffect(() => {
-    setIsScroll(debouncedScrollY > 100);
-  }, [debouncedScrollY]);
+  // useEffect(() => {
+  //   setIsScroll(debouncedScrollY > 100);
+  // }, [debouncedScrollY]);
 
   useEffect(() => {
     viTriService
@@ -507,10 +539,14 @@ const Header = () => {
           <LogoHeader />
 
           {/* Navbar or Tabs header*/}
-          {isScroll ? (
+          {!showDiv ? (
             <Navbar setLocationOpen={setLocationOpen} />
           ) : (
-            <div className="tabs-header hidden sm:flex gap-4 ">
+            <div
+              className={`tabs-header hidden sm:flex gap-4 ${
+                isMerged ? "scale-0 -translate-y-20" : "scale-100"
+              }`}
+            >
               {tabs.map((tab) => (
                 <button
                   type="button"
@@ -533,8 +569,12 @@ const Header = () => {
         </div>
 
         {/* Tabs content */}
-        {!isScroll && (
-          <div className="flex justify-center mt-4">
+        {showDiv && (
+          <div
+            className={`flex justify-center mt-4 transition-transform duration-300 ease-in ${
+              isMerged ? "scale-0 -translate-y-20" : "scale-100"
+            }`}
+          >
             {tabs.map(
               (tab) =>
                 activeTab === tab.key && (
