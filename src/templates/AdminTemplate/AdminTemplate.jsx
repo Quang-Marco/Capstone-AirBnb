@@ -22,12 +22,12 @@ const AdminTemplate = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  useEffect(() => {
-    let dataLocal = getLocalStorage("user");
-    dataLocal.user.role !== "ADMIN"
-      ? (window.location.href = "https://google.com")
-      : null;
-  }, []);
+  // useEffect(() => {
+  //   let dataLocal = getLocalStorage("user");
+  //   dataLocal.user.role !== "ADMIN"
+  //     ? (window.location.href = "https://google.com")
+  //     : null;
+  // }, []);
   return (
     <Layout className="min-h-screen">
       <Sider

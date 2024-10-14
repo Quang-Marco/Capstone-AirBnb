@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { getViTriApi } from "../../redux/viTriSlice";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { Button, Modal, Space, Table } from "antd";
 import { viTriService } from "../../services/viTri.service";
@@ -8,14 +8,58 @@ import InputCustom from "../../components/FormInput/FormInput";
 import { NotificationContext } from "../../App";
 import CreateNewLocation from "./CreateNewLocation";
 const ManageInfoLocation = () => {
-  const dispatch = useDispatch();
+  const getValueLocationApi = async () => {
+    try {
+      const response = await viTriService.getLocations();
+      console.log(response);
+      return response.data.content;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+  const [location, setLocations] = useState([]);
+  //call api user
+  const fetchLocations = async () => {
+    try {
+      const locationData = await getValueLocationApi();
+      setLocations(locationData);
+    } catch (error) {
+      console.error("Lỗi khi lấy dữ liệu user:", error);
+      handleNotification("Không thể lấy dữ liệu user", "error");
+    }
+  };
   const { user } = useSelector((state) => state.authSlice);
+  //search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalLocationOpen, setIsModalLocationOpen] = useState(false);
   const [isModalUploadOpen, setIsModalUploadOpen] = useState(false);
   const { handleNotification } = useContext(NotificationContext);
-  const { listViTri } = useSelector((state) => state.viTriSlice);
+
   const [selectedId, setSelectedId] = useState(null);
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  const handleSearchSubmit = () => {
+    const results = location.filter(
+      (location) =>
+        location.tenViTri.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        location.tinhThanh.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        location.quocGia.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+    setIsSearching(true);
+  };
+
+  const handleResetSearch = () => {
+    setSearchTerm("");
+    setSearchResults([]);
+    setIsSearching(false);
+  };
   const handleSelectedId = (id) => {
     setSelectedId(id);
   };
@@ -38,12 +82,12 @@ const ManageInfoLocation = () => {
         .then((res) => {
           console.log(res);
           handleNotification("Upload avatar successfully", "success");
-          dispatch(getViTriApi());
+          fetchLocations();
         })
         .catch((err) => {
           console.log(err);
           handleNotification(err.message, "error");
-          dispatch(getViTriApi());
+          fetchLocations();
         });
     }
   };
@@ -78,13 +122,13 @@ const ManageInfoLocation = () => {
           console.log(res);
           handleNotification("Update thành công", "success");
           setIsModalOpen(false);
-          dispatch(getViTriApi());
+          fetchLocations();
         })
         .catch((err) => {
           console.log(err);
           handleNotification("Update thất bại", "error");
           setIsModalOpen(true);
-          dispatch(getViTriApi());
+          fetchLocations();
         });
     },
   });
@@ -110,6 +154,7 @@ const ManageInfoLocation = () => {
     setIsModalOpen(false);
     setIsModalLocationOpen(false);
     setIsModalUploadOpen(false);
+    fetchLocations();
   };
   const columns = [
     {
@@ -154,7 +199,7 @@ const ManageInfoLocation = () => {
                 .then((res) => {
                   console.log(res);
                   handleNotification(res.data.message, "success");
-                  dispatch(getViTriApi());
+                  fetchLocations();
                 })
                 .catch((err) => {
                   console.log(err);
@@ -162,7 +207,7 @@ const ManageInfoLocation = () => {
                     err.response.data.message || err.response.data.content,
                     "error"
                   );
-                  dispatch(getViTriApi());
+                  fetchLocations();
                 });
             }}
             className="bg-red-500 text-white py-2 px-5 rounded-md hover:bg-red-500/80 duration-300"
@@ -293,7 +338,7 @@ const ManageInfoLocation = () => {
     },
   ];
   useEffect(() => {
-    dispatch(getViTriApi());
+    fetchLocations();
   }, []);
 
   return (
@@ -317,14 +362,30 @@ const ManageInfoLocation = () => {
           <input
             className="w-[280px] border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="text"
-            placeholder="Search by name location"
+            placeholder="Search by Location's Name"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
-          <button className="px-4 py-2 bg-gray-200 text-gray-800 border-r  text-sx border-gray-300 hover:bg-gray-300 rounded-lg">
+          <button
+            onClick={handleSearchSubmit}
+            className="px-4 py-2 bg-gray-200 text-gray-800 border-r text-sx border-gray-300 hover:bg-gray-300 rounded-lg"
+          >
             Search <i className="fa-solid fa-magnifying-glass"></i>
           </button>
+          {isSearching && (
+            <button
+              onClick={handleResetSearch}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            >
+              Reset
+            </button>
+          )}
         </div>
       </div>
-      <Table columns={columns} dataSource={listViTri} />
+      <Table
+        columns={columns}
+        dataSource={isSearching ? searchResults : location}
+      />
     </div>
   );
 };

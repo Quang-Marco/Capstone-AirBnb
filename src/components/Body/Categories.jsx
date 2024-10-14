@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import "./categories.scss";
+import { useEffect, useRef, useState } from "react";
 import Container from "../Container";
 import { phongThueService } from "../../services/phongThue.service";
 import { Link } from "react-router-dom";
@@ -8,7 +7,27 @@ import { pathDefault } from "../../common/path";
 const Categories = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [listCategories, setListCategories] = useState([]);
-  const listNavbar = [
+  const tabsRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScrollPosition = () => {
+    const { scrollLeft, scrollWidth, clientWidth } = tabsRef.current;
+
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
+  };
+
+  useEffect(() => {
+    checkScrollPosition();
+
+    const tabs = tabsRef.current;
+    tabs.addEventListener("scroll", checkScrollPosition);
+
+    return () => tabs.removeEventListener("scroll", checkScrollPosition);
+  }, []);
+
+  const listTabs = [
     {
       imgURL:
         "https://a0.muscache.com/pictures/7630c83f-96a8-4232-9a10-0398661e2e6f.jpg",
@@ -21,8 +40,8 @@ const Categories = () => {
     },
     {
       imgURL:
-        "https://a0.muscache.com/im/pictures/mediaverse/category_icon/original/3e5243c8-4d15-4c6b-97e3-7ba2bb7bb880.png",
-      name: "Icons",
+        "https://a0.muscache.com/pictures/10ce1091-c854-40f3-a2fb-defc2995bcaf.jpg",
+      name: "Beach",
     },
     {
       imgURL:
@@ -160,23 +179,19 @@ const Categories = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  // useEffect(() => {
-  //   window.scrollTo({
-  //     top: 0,
-  //     behavior: "smooth",
-  //   });
-  // }, [activeTab]);
-
   return (
     <>
       <div className="bg-white dark:bg-gray-900 pt-5 pb-2 sticky top-[90px] z-[1]">
         <Container>
-          <div className="tabs-categories flex gap-10 overflow-x-auto">
-            {listNavbar.map((item, index) => (
+          <div
+            ref={tabsRef}
+            className="tabs-headers flex gap-10 overflow-x-auto"
+          >
+            {listTabs.map((item, index) => (
               <button
                 type="button"
                 key={index + 1}
-                className={`tab-item flex flex-col justify-center items-center pb-2 border-b-[3px] opacity-70 hover:opacity-100 focus:opacity-100 duration-300 cursor-pointer ${
+                className={`tab-item flex flex-col justify-center items-center pb-2 border-b-[3px] opacity-70 hover:opacity-100 focus:opacity-100 duration-300 ${
                   activeTab === index + 1
                     ? "border-black dark:border-white"
                     : ""
@@ -236,7 +251,7 @@ const Categories = () => {
               .filter((category) => category.maViTri === activeTab)
               .map((category) => (
                 <Link
-                  to={pathDefault.homePage}
+                  to={`${pathDefault.roomDetail}?id=${category.id}`}
                   key={category.id}
                   className="cursor-pointer relative group"
                 >

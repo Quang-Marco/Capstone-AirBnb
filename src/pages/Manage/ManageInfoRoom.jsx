@@ -1,20 +1,45 @@
-import { Button, Checkbox, Modal, Space, Table } from "antd";
+import { Checkbox, Modal, Space, Table } from "antd";
 import { useContext, useEffect, useRef, useState } from "react";
-import { getValueRoomApi } from "../../redux/roomSlice";
+
 import { phongThueService } from "../../services/phongThue.service";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { NotificationContext } from "../../App";
 import InputCustom from "../../components/FormInput/FormInput";
 import { useFormik } from "formik";
 import CreateNewRoom from "./CreateNewRoom";
 const ManageInfoRoom = () => {
-  const dispatch = useDispatch();
+  //search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const getValueRoomApi = async () => {
+    try {
+      const response = await phongThueService.getRooms();
+      console.log(response);
+      return response.data.content;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+  const [rooms, setRooms] = useState([]);
+  //call api user
+  const fetchRoom = async () => {
+    try {
+      const roomData = await getValueRoomApi();
+      setRooms(roomData);
+    } catch (error) {
+      console.error("Lỗi khi lấy dữ liệu user:", error);
+      handleNotification("Không thể lấy dữ liệu user", "error");
+    }
+  };
+
   const { user } = useSelector((state) => state.authSlice);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalAddRoomOpen, setIsModalAddRoomOpen] = useState(false);
   const [isModalUploadOpen, setIsModalUploadOpen] = useState(false);
   const { handleNotification } = useContext(NotificationContext);
-  const { listRoom } = useSelector((state) => state.roomSlice);
+
   const [selectedId, setSelectedId] = useState(null);
   const handleSelectedId = (id) => {
     setSelectedId(id);
@@ -23,6 +48,24 @@ const ManageInfoRoom = () => {
   const [errorImage, setErrorImage] = useState("");
   const inputFileRef = useRef(null);
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  const handleSearchSubmit = () => {
+    const results = rooms.filter(
+      (room) =>
+        room.id.toString().includes(searchTerm) ||
+        room.tenPhong.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+    setIsSearching(true);
+  };
+
+  const handleResetSearch = () => {
+    setSearchTerm("");
+    setSearchResults([]);
+    setIsSearching(false);
+  };
   const handleSubmitImage = (e) => {
     e.preventDefault();
     let formData = new FormData();
@@ -38,12 +81,12 @@ const ManageInfoRoom = () => {
         .then((res) => {
           console.log(res);
           handleNotification("Upload avatar successfully", "success");
-          dispatch(getValueRoomApi());
+          fetchRoom();
         })
         .catch((err) => {
           console.log(err);
           handleNotification(err.message, "error");
-          dispatch(getValueRoomApi());
+          fetchRoom();
         });
     }
   };
@@ -92,7 +135,7 @@ const ManageInfoRoom = () => {
         .then((res) => {
           console.log(res);
           handleNotification("Update thành công", "success");
-          dispatch(getValueRoomApi());
+          fetchRoom();
           setIsModalOpen(false);
         })
         .catch((err) => {
@@ -118,6 +161,7 @@ const ManageInfoRoom = () => {
     setIsModalOpen(false);
     setIsModalAddRoomOpen(false);
     setIsModalUploadOpen(false);
+    fetchRoom();
   };
   const showAddRoomModal = () => {
     setIsModalAddRoomOpen(true);
@@ -176,7 +220,7 @@ const ManageInfoRoom = () => {
                 .then((res) => {
                   console.log(res);
                   handleNotification(res.data.message, "success");
-                  dispatch(getValueRoomApi());
+                  fetchRoom();
                 })
                 .catch((err) => {
                   console.log(err);
@@ -433,7 +477,7 @@ const ManageInfoRoom = () => {
   ];
 
   useEffect(() => {
-    dispatch(getValueRoomApi());
+    fetchRoom();
   }, []);
   return (
     <div>
@@ -459,14 +503,30 @@ const ManageInfoRoom = () => {
           <input
             className="w-[280px] border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="text"
-            placeholder="Search by name"
+            placeholder="Search by Room Name or Room ID"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
-          <button className="px-4 py-2 bg-gray-200 text-gray-800 border-r  text-sx border-gray-300 hover:bg-gray-300 rounded-lg">
+          <button
+            onClick={handleSearchSubmit}
+            className="px-4 py-2 bg-gray-200 text-gray-800 border-r text-sx border-gray-300 hover:bg-gray-300 rounded-lg"
+          >
             Search <i className="fa-solid fa-magnifying-glass"></i>
           </button>
+          {isSearching && (
+            <button
+              onClick={handleResetSearch}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            >
+              Reset
+            </button>
+          )}
         </div>
       </div>
-      <Table columns={columns} dataSource={listRoom} />
+      <Table
+        columns={columns}
+        dataSource={isSearching ? searchResults : rooms}
+      />
     </div>
   );
 };

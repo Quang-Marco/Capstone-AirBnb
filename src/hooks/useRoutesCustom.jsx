@@ -4,11 +4,17 @@ import UserTemplate from "../templates/UserTemplate/UserTemplate";
 import RegisterPage from "../pages/Register/RegisterPage";
 import LoginPage from "../pages/Login/LoginPage";
 import Body from "../components/Body/Body";
+import LocationRooms from "../pages/LocationRooms/LocationRooms";
+import UserProfile from "../pages/User/UserProfile";
 import AdminTemplate from "../templates/AdminTemplate/AdminTemplate";
+import NotFound from "../pages/NotFound/NotFound";
+import RoomDetail from "../pages/RoomDetail/RoomDetail";
+import AdminLogin from "../pages/AdminLogin/AdminLogin";
 import ManageUser from "../pages/Manage/ManageUser";
 import ManageInfoLocation from "../pages/Manage/ManageInfoLocation";
 import ManageInfoRoom from "../pages/Manage/ManageInfoRoom";
 import ManageRoomBook from "../pages/Manage/ManageRoomBook";
+
 const useRoutesCustom = () => {
   const routes = useRoutes([
     {
@@ -20,12 +26,16 @@ const useRoutesCustom = () => {
           element: <Body />,
         },
         {
-          path: "/location-rooms",
+          path: pathDefault.profile,
+          element: <UserProfile />,
+        },
+        {
+          path: pathDefault.listRooms,
           element: <LocationRooms />,
         },
         {
-          path: "/user-profile",
-          element: <UserProfile />,
+          path: pathDefault.roomDetail,
+          element: <RoomDetail />,
         },
       ],
     },
@@ -63,10 +73,15 @@ const useRoutesCustom = () => {
         },
       ],
     },
-    // {
-    //   path: "/admin-login",
-    //   element: <AdminLogin />,
-    // },
+
+    {
+      path: pathDefault.adminLogin,
+      element: <AdminLogin />,
+    },
+    {
+      path: "/*",
+      element: <NotFound />,
+    },
   ]);
   return routes;
 };

@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import Container from "../Container";
 import LanguageSwitcher from "../LanguageSwicher";
-import CustomTabs from "./CustomTabs";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -835,7 +834,6 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-100 dark:bg-gray-900 pt-10 pb-5">
-    <footer className="bg-gray-100 dark:bg-gray-900 pt-10 pb-5">
       <Container>
         <h2 className="dark:text-white text-2xl font-semibold mb-3">
           {t("footer.inspiration")}
@@ -887,18 +885,17 @@ const Footer = () => {
             <span className="dark:text-white">© 2024 Airbnb, Inc.</span>
             <ol className="list-disc flex flex-wrap gap-6">
               <li className="dark:text-white cursor-pointer hover:underline duration-300">
-              <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 {t("footer.term")}
               </li>
-              <li className="dark:text-white cursor-pointer hover:underline duration-300">
+
               <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 {t("footer.sitemap")}
               </li>
-              <li className="dark:text-white cursor-pointer hover:underline duration-300">
+
               <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 {t("footer.privacy")}
               </li>
-              <li className="dark:text-white cursor-pointer hover:underline duration-300">
+
               <li className="dark:text-white cursor-pointer hover:underline duration-300">
                 <span className="flex items-center gap-4">
                   {t("footer.yourPrivacy")}{" "}
@@ -959,10 +956,6 @@ const Footer = () => {
             <LanguageSwitcher classContent="hover:underline" />
 
             {/* Currency */}
-            <button
-              onClick={toggleModalCurrency}
-              className="dark:text-white font-semibold"
-            >
             <button
               onClick={toggleModalCurrency}
               className="dark:text-white font-semibold"

@@ -11,6 +11,7 @@ import Navbar from "./Navbar";
 import UserMenu from "./UserMenu";
 import CustomDropdown from "./CustomDropdown";
 import { viTriService } from "../../services/viTri.service";
+import { pathDefault } from "../../common/path";
 
 const removeAccents = (str) =>
   str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -18,7 +19,7 @@ const removeAccents = (str) =>
 const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [maViTri, setMaViTri] = useState(0);
+  const [idLocation, setIdLocation] = useState(0);
   const [listLocation, setListLocation] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [locationOpen, setLocationOpen] = useState(false);
@@ -54,7 +55,7 @@ const Header = () => {
           <div
             onClick={() => {
               setSearchValue(`${item.tenViTri}, ${item.tinhThanh}`);
-              setMaViTri(item.id);
+              setIdLocation(item.id);
             }}
             className="flex items-center gap-3"
           >
@@ -236,7 +237,7 @@ const Header = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/location-rooms?maViTri=${maViTri}`);
+    navigate(`${pathDefault.listRooms}?idLocation=${idLocation}`);
   };
 
   const tabs = [
@@ -499,36 +500,6 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="bg-white dark:bg-gray-900 py-5 border-b sticky top-0 z-10">
-      <Container>
-        <div className="flex items-center justify-between w-full">
-          {/* Logo */}
-          <LogoHeader />
-
-          {/* Navbar or Tabs header*/}
-          {isScroll ? (
-            <Navbar setLocationOpen={setLocationOpen} />
-          ) : (
-            <div className="tabs-header hidden sm:flex gap-4 ">
-              {tabs.map((tab) => (
-                <button
-                  type="button"
-                  key={tab.key}
-                  className={`px-4 py-2 text-gray-600 dark:text-white rounded-full ${
-                    activeTab === tab.key
-                      ? "font-semibold"
-                      : "hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-black duration-300"
-                  }`}
-                  onClick={() => setActiveTab(tab.key)}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* User actions */}
-          <UserMenu />
     <header className="bg-white dark:bg-gray-900 py-3 sm:py-4 lg:py-5 border-b sticky top-0 z-10">
       <Container>
         <div className="flex items-center justify-between w-full">
@@ -560,26 +531,6 @@ const Header = () => {
           {/* User actions */}
           <UserMenu />
         </div>
-
-        {/* Tabs content */}
-        {!isScroll && (
-          <div className="flex justify-center mt-4">
-            {tabs.map(
-              (tab) =>
-                activeTab === tab.key && (
-                  <div
-                    key={tab.key}
-                    className={`tab-pane ${
-                      activeTab === tab.key ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    {tab.content}
-                  </div>
-                )
-            )}
-          </div>
-        )}
-      </Container>
 
         {/* Tabs content */}
         {!isScroll && (

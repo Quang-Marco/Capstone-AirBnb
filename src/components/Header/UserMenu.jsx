@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Dropdown, Modal, Space, Tabs } from "antd";
 import { Link } from "react-router-dom";
 import { pathDefault } from "../../common/path";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "../LanguageSwicher/LanguageSwicher";
+import LanguageSwitcher from "../LanguageSwicher";
 import { ThemeContext } from "../ThemeContext";
 
 const UserMenu = () => {

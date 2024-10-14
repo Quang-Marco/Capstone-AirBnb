@@ -1,17 +1,61 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Modal, Space, Table } from "antd";
+import { Modal, Space, Table } from "antd";
 import InputCustom from "../../components/FormInput/FormInput";
 import { datPhongService } from "../../services/datPhong.service";
 import { NotificationContext } from "../../App";
-import { useDispatch, useSelector } from "react-redux";
-import { getBookedRoomApi } from "../../redux/bookRoomSlice";
+
 import { useFormik } from "formik";
+import CreateNewRoomBook from "./CreateNewRoomBook";
 
 const ManageRoomBook = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  //search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const getValueRoomBookApi = async () => {
+    try {
+      const response = await datPhongService.getBookedRooms();
+      console.log(response);
+      return response.data.content;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+  const [room, setRoom] = useState([]);
+  //call api room
+  const fetchRoomBook = async () => {
+    try {
+      const roomData = await getValueRoomBookApi();
+      setRoom(roomData);
+    } catch (error) {
+      handleNotification("Không thể lấy dữ liệu room", error);
+    }
+  };
+
+  const [isModalBookedRoomOpen, setIsModalBookedRoomOpen] = useState(false);
   const { handleNotification } = useContext(NotificationContext);
-  const dispatch = useDispatch();
-  const { listBookRoom } = useSelector((state) => state.bookRoomSlice);
+
+  // const { listBookRoom } = useSelector((state) => state.bookRoomSlice);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  const handleSearchSubmit = () => {
+    const results = room.filter((room) =>
+      room.id.toString().includes(searchTerm)
+    );
+    setSearchResults(results);
+    setIsSearching(true);
+  };
+
+  const handleResetSearch = () => {
+    setSearchTerm("");
+    setSearchResults([]);
+    setIsSearching(false);
+  };
   const {
     handleBlur,
     handleChange,
@@ -36,12 +80,12 @@ const ManageRoomBook = () => {
       console.log(values);
       setIsModalOpen(false);
       datPhongService
-        .updateRoomBooked(values.id, values)
+        .updateBookedRoom(values.id, values)
         .then((res) => {
           console.log(res);
 
           handleNotification("Update thành công", "success");
-          dispatch(getBookedRoomApi());
+          fetchRoomBook();
         })
         .catch((err) => {
           console.log(err);
@@ -57,10 +101,13 @@ const ManageRoomBook = () => {
   const checkChanged = () => {
     if (isFormChanged() == true) {
       handleCancel();
+      console.log("exit");
     } else {
       handleSubmit();
+      console.log("commit");
     }
   };
+
   const showModal = (roomId) => {
     setIsModalOpen(true);
     datPhongService
@@ -83,8 +130,13 @@ const ManageRoomBook = () => {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsModalBookedRoomOpen(false);
+    fetchRoomBook();
   };
 
+  const showAddBookedRoomModal = () => {
+    setIsModalBookedRoomOpen(true);
+  };
   const columns = [
     {
       title: "ID ",
@@ -125,11 +177,11 @@ const ManageRoomBook = () => {
           <button
             onClick={() => {
               datPhongService
-                .deleteRoom(record.id)
+                .deleteBookedRoom(record.id)
                 .then((res) => {
                   console.log(res);
                   handleNotification(res.data.message, "success");
-                  dispatch(getBookedRoomApi());
+                  fetchRoomBook();
                 })
                 .catch((err) => {
                   console.log(err);
@@ -137,7 +189,7 @@ const ManageRoomBook = () => {
                     err.response.data.message || err.response.data.content,
                     "error"
                   );
-                  dispatch(getBookedRoomApi());
+                  fetchRoomBook();
                 });
             }}
             className="bg-red-500 text-white py-2 px-5 rounded-md hover:bg-red-500/80 duration-300"
@@ -167,7 +219,7 @@ const ManageRoomBook = () => {
               />
 
               <InputCustom
-                contentLabel={"Mã Phòng"}
+                contentLabel={"RoomID"}
                 name="maPhong"
                 value={values.maPhong}
                 onChange={handleChange}
@@ -178,7 +230,7 @@ const ManageRoomBook = () => {
 
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Ngày Đến
+                  Arrival
                 </label>
                 <input
                   type="date"
@@ -189,7 +241,7 @@ const ManageRoomBook = () => {
               </div>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Ngày Đi
+                  Depature
                 </label>
                 <input
                   type="date"
@@ -200,7 +252,7 @@ const ManageRoomBook = () => {
               </div>
 
               <InputCustom
-                contentLabel={"Số lượng khách"}
+                contentLabel={"Guest"}
                 value={values.soLuongKhach}
                 name="soLuongKhach"
                 onChange={handleChange}
@@ -209,9 +261,9 @@ const ManageRoomBook = () => {
                 touched={touched.soLuongKhach}
               />
               <InputCustom
-                contentLabel={"Mã nhân viên"}
+                contentLabel={"UserID"}
                 value={values.maNguoiDung}
-                name="soLuongKhach"
+                name="maNguoiDung"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 errors={errors.maNguoiDung}
@@ -224,27 +276,59 @@ const ManageRoomBook = () => {
     },
   ];
   console.log(values);
+
   useEffect(() => {
-    dispatch(getBookedRoomApi());
+    fetchRoomBook();
   }, []);
   return (
     <div className="space-y-3">
-      <div>
-        <Button className="py-2 px-4 rounded-lg boder border-gray-300 ">
-          Đặt phòng
-        </Button>
-      </div>
       <div className="flex space-x-5">
-        <input
-          className="w-[280px] border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          type="text"
-          placeholder="Tìm theo mã phòng"
-        />
-        <button className=" border  rounded-lg py-2 px-4 hover:cursor-pointer hover:text-blue-600 hover:border-blue-500 duration-200">
-          Search
+        <button
+          onClick={() => {
+            showAddBookedRoomModal(true);
+          }}
+          className="px-4 py-2 bg-gray-200 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-300"
+        >
+          Book Room
         </button>
+        <Modal
+          title="Create New Room"
+          open={isModalBookedRoomOpen}
+          onCancel={handleCancel}
+          okButtonProps={{ style: { display: "none" } }}
+          width={800}
+        >
+          <CreateNewRoomBook />
+        </Modal>
+        <div className="flex space-x-3">
+          <input
+            className="w-[280px] border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="text"
+            placeholder="Search by RoomID"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          <button
+            onClick={handleSearchSubmit}
+            className="px-4 py-2 bg-gray-200 text-gray-800 border-r text-sx border-gray-300 hover:bg-gray-300 rounded-lg"
+          >
+            Search <i className="fa-solid fa-magnifying-glass"></i>
+          </button>
+          {isSearching && (
+            <button
+              onClick={handleResetSearch}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            >
+              Reset
+            </button>
+          )}
+        </div>
       </div>
-      <Table columns={columns} dataSource={listBookRoom} />
+
+      <Table
+        columns={columns}
+        dataSource={isSearching ? searchResults : room}
+      />
     </div>
   );
 };

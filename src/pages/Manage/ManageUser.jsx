@@ -1,25 +1,60 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Button, Modal, Space, Table, Tag } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+
 import { NotificationContext } from "../../App";
-import { getValueUserApi, updateUser } from "../../redux/userSlice";
+
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { userService } from "../../services/user.service";
 import { notiValidation } from "../../common/notiValidation";
 import InputCustom from "../../components/FormInput/FormInput";
 import CreateAdminstrator from "./CreateAdminstrator";
+import { useSelector } from "react-redux";
 const ManageUser = () => {
   const { handleNotification } = useContext(NotificationContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalUploadOpen, setIsModalUploadOpen] = useState(false);
   const [isModalAdminOpen, setIsModalAdminOpen] = useState(false);
-  const dispatch = useDispatch();
+  //search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const getValueUserApi = async () => {
+    try {
+      const response = await userService.getUsers();
+      console.log(response);
+      return response.data.content;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+  const [users, setUsers] = useState([]);
+
   const { user } = useSelector((state) => state.authSlice);
   const [uploadImage, setUploadImage] = useState(null);
   const [errorImage, setErrorImage] = useState("");
   const inputFileRef = useRef(null);
-  const { listUsers } = useSelector((state) => state.userSlice);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  const handleSearchSubmit = () => {
+    const results = users.filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+    setIsSearching(true);
+  };
+
+  const handleResetSearch = () => {
+    setSearchTerm("");
+    setSearchResults([]);
+    setIsSearching(false);
+  };
   const {
     handleBlur,
     handleChange,
@@ -48,8 +83,8 @@ const ManageUser = () => {
         .then((res) => {
           console.log(res);
           handleNotification("Update thành công", "success");
-          dispatch(updateUser());
-          dispatch(getValueUserApi());
+
+          fetchUsers();
         })
         .catch((err) => {
           console.log(err);
@@ -96,37 +131,46 @@ const ManageUser = () => {
       userService
         .uploadAvatar(
           formData,
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNDc4IiwiZW1haWwiOiJ0b255MDAxQHlhaG9vLmNvbSIsInJvbGUiOiJBRE1JTiIsIm5iZiI6MTcyODEyMDM1MiwiZXhwIjoxNzI4NzI1MTUyfQ.UMDrAn8hSPUOKuCq6QqmBv0LCXmQUvSuvLucVw_L248"
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNTU5IiwiZW1haWwiOiJ0b255MDAxQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsIm5iZiI6MTcyODgzMjQzNywiZXhwIjoxNzI5NDM3MjM3fQ.vwSFYZuY74KqjfcJY9qFgFlvbFWsRFyLe3l6D58wBDY"
           // user.token
         )
         .then((res) => {
           console.log(res);
           handleNotification("Upload avatar successfully", "success");
-          dispatch(getValueUserApi());
+          fetchUsers();
         })
         .catch((err) => {
           console.log(err);
           handleNotification(err.message, "error");
-          dispatch(getValueUserApi());
+          fetchUsers();
         });
     }
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsModalUploadOpen(false);
+    setIsModalAdminOpen(false);
+    fetchUsers();
   };
   const showModalUpload = () => {
     setIsModalUploadOpen(true);
   };
-  const handleUploadCancel = () => {
-    setIsModalUploadOpen(false);
-  };
+
   const showAddAdmin = () => {
     setIsModalAdminOpen(true);
   };
-  const handleAdminCancel = () => {
-    setIsModalAdminOpen(false);
+  //call api user
+  const fetchUsers = async () => {
+    try {
+      const userData = await getValueUserApi();
+      setUsers(userData);
+    } catch (err) {
+      console.log(err);
+      handleNotification("Can't get location", "error");
+    }
   };
+
   const columns = [
     {
       title: "ID",
@@ -179,7 +223,7 @@ const ManageUser = () => {
                 .then((res) => {
                   console.log(res);
                   handleNotification(res.data.message, "success");
-                  dispatch(getValueUserApi());
+                  fetchUsers();
                 })
                 .catch((err) => {
                   console.log(err);
@@ -187,7 +231,7 @@ const ManageUser = () => {
                     err.response.data.message || err.response.data.content,
                     "error"
                   );
-                  dispatch(getValueUserApi());
+                  fetchUsers();
                 });
             }}
             className="bg-red-500 text-white py-2 px-5 rounded-md hover:bg-red-500/80 duration-300"
@@ -307,7 +351,7 @@ const ManageUser = () => {
           <Modal
             open={isModalUploadOpen}
             // onOk={handleSubmitAvatar}
-            onCancel={handleUploadCancel}
+            onCancel={handleCancel}
             okButtonProps={{ style: { display: "none" } }}
           >
             <form onSubmit={handleSubmitAvatar} className="space-y-2">
@@ -360,7 +404,7 @@ const ManageUser = () => {
     },
   ];
   useEffect(() => {
-    dispatch(getValueUserApi());
+    fetchUsers();
   }, []);
   return (
     <>
@@ -375,8 +419,8 @@ const ManageUser = () => {
           <Modal
             title="Adding Adminstrator"
             open={isModalAdminOpen}
-            onOk={handleAdminCancel}
-            onCancel={handleAdminCancel}
+            okButtonProps={{ style: { display: "none" } }}
+            onCancel={handleCancel}
           >
             <CreateAdminstrator />
           </Modal>
@@ -384,15 +428,31 @@ const ManageUser = () => {
             <input
               className="w-[280px] border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="text"
-              placeholder="Search by name or account"
+              placeholder="Search by Name or Email"
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
-            <button className="px-4 py-2 bg-gray-200 text-gray-800 border-r  text-sx border-gray-300 hover:bg-gray-300 rounded-lg">
+            <button
+              onClick={handleSearchSubmit}
+              className="px-4 py-2 bg-gray-200 text-gray-800 border-r text-sx border-gray-300 hover:bg-gray-300 rounded-lg"
+            >
               Search <i className="fa-solid fa-magnifying-glass"></i>
             </button>
+            {isSearching && (
+              <button
+                onClick={handleResetSearch}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              >
+                Reset
+              </button>
+            )}
           </div>
         </div>
 
-        <Table columns={columns} dataSource={listUsers} />
+        <Table
+          columns={columns}
+          dataSource={isSearching ? searchResults : users}
+        />
       </div>
     </>
   );

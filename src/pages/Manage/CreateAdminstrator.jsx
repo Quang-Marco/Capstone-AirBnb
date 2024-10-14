@@ -87,7 +87,7 @@ const CreateAdminstrator = () => {
       setErrors({});
       console.log(userValue);
       userService
-        .postUser(userValue, user.token)
+        .postUser(userValue)
         .then((res) => {
           console.log(res);
           handleNotification("Add successfully", "success");
@@ -174,13 +174,13 @@ const CreateAdminstrator = () => {
         <label className="block mb-2 text-sm font-medium text-gray-900">
           Role
         </label>
-        <input
+        <select
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           name="role"
           onChange={handleChangeValue}
-          value={"ADMIN"}
-          // disabled
-        ></input>
+        >
+          <option value={"ADMIN"}>ADMIN</option>
+        </select>
         {errors.role && (
           <p className="italic mt-5 text-red-500 text-sm">*{errors.role}</p>
         )}
