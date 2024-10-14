@@ -7,6 +7,9 @@ export default {
       container: {
         center: true,
       },
+      screens: {
+        tablet: "524px",
+      },
     },
   },
   plugins: [],
