@@ -32,7 +32,7 @@ const LoginPage = () => {
             dispatch(setValueUser(res.data.content));
             setLocalStorage("user", res.data.content);
             handleNotification(
-              "Signin successfully. You will be redirected to Airbnb Homepage.",
+              "Signin successfully. Welcome to Airbnb.",
               "success"
             );
             setTimeout(() => {
@@ -64,7 +64,7 @@ const LoginPage = () => {
       style={{ backgroundImage: `url(${signinBg})` }}
     >
       <Container>
-        <div className="loginOverlay">
+        <div className="loginOverlay lg:mx-80">
           <div className="flex justify-center border-b-2 gap-5 ">
             <svg width="102" height="32" className="my-auto">
               <path
@@ -80,7 +80,7 @@ const LoginPage = () => {
               Sign in
             </div>
           </div>
-          <h2 className="text-center font-extrabold text-3xl text-[#F1295D] my-6">
+          <h2 className="text-center font-extrabold text-2xl lg:text-4xl text-[#F1295D] my-6">
             Welcome back to Airbnb
           </h2>
           <form onSubmit={handleSubmit}>
@@ -88,7 +88,7 @@ const LoginPage = () => {
               <FormInput
                 contentLabel={"Email"}
                 classLabel="text-white"
-                classWrapper="lg:w-1/2 p-5"
+                classWrapper="p-2 lg:w-1/2 lg:p-5"
                 placeholder={"Enter your email"}
                 name={"email"}
                 value={values.email}
@@ -101,7 +101,7 @@ const LoginPage = () => {
                 type="password"
                 contentLabel={"Password"}
                 classLabel="text-white"
-                classWrapper="lg:w-1/2 p-5"
+                classWrapper="p-2 lg:w-1/2 lg:p-5"
                 placeholder={"Enter your password"}
                 name={"password"}
                 value={values.password}
@@ -113,16 +113,16 @@ const LoginPage = () => {
 
               <button
                 type="submit"
-                className="py-2 my-3 bg-[#F1295D] text-white font-bold border-none rounded-md w-full hover:scale-105 transition duration-300 ease-in-out"
+                className="py-2 my-5 bg-[#F1295D] text-white font-bold border-none rounded-md w-full hover:bg-[#FD365B] hover:scale-[1.005] transition duration-300 ease-in-out"
               >
                 Sign in
               </button>
             </div>
-            <div className="py-2 text-white text-center italic lg:w-full">
+            <div className="py-2 text-sm md:text-base text-white text-center italic lg:w-full">
               Don't have an account yet?{" "}
               <Link
                 to={pathDefault.register}
-                className="text-[#F1295D] font-bold"
+                className="text-[#F1295D] font-bold hover:text-[#FD365B] hover:underline duration-300"
               >
                 Sign up
               </Link>

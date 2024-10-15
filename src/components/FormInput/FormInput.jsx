@@ -27,7 +27,9 @@ const FormInput = ({
         value={value}
         onBlur={onBlur}
       />
-      {errors && touched && <span className="text-red-500 mt-2">{errors}</span>}
+      {errors && touched && (
+        <span className="text-sm text-red-500 lg:text-base mt-2">{errors}</span>
+      )}
     </div>
   );
 };
