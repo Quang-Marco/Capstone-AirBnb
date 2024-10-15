@@ -34,7 +34,7 @@ const RegisterPage = () => {
           .then((res) => {
             console.log(res);
             handleNotification(
-              "Account registered successfully. You will be redirected to login page.",
+              "Account registered successfully. You will be redirected to Login page.",
               "success"
             );
             setTimeout(() => {
@@ -79,7 +79,7 @@ const RegisterPage = () => {
       style={{ backgroundImage: `url(${registerBg})` }}
     >
       <Container>
-        <div className="registerOverlay">
+        <div className="registerOverlay lg:mx-60">
           <div className="flex justify-center border-b-2 gap-5 ">
             <svg width="102" height="32" className="my-auto">
               <path
@@ -95,14 +95,14 @@ const RegisterPage = () => {
               Sign up
             </div>
           </div>
-          <h2 className="text-center font-extrabold text-3xl text-[#F1295D] my-6">
+          <h2 className="text-center font-extrabold text-2xl lg:text-4xl text-[#F1295D] my-6">
             Welcome to Airbnb
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="lg:flex lg:flex-wrap">
               <FormInput
                 contentLabel={"Full name"}
-                classWrapper="lg:w-1/2 p-5"
+                classWrapper="p-2 lg:w-1/2 lg:p-5"
                 classLabel="text-white"
                 placeholder={"Enter your name"}
                 name={"name"}
@@ -114,7 +114,7 @@ const RegisterPage = () => {
               />
               <FormInput
                 contentLabel={"Email"}
-                classWrapper="lg:w-1/2 p-5"
+                classWrapper="p-2 lg:w-1/2 lg:p-5"
                 classLabel="text-white"
                 placeholder={"Enter your email"}
                 name={"email"}
@@ -127,7 +127,7 @@ const RegisterPage = () => {
               <FormInput
                 type="password"
                 contentLabel={"Password"}
-                classWrapper="lg:w-1/2 p-5"
+                classWrapper="p-2 lg:w-1/2 lg:p-5"
                 classLabel="text-white"
                 placeholder={"Enter your password"}
                 name={"password"}
@@ -140,7 +140,7 @@ const RegisterPage = () => {
               <FormInput
                 type="password"
                 contentLabel={"Confirm your password"}
-                classWrapper="lg:w-1/2 p-5"
+                classWrapper="p-2 lg:w-1/2 lg:p-5"
                 classLabel="text-white"
                 placeholder={"Re-enter your password"}
                 name={"confirmedPassword"}
@@ -150,10 +150,11 @@ const RegisterPage = () => {
                 errors={errors.confirmedPassword}
                 touched={touched.confirmedPassword}
               />
-              <div className="lg:w-1/2">
+              <div className="p-2 lg:w-1/2 lg:p-5">
                 <FormInput
                   contentLabel={"Phone number"}
-                  classWrapper="p-5"
+                  classp-2
+                  Wrapper="lg:p-5"
                   classLabel="text-white"
                   placeholder={"Vietnam (+84)"}
                   name={"phone"}
@@ -163,17 +164,19 @@ const RegisterPage = () => {
                   errors={errors.phone}
                   touched={touched.phone}
                 />
-                <div className="text-sm text-white px-5 ">
+                <div className="text-xs md:text-sm text-white pt-1">
                   We’ll call or text you to confirm your number. Standard
                   message and data rates apply.{" "}
-                  <span className="underline font-bold">Privacy Policy</span>
+                  <span className="underline font-bold cursor-pointer hover:text-[#F1295D] duration-300">
+                    Privacy Policy
+                  </span>
                 </div>
               </div>
 
               <FormInput
                 type="date"
                 contentLabel={"Date of birth"}
-                classWrapper="lg:w-1/2 p-5"
+                classWrapper="p-2 lg:w-1/2 lg:p-5"
                 classLabel="text-white"
                 placeholder={"Enter your date of birth"}
                 name={"birthday"}
@@ -183,7 +186,7 @@ const RegisterPage = () => {
                 errors={errors.birthday}
                 touched={touched.birthday}
               />
-              <div className="lg:w-1/2 p-5">
+              <div className="p-2 lg:w-1/2 lg:px-5 lg:pb-5">
                 <label className="block mb-2 text-sm font-medium text-white">
                   Gender
                 </label>
@@ -204,15 +207,15 @@ const RegisterPage = () => {
               </div>
               <button
                 type="submit"
-                className="py-2 my-3 bg-[#F1295D] text-white font-bold border-none rounded-md w-full hover:scale-105 transition duration-300 ease-in-out"
+                className="py-2 my-3 bg-[#F1295D] text-white font-bold border-none rounded-md w-full hover:bg-[#FD365B] hover:scale-[1.005] transition duration-300 ease-in-out"
               >
                 Sign up
               </button>
-              <div className="py-2 text-white text-center italic lg:w-full">
+              <div className="py-2 text-sm md:text-base text-white text-center italic lg:w-full">
                 Already have an account?{" "}
                 <Link
                   to={pathDefault.login}
-                  className="text-[#F1295D] font-bold"
+                  className="text-[#F1295D] font-bold hover:text-[#FD365B] hover:underline duration-300"
                 >
                   Login
                 </Link>
