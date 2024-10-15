@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { phongThueService } from "../../services/phongThue.service";
 import { viTriService } from "../../services/viTri.service";
 import { binhLuanService } from "../../services/binhLuan.service";
 import BookingPicker from "../../components/BookingPicker/BookingPicker";
 import { NotificationContext } from "../../App";
-import { getCurrentDateTime } from "../../utils/utils";
+import { getCurrentDateTime, getLocalStorage } from "../../utils/utils";
 import Mapbox from "../../components/MapComponent/Mapbox";
 import "./roomDetail.scss";
 import {
@@ -21,11 +21,17 @@ import {
   shareIcon,
 } from "../../common/staticData";
 import Container from "../../components/Container";
+import { useSelector } from "react-redux";
+import { pathDefault } from "../../common/path";
+import noAvatar from "../../assets/img/no-avatar.jpg";
 
 const RoomDetail = () => {
+  const navigate = useNavigate();
   const { handleNotification } = useContext(NotificationContext);
   const [searchParam] = useSearchParams();
   const roomId = searchParam.get("id");
+  const { user } = useSelector((state) => state.authSlice);
+  const localUser = getLocalStorage("user");
   const [roomDetail, setRoomDetail] = useState();
   const [idLocation, setIdLocation] = useState();
   const [locationDetail, setLocationDetail] = useState();
@@ -83,28 +89,37 @@ const RoomDetail = () => {
 
   const handlePostCmt = async (e) => {
     e.preventDefault();
-    // đợi merge code xong sẽ set lại ĐK kiểm tra người dùng, chưa login sẽ điều hướng qua loginPage
-    const commentData = {
-      maPhong: roomId,
-      maNguoiBinhLuan: 43462,
-      ngayBinhLuan: getCurrentDateTime(),
-      noiDung: commentValue,
-      saoBinhLuan: rating,
-    };
+    if (user) {
+      const token = user.token;
+      const commentData = {
+        maPhong: roomId,
+        maNguoiBinhLuan: user.user.id,
+        ngayBinhLuan: getCurrentDateTime(),
+        noiDung: commentValue,
+        saoBinhLuan: rating,
+      };
 
-    try {
-      const resNewComment = await binhLuanService.postComment(
-        commentData,
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNDYyIiwiZW1haWwiOiJhYmJ5QGdtYWlsLmNvbSIsInJvbGUiOiJVU0VSIiwibmJmIjoxNzI3ODA5NzMyLCJleHAiOjE3Mjg0MTQ1MzJ9.lv69sK0OykTmTvBEhgvu8oUE6Va41_nVqEMG14Hn5Dg"
-      );
-      console.log(resNewComment);
-      setCommentValue("");
-      handleNotification(resNewComment.data.message, "success");
+      try {
+        const resNewComment = await binhLuanService.postComment(
+          commentData,
+          token
+        );
+        console.log(resNewComment);
+        setCommentValue("");
+        handleNotification(resNewComment.data.message, "success");
 
-      const updatedComments = await binhLuanService.getCommentsByRoomId(roomId);
-      setListComment(updatedComments.data.content);
-    } catch (err) {
-      console.log(err);
+        const updatedComments = await binhLuanService.getCommentsByRoomId(
+          roomId
+        );
+        setListComment(updatedComments.data.content);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      handleNotification("Please login to comment", "error");
+      setTimeout(() => {
+        navigate(pathDefault.login);
+      }, 3000);
     }
   };
 
@@ -135,7 +150,7 @@ const RoomDetail = () => {
         src={roomDetail?.hinhAnh}
         width="100%"
         alt=""
-        className="rounded-xl"
+        className="rounded-xl h-64 lg:h-[600px] object-cover"
       />
       <div className="lg:flex justify-between">
         {/* room info */}
@@ -243,7 +258,7 @@ const RoomDetail = () => {
           <div className="booking-card w-auto sm:w-96 lg:sticky top-24 right-0 lg:w-96">
             <div
               className="rounded-md bg-white shadow-lg"
-              style={{ top: "10px", padding: "20px 30px" }} // Khởi đầu từ 10px từ trên cùng
+              style={{ top: "10px", padding: "20px 30px" }}
             >
               <div className="price-info text-sm lg:text-base mb-4">
                 <span className="text-xl lg:text-2xl font-semibold">
@@ -256,7 +271,7 @@ const RoomDetail = () => {
             </div>
             <div className="flex items-center justify-center gap-2 py-6">
               {reportIcon}
-              <div className="text-sm text-center font-semibold text-gray-500 underline dark:text-white">
+              <div className="text-sm text-center font-semibold text-gray-500 underline dark:text-white cursor-pointer">
                 Report this listing
               </div>
             </div>
@@ -319,7 +334,7 @@ const RoomDetail = () => {
                   <div className="flex items-center space-x-3 pb-3">
                     <img
                       className="w-8 h-8 lg:w-12 lg:h-12 rounded-full"
-                      src={comment.avatar}
+                      src={comment.avatar ? comment.avatar : noAvatar}
                       alt="avatar"
                     />
                     <div>
@@ -355,7 +370,11 @@ const RoomDetail = () => {
           <div>
             <div className="flex justify-start gap-5 py-3">
               {/* avatar */}
-              <img src="" alt="avatar" />
+              <img
+                src={localUser ? user?.user.avatar : noAvatar}
+                className="w-12 h-12 rounded-full"
+                alt="avatar"
+              />
               <div className="w-full">
                 <textarea
                   placeholder="Add a comment"
@@ -400,7 +419,7 @@ const RoomDetail = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="py-2 px-5 bg-[#DB0B64] text-white rounded-md text-sm lg:text-base"
+                className="py-2 px-5 bg-[#DB0B64] text-white font-semibold rounded-md text-sm lg:text-base hover:bg-[#FD365B] duration-100"
               >
                 Post comment
               </button>
@@ -483,7 +502,7 @@ const RoomDetail = () => {
                 Speaks English, Chinese, Japanese and Korean
               </p>
             </div>
-            <p className="pt-2 underline cursor-pointer font-semibold text-sm lg:text-base">
+            <p className="pt-2 underline cursor-pointer font-semibold text-sm lg:text-base hover:text-gray-600">
               Show more
             </p>
           </div>
@@ -503,7 +522,7 @@ const RoomDetail = () => {
               <p>Responds within an hour</p>
             </div>
             <div className="flex-grow text-sm lg:text-base">
-              <button className="py-3 px-8 font-bold rounded-md bg-black text-white dark:bg-white dark:text-black">
+              <button className="py-3 px-8 font-bold rounded-md bg-black text-white dark:bg-white dark:text-black hover:bg-gray-800 duration-100">
                 Message Host
               </button>
             </div>
@@ -567,7 +586,7 @@ const RoomDetail = () => {
                 <p className="text-sm lg:text-base mb-3">{thing.rule1}</p>
                 <p className="text-sm lg:text-base mb-3">{thing.rule2}</p>
                 <p className="text-sm lg:text-base mb-3">{thing.rule3}</p>
-                <button className="cursor-pointer underline text-sm lg:text-base font-semibold mb-6">
+                <button className="cursor-pointer underline text-sm lg:text-base font-semibold mb-6 hover:text-gray-600">
                   Show more
                 </button>
               </div>
