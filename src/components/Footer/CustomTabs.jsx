@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { tabs } from "./ListTabs";
 
-const CustomTabs = ({ tabs }) => {
+const CustomTabs = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
@@ -23,7 +24,7 @@ const CustomTabs = ({ tabs }) => {
 
       {/* Tab Content */}
       <div className="tab-content grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        {tabs[activeTab].subList.map((item, index) => (
+        {tabs[activeTab].tabList.map((item, index) => (
           <div key={index} className="tab-item cursor-pointer">
             <h4 className="text-sm sm:text-base dark:text-white font-semibold hover:underline duration-300">
               {item.name}

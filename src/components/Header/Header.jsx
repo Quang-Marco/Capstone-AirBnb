@@ -2,8 +2,6 @@ import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Dropdown } from "antd";
 import dayjs from "dayjs";
-import useResponsive from "../../hooks/useReponsive";
-import useDebounce from "../../hooks/useDebounce";
 import { useTranslation } from "react-i18next";
 import Container from "../Container";
 import LogoHeader from "./LogoHeader";
@@ -12,6 +10,7 @@ import UserMenu from "./UserMenu";
 import CustomDropdown from "./CustomDropdown";
 import { viTriService } from "../../services/viTri.service";
 import { pathDefault } from "../../common/path";
+import MobileSearch from "./MobileSearch";
 
 const removeAccents = (str) =>
   str
@@ -468,20 +467,9 @@ const Header = () => {
   ];
   const [activeTab, setActiveTab] = useState(tabs[0].key);
 
-  const [scrollY, setScrollY] = useState(0);
-  // const debouncedScrollY = useDebounce(scrollY, 100);
-  // const [isScroll, setIsScroll] = useState(false);
-
-  const { isMobile } = useResponsive();
   const [isMerged, setIsMerged] = useState(false);
   const isThrottled = useRef(false); // manage function call limit
   const [showDiv, setShowDiv] = useState(false);
-
-  useEffect(() => {
-    if (isMobile) {
-      setActiveTab(tabs[1].key);
-    }
-  }, [isMobile]);
 
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
@@ -500,16 +488,6 @@ const Header = () => {
       setTimeout(() => (isThrottled.current = false), 100);
     }
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     if (!isMerged) {
@@ -531,10 +509,6 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isMerged]);
-
-  // useEffect(() => {
-  //   setIsScroll(debouncedScrollY > 100);
-  // }, [debouncedScrollY]);
 
   useEffect(() => {
     viTriService
@@ -578,6 +552,9 @@ const Header = () => {
             </div>
           )}
 
+          {/* Mobile Search */}
+          <MobileSearch />
+
           {/* User actions */}
           <UserMenu />
         </div>
@@ -585,7 +562,7 @@ const Header = () => {
         {/* Tabs content */}
         {showDiv && (
           <div
-            className={`flex justify-center mt-4 transition-transform duration-300 ease-in ${
+            className={`hidden sm:flex justify-center mt-4 transition-transform duration-300 ease-in ${
               isMerged ? "scale-0 -translate-y-20" : "scale-100"
             }`}
           >
