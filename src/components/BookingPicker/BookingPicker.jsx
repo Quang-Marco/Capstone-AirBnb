@@ -5,10 +5,14 @@ import { DatePicker, Space } from "antd";
 import "./bookingPicker.scss";
 import { datPhongService } from "../../services/datPhong.service";
 import { NotificationContext } from "../../App";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const { RangePicker } = DatePicker;
 
 const BookingPicker = ({ roomPrice, roomId }) => {
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.authSlice);
   const { handleNotification } = useContext(NotificationContext);
   const [bookingDays, setBookingDays] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -95,21 +99,28 @@ const BookingPicker = ({ roomPrice, roomId }) => {
     }),
     onSubmit: (values) => {
       console.log("Booking values:", values);
-      datPhongService
-        .postBookedRoom({
-          maPhong: roomId,
-          ngayDen: values.checkin,
-          ngayDi: values.checkout,
-          soLuongKhach: values.adults,
-        })
-        .then((res) => {
-          console.log(res);
-          handleNotification("Complete booking successfully", "success");
-        })
-        .catch((err) => {
-          console.log(err);
-          handleNotification("Fail to book this room", "error");
-        });
+      if (user) {
+        datPhongService
+          .postBookedRoom({
+            maPhong: roomId,
+            ngayDen: values.checkin,
+            ngayDi: values.checkout,
+            soLuongKhach: values.adults,
+          })
+          .then((res) => {
+            console.log(res);
+            handleNotification("Complete booking", "success");
+          })
+          .catch((err) => {
+            console.log(err);
+            handleNotification("Fail to book this room", "error");
+          });
+      } else {
+        handleNotification("Please login to complete booking", "error");
+        setTimeout(() => {
+          navigate(pathDefault.login);
+        }, 3000);
+      }
     },
   });
 
@@ -245,7 +256,7 @@ const BookingPicker = ({ roomPrice, roomId }) => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-[#DB0B64] text-white rounded-md cursor-pointer font-semibold text-base lg:text-md mt-5"
+        className="w-full bg-[#DB0B64] text-white rounded-md cursor-pointer font-semibold text-base lg:text-md mt-5 hover:bg-[#FD365B] duration-100"
         style={{ padding: "12px 0" }}
       >
         Reserve
