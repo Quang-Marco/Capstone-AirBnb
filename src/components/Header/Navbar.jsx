@@ -1,4 +1,8 @@
+import { useTranslation } from "react-i18next";
+
 const Navbar = ({ setLocationOpen }) => {
+  const { t } = useTranslation();
+
   const handleClick = () => {
     window.scrollTo({
       top: 0,
@@ -14,12 +18,14 @@ const Navbar = ({ setLocationOpen }) => {
         className="hidden sm:block border w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md duration-300 cursor-pointer"
       >
         <div className="flex items-center justify-between text-gray-600 dark:text-white">
-          <div className="text-sm font-semibold px-6">Anywhere</div>
+          <div className="text-sm font-semibold px-6">
+            {t("header.navbar.anywhere")}
+          </div>
           <div className="text-sm font-semibold px-6 border-x flex-1 text-center">
-            Any week
+            {t("header.navbar.anyweek")}
           </div>
           <div className="text-sm pl-6 pr-2 flex items-center justify-between gap-3">
-            <div>Add guests</div>
+            <div>{t("header.navbar.addGuests")}</div>
             <button className="bg-[#FF385C] text-white p-[10px] rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
