@@ -28,7 +28,9 @@ const FormInput = ({
         onBlur={onBlur}
       />
       {errors && touched && (
-        <span className="text-sm text-red-500 lg:text-base mt-2">{errors}</span>
+        <span className="text-sm italic text-red-500 lg:text-base mt-2">
+          {errors}
+        </span>
       )}
     </div>
   );
