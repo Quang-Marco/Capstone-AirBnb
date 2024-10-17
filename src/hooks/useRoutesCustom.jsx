@@ -10,6 +10,10 @@ import AdminTemplate from "../templates/AdminTemplate/AdminTemplate";
 import NotFound from "../pages/NotFound/NotFound";
 import RoomDetail from "../pages/RoomDetail/RoomDetail";
 import AdminLogin from "../pages/AdminLogin/AdminLogin";
+import ManageUser from "../pages/Manage/ManageUser";
+import ManageInfoLocation from "../pages/Manage/ManageInfoLocation";
+import ManageInfoRoom from "../pages/Manage/ManageInfoRoom";
+import ManageRoomBook from "../pages/Manage/ManageRoomBook";
 
 const useRoutesCustom = () => {
   const routes = useRoutes([
@@ -46,6 +50,28 @@ const useRoutesCustom = () => {
     {
       path: pathDefault.admin,
       element: <AdminTemplate />,
+      children: [
+        {
+          index: true,
+          element: <ManageUser />,
+        },
+        {
+          path: "manage-user",
+          element: <ManageUser />,
+        },
+        {
+          path: "manage-info-location",
+          element: <ManageInfoLocation />,
+        },
+        {
+          path: "manage-info-room",
+          element: <ManageInfoRoom />,
+        },
+        {
+          path: "manage-room-book",
+          element: <ManageRoomBook />,
+        },
+      ],
     },
     {
       path: pathDefault.adminLogin,

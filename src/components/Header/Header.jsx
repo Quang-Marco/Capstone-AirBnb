@@ -27,9 +27,9 @@ const Header = () => {
   const [searchValue, setSearchValue] = useState("");
   const [locationOpen, setLocationOpen] = useState(false);
   const [dates, setDates] = useState({
-    checkin: "Add dates",
-    checkout: "Add dates",
-    date: "Add dates",
+    checkin: t("header.navbar.addDates"),
+    checkout: t("header.navbar.addDates"),
+    date: t("header.navbar.addDates"),
   });
   const [guests, setGuests] = useState({
     adults: 0,
