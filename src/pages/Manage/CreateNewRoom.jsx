@@ -4,7 +4,6 @@ import { NotificationContext } from "../../App";
 import { phongThueService } from "../../services/phongThue.service";
 import InputCustom from "../../components/FormInput/FormInput";
 import { Checkbox } from "antd";
-
 const CreateNewRoom = () => {
   const { user } = useSelector((state) => state.authSlice);
 
@@ -191,12 +190,12 @@ const CreateNewRoom = () => {
             </div>
             <div className="check-contain">
               <Checkbox
-                name="dieuHoa"
-                value={roomValue.dieuHoa}
-                checked={roomValue.dieuHoa}
+                name="tivi"
+                checked={roomValue.tivi}
+                value={roomValue.tivi}
                 onChange={handleChangeValue}
               >
-                Air Conditioner
+                TV
               </Checkbox>
             </div>
             <div className="check-contain">
@@ -211,25 +210,12 @@ const CreateNewRoom = () => {
             </div>
             <div className="check-contain">
               <Checkbox
-                name="bep"
-                checked={roomValue.bep}
-                value={roomValue.bep}
+                name="dieuHoa"
+                value={roomValue.dieuHoa}
+                checked={roomValue.dieuHoa}
                 onChange={handleChangeValue}
               >
-                Kitchen
-              </Checkbox>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:space-y-3">
-            <div className="check-contain">
-              <Checkbox
-                name="tivi"
-                checked={roomValue.tivi}
-                value={roomValue.tivi}
-                onChange={handleChangeValue}
-              >
-                TV
+                Air Conditioner
               </Checkbox>
             </div>
             <div className="check-contain">
@@ -240,6 +226,19 @@ const CreateNewRoom = () => {
                 onChange={handleChangeValue}
               >
                 Wifi
+              </Checkbox>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1  ">
+            <div className="check-contain">
+              <Checkbox
+                name="bep"
+                checked={roomValue.bep}
+                value={roomValue.bep}
+                onChange={handleChangeValue}
+              >
+                Kitchen
               </Checkbox>
             </div>
             <div className="check-contain">

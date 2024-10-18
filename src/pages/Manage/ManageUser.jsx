@@ -1,6 +1,8 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Button, Modal, Space, Table, Tag } from "antd";
+
 import { NotificationContext } from "../../App";
+
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { userService } from "../../services/user.service";
@@ -8,7 +10,6 @@ import { notiValidation } from "../../common/notiValidation";
 import InputCustom from "../../components/FormInput/FormInput";
 import CreateAdminstrator from "./CreateAdminstrator";
 import { useSelector } from "react-redux";
-
 const ManageUser = () => {
   const { handleNotification } = useContext(NotificationContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -126,8 +127,8 @@ const ManageUser = () => {
           .split("T")[0];
         setFieldValue("birthday", birthdayConvert);
       })
-      .catch((err) => {
-        handleNotification(err.message, "error");
+      .catch(() => {
+        // handleNotification(err.message, "error");
       });
   };
 
@@ -140,11 +141,18 @@ const ManageUser = () => {
         .uploadAvatar(formData, user.token)
         .then(() => {
           handleNotification("Upload avatar successfully", "success");
+          setIsModalUploadOpen(false);
           fetchUsers();
+          setUploadImage(null);
+          setErrorImage("");
+          inputFileRef.current.value = "";
         })
         .catch(() => {
           handleNotification("Upload avatar fail", "error");
           fetchUsers();
+          setUploadImage(null);
+          setErrorImage("");
+          inputFileRef.current.value = "";
         });
     }
   };

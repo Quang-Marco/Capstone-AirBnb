@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { NotificationContext } from "../../App";
 import { viTriService } from "../../services/viTri.service";
 import InputCustom from "../../components/FormInput/FormInput";
-
 const CreateNewLocation = () => {
   const { user } = useSelector((state) => state.authSlice);
 

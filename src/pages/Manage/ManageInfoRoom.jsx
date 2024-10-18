@@ -1,12 +1,12 @@
 import { Checkbox, Modal, Space, Table } from "antd";
 import { useContext, useEffect, useRef, useState } from "react";
+
 import { phongThueService } from "../../services/phongThue.service";
 import { useSelector } from "react-redux";
 import { NotificationContext } from "../../App";
 import InputCustom from "../../components/FormInput/FormInput";
 import { useFormik } from "formik";
 import CreateNewRoom from "./CreateNewRoom";
-
 const ManageInfoRoom = () => {
   const getValueRoomApi = async () => {
     try {
@@ -87,11 +87,18 @@ const ManageInfoRoom = () => {
         .uploadImageRoom(selectedId, formData, user.token)
         .then(() => {
           handleNotification("Upload avatar successfully", "success");
+          setIsModalUploadOpen(false);
           fetchRoom();
+          setUploadImage(null);
+          setErrorImage("");
+          inputFileRef.current.value = "";
         })
         .catch(() => {
           handleNotification("update failed", "error");
           fetchRoom();
+          setUploadImage(null);
+          setErrorImage("");
+          inputFileRef.current.value = "";
         });
     }
   };
@@ -339,13 +346,6 @@ const ManageInfoRoom = () => {
                     Washing Machine
                   </Checkbox>
                   <Checkbox
-                    name="tivi"
-                    checked={values.tivi}
-                    onChange={handleChange}
-                  >
-                    TV
-                  </Checkbox>
-                  <Checkbox
                     name="banLa"
                     checked={values.banLa}
                     onChange={handleChange}
@@ -368,7 +368,14 @@ const ManageInfoRoom = () => {
                   </Checkbox>
                 </div>
 
-                <div className="grid grid-cols-1">
+                <div className="grid grid-cols-1 lg:space-y-3">
+                  <Checkbox
+                    name="tivi"
+                    checked={values.tivi}
+                    onChange={handleChange}
+                  >
+                    TV
+                  </Checkbox>
                   <Checkbox
                     name="bep"
                     checked={values.bep}

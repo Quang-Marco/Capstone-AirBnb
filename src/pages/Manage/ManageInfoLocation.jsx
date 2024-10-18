@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
+
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { Button, Modal, Space, Table } from "antd";
@@ -6,7 +7,6 @@ import { viTriService } from "../../services/viTri.service";
 import InputCustom from "../../components/FormInput/FormInput";
 import { NotificationContext } from "../../App";
 import CreateNewLocation from "./CreateNewLocation";
-
 const ManageInfoLocation = () => {
   const getValueLocationApi = async () => {
     try {
@@ -233,11 +233,18 @@ const ManageInfoLocation = () => {
         .uploadImageLocation(selectedId, formData, user.token)
         .then(() => {
           handleNotification("Upload avatar successfully", "success");
+          setIsModalUploadOpen(false);
           fetchLocations();
+          setUploadImage(null);
+          setErrorImage("");
+          inputFileRef.current.value = "";
         })
         .catch((err) => {
           handleNotification(err.message, "error");
           fetchLocations();
+          setUploadImage(null);
+          setErrorImage("");
+          inputFileRef.current.value = "";
         });
     }
   };

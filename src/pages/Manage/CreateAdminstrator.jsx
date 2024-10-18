@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { NotificationContext } from "../../App";
 import { userService } from "../../services/user.service";
-import InputCustom from "../../components/FormInput/FormInput";
 
+import InputCustom from "../../components/FormInput/FormInput";
 const CreateAdminstrator = () => {
   const { handleNotification } = useContext(NotificationContext);
 

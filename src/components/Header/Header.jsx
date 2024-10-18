@@ -467,41 +467,9 @@ const Header = () => {
   ];
   const [activeTab, setActiveTab] = useState(tabs[0].key);
 
-  // const [scrollY, setScrollY] = useState(0);
-  // const debouncedScrollY = useDebounce(scrollY, 100);
-  // const [isScroll, setIsScroll] = useState(false);
-  const { isMobile } = useResponsive();
   const [isMerged, setIsMerged] = useState(false);
   const isThrottled = useRef(false); // manage function call limit
   const [showDiv, setShowDiv] = useState(false);
-
-  useEffect(() => {
-    if (!isMerged) {
-      // isMerged false
-      setShowDiv(true);
-    } else {
-      // isMerged true
-      const timer = setTimeout(() => {
-        setShowDiv(false);
-      }, 300); // set same as duration
-
-      return () => clearTimeout(timer);
-    }
-  }, [isMerged]);
-
-  useEffect(() => {
-    if (!isMerged) {
-      // isMerged false
-      setShowDiv(true);
-    } else {
-      // isMerged true
-      const timer = setTimeout(() => {
-        setShowDiv(false);
-      }, 300); // set same as duration
-
-      return () => clearTimeout(timer);
-    }
-  }, [isMerged]);
 
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
@@ -521,7 +489,19 @@ const Header = () => {
     }
   };
 
-  console.log(isMerged);
+  useEffect(() => {
+    if (!isMerged) {
+      // isMerged false
+      setShowDiv(true);
+    } else {
+      // isMerged true
+      const timer = setTimeout(() => {
+        setShowDiv(false);
+      }, 300); // set same as duration
+
+      return () => clearTimeout(timer);
+    }
+  }, [isMerged]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -529,10 +509,6 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isMerged]);
-
-  // useEffect(() => {
-  //   setIsScroll(debouncedScrollY > 100);
-  // }, [debouncedScrollY]);
 
   useEffect(() => {
     viTriService
@@ -552,16 +528,13 @@ const Header = () => {
 
           {/* Navbar or Tabs header*/}
           {!showDiv ? (
-            <Navbar
-              setLocationOpen={setLocationOpen}
-              className={`transition-transform duration-300 ease-in ${
-                isMerged
-                  ? "scale-0 -translate-y-30"
-                  : "scale-100 -translate-y-1"
-              }`}
-            />
+            <Navbar setLocationOpen={setLocationOpen} />
           ) : (
-            <div className="tabs-header hidden sm:flex gap-4">
+            <div
+              className={`tabs-header hidden sm:flex gap-4 ${
+                isMerged ? "scale-0 -translate-y-20" : "scale-100"
+              }`}
+            >
               {tabs.map((tab) => (
                 <button
                   type="button"
@@ -589,8 +562,8 @@ const Header = () => {
         {/* Tabs content */}
         {showDiv && (
           <div
-            className={`flex justify-center mt-4 transition-transform duration-300 ease-in ${
-              isMerged ? "scale-0 -translate-y-20" : "scale-100 -translate-y-1"
+            className={`hidden sm:flex justify-center mt-4 transition-transform duration-300 ease-in ${
+              isMerged ? "scale-0 -translate-y-20" : "scale-100"
             }`}
           >
             {tabs.map(
