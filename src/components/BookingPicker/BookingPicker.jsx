@@ -7,12 +7,14 @@ import { datPhongService } from "../../services/datPhong.service";
 import { NotificationContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getLocalStorage } from "../../utils/utils";
 
 const { RangePicker } = DatePicker;
 
 const BookingPicker = ({ roomPrice, roomId }) => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.authSlice);
+  const localUser = getLocalStorage("user");
   const { handleNotification } = useContext(NotificationContext);
   const [bookingDays, setBookingDays] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -99,9 +101,10 @@ const BookingPicker = ({ roomPrice, roomId }) => {
     }),
     onSubmit: (values) => {
       console.log("Booking values:", values);
-      if (user) {
+      if (localUser) {
         datPhongService
           .postBookedRoom({
+            maNguoiDung: user.user.id,
             maPhong: roomId,
             ngayDen: values.checkin,
             ngayDi: values.checkout,

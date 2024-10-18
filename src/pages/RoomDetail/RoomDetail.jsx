@@ -89,7 +89,7 @@ const RoomDetail = () => {
 
   const handlePostCmt = async (e) => {
     e.preventDefault();
-    if (user) {
+    if (localUser) {
       const token = user.token;
       const commentData = {
         maPhong: roomId,
