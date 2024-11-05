@@ -15,10 +15,20 @@ const LocationRooms = () => {
   const [params, setParams] = useSearchParams();
   const [tenViTriTitle, setTenViTriTitle] = useState("");
   const idLocation = params.get("idLocation");
+  const [savedRooms, setSavedRooms] = useState([]);
 
-  const mapDetail = mapLocationData.find(
-    (location) => location.id === parseInt(idLocation)
-  );
+  const mapDetail =
+    mapLocationData.find((location) => location.id === parseInt(idLocation)) ||
+    [];
+
+  const handleIconClick = (event, roomId) => {
+    event.stopPropagation();
+    setSavedRooms((listSavedRooms) =>
+      listSavedRooms.includes(roomId)
+        ? listSavedRooms.filter((id) => id !== roomId)
+        : [...listSavedRooms, roomId]
+    );
+  };
 
   const fetchData = async () => {
     try {
@@ -86,19 +96,26 @@ const LocationRooms = () => {
                   <button
                     type="button"
                     className="heart h-10 w-10 rounded-full text-center text-gray-500 focus:text-red-500 bg-white hover:bg-gray-100 absolute top-2 right-2 opacity-0 duration-300 group-hover:opacity-100"
+                    onClick={(event) => handleIconClick(event, category.id)}
                   >
-                    <i className="fa-regular fa-heart"></i>
+                    <i
+                      className={`fa-regular fa-heart ${
+                        savedRooms.includes(category.id)
+                          ? "text-red-500"
+                          : "text-gray-500"
+                      }`}
+                    ></i>
                   </button>
                 </div>
               ))}
             </div>
             <div className="map basis-full h-72 lg:basis-2/5 lg:h-auto lg:max-h-fit">
               <Mapbox
-                longitude={mapDetail.longitude}
-                latitude={mapDetail.latitude}
-                tenViTri={mapDetail.tenViTri}
-                tinhThanh={mapDetail.tinhThanh}
-                image={mapDetail.hinhAnh}
+                longitude={mapDetail.longitude || 0}
+                latitude={mapDetail.latitude || 0}
+                tenViTri={mapDetail.tenViTri || ""}
+                tinhThanh={mapDetail.tinhThanh || ""}
+                image={mapDetail.hinhAnh || ""}
               />
             </div>
           </div>
@@ -119,6 +136,10 @@ const LocationRooms = () => {
               },
             ]}
           />
+          <h2 className="dark:text-white text-xl sm:text-2xl lg:text-3xl mt-5 mb-10">
+            0 places for{" "}
+            <span className="font-semibold">"{tenViTriTitle}"</span>
+          </h2>
           <p className="col-span-4 text-center text-gray-500 h-10 sm:h-[350px] flex items-center justify-center">
             No rooms available for this location.
           </p>

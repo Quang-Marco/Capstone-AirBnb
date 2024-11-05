@@ -8,6 +8,7 @@ import { NotificationContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getLocalStorage } from "../../utils/utils";
+import { pathDefault } from "../../common/path";
 
 const { RangePicker } = DatePicker;
 
@@ -99,7 +100,7 @@ const BookingPicker = ({ roomPrice, roomId }) => {
         .min(Yup.ref("checkin"), "Check-out date must be after check-in")
         .required("Check-out date is required"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       console.log("Booking values:", values);
       if (localUser) {
         datPhongService
@@ -113,6 +114,10 @@ const BookingPicker = ({ roomPrice, roomId }) => {
           .then((res) => {
             console.log(res);
             handleNotification("Complete booking", "success");
+            resetForm();
+            setBookingDays(0);
+            setTotalPrice(0);
+            setFinalPrice(0);
           })
           .catch((err) => {
             console.log(err);

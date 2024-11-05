@@ -532,31 +532,92 @@ export const mapLocationData = [
     hinhAnh: "https://airbnbnew.cybersoft.edu.vn/images/vt8.jpg",
   },
   {
-    id: 3240,
-    tenViTri: "Cầu Vàng",
-    tinhThanh: "Đà Nẵng",
-    longitude: "108.1459593",
-    latitude: "10.9608947",
+    id: 3440,
+    tenViTri: "Huyện Tân Yên",
+    tinhThanh: "Bắc Giang",
+    longitude: "103.7382918",
+    latitude: "22.1261158",
     hinhAnh:
-      "https://airbnbnew.cybersoft.edu.vn/avatar/24-08-2024-03-29-39-tesst.jpg",
+      "https://airbnbnew.cybersoft.edu.vn/avatar/22-10-2024-02-07-11-13.jpg",
   },
   {
-    id: 3242,
-    tenViTri: "Tam Đảo",
-    tinhThanh: "Vĩnh Phúc",
+    id: 3441,
+    tenViTri: "Thành phố Bắc Kạn",
+    tinhThanh: "Bắc Kạn",
+    longitude: "105.7702838",
+    latitude: "22.1336363",
+    hinhAnh: "https://airbnbnew.cybersoft.edu.vn/images/vt1.jpg",
+  },
+  {
+    id: 3443,
+    tenViTri: "Thành phố Bắc Kạn",
+    tinhThanh: "Bắc Kạn",
+    longitude: "105.7702838",
+    latitude: "22.1336363",
+    hinhAnh: "https://airbnbnew.cybersoft.edu.vn/images/vt1.jpg",
+  },
+  {
+    id: 3445,
+    tenViTri: "Bùi Viện",
+    tinhThanh: "Hồ Chí Minh",
     longitude: "105.6425416",
     latitude: "21.454107",
     hinhAnh:
-      "https://airbnbnew.cybersoft.edu.vn/avatar/02-09-2024-06-55-52-tamdao4-7954-1650625982.jpg",
+      "https://airbnbnew.cybersoft.edu.vn/avatar/24-10-2024-07-21-32-capture.jpg",
   },
   {
-    id: 3243,
-    tenViTri: "Mỹ Tho",
-    tinhThanh: "Tiền Giang",
-    longitude: "106.3040747",
-    latitude: "10.3692895",
+    id: 3446,
+    tenViTri: "Gành Đá Đĩa",
+    tinhThanh: "Phú Yên",
+    longitude: "105.6425416",
+    latitude: "21.454107",
     hinhAnh:
-      "https://muinetourhotel.com/upload/data/H%C3%8CNH%20THU%C3%8A%20XE%20CHU%E1%BA%A8N%20SEO/tour%20my%20tho/cn-thoi-son.jpg",
+      "https://airbnbnew.cybersoft.edu.vn/avatar/24-10-2024-07-26-11-capture1.jpg",
+  },
+  {
+    id: 3448,
+    tenViTri: "Quận 1",
+    tinhThanh: "Hà Nội ",
+    longitude: "105.6425416",
+    latitude: "21.454107",
+    hinhAnh:
+      "https://airbnbnew.cybersoft.edu.vn/avatar/25-10-2024-10-20-30-licensed-image.jpg",
+  },
+  {
+    id: 3487,
+    tenViTri: "Quận 2",
+    tinhThanh: "Hồ Chí Minh",
+    longitude: "105.6425416",
+    latitude: "21.454107",
+    hinhAnh:
+      "https://airbnbnew.cybersoft.edu.vn/avatar/30-10-2024-01-26-37-quan2.jpg",
+  },
+  {
+    id: 3559,
+    tenViTri: "Vinwonder",
+    tinhThanh: "Nha Trang",
+    longitude: "105.6425416",
+    latitude: "21.454107",
+    hinhAnh:
+      "https://airbnbnew.cybersoft.edu.vn/avatar/02-11-2024-06-32-35-vinwonders.jpg",
+  },
+  {
+    id: 3571,
+    tenViTri: "Thủ Đức",
+    tinhThanh: "Hồ Chí Minh",
+    longitude: "105.6425416",
+    latitude: "21.454107",
+    hinhAnh:
+      "https://airbnbnew.cybersoft.edu.vn/avatar/02-11-2024-06-33-41-thuduc.jpg",
+  },
+  {
+    id: 3576,
+    tenViTri: "Q1",
+    tinhThanh: "HCM",
+    longitude: "105.6425416",
+    latitude: "21.454107",
+    hinhAnh:
+      "https://airbnbnew.cybersoft.edu.vn/avatar/03-11-2024-11-36-22-thuduc.jpg",
   },
 ];
 
