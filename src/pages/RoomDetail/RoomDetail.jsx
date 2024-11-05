@@ -445,7 +445,7 @@ const RoomDetail = () => {
             <div className="flex justify-start gap-5 py-3">
               {/* avatar */}
               <img
-                src={localUser ? user?.user.avatar : noAvatar}
+                src={localUser ? localUser?.user.avatar : noAvatar}
                 className="w-12 h-12 rounded-full"
                 alt="avatar"
               />
