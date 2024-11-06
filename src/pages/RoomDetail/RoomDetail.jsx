@@ -24,6 +24,7 @@ import Container from "../../components/Container";
 import { useSelector } from "react-redux";
 import { pathDefault } from "../../common/path";
 import noAvatar from "../../assets/img/no-avatar.jpg";
+import useResponsive from "../../hooks/useReponsive";
 
 const RoomDetail = () => {
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ const RoomDetail = () => {
   const [commentValue, setCommentValue] = useState("");
   const [rating, setRating] = useState(0);
   const [starHover, setStarHover] = useState(0);
+  const [isBookingCardOpen, setIsBookingCardOpen] = useState(false);
+  const { isMobile, isTablet } = useResponsive();
 
   useEffect(() => {
     if (roomId) {
@@ -131,13 +134,13 @@ const RoomDetail = () => {
           {roomDetail?.tenPhong}
         </h2>
         <div className="flex">
-          <button className="py-1 px-3 me-2 rounded-md hover:bg-slate-100">
+          <button className="py-1 px-3 me-2 rounded-md hover:bg-slate-100 duration-100 dark:hover:text-black dark:duration-100">
             {shareIcon}
             <span className="ms-1 text-base hidden lg:inline underline">
               Share
             </span>
           </button>
-          <button className="py-1 px-3 me-2 rounded-md hover:bg-slate-100">
+          <button className="py-1 px-3 me-2 rounded-md hover:bg-slate-100 duration-100 dark:hover:text-black dark:duration-100">
             {saveIcon}
             <span className="ms-1 text-base hidden lg:inline underline">
               Save
@@ -169,7 +172,9 @@ const RoomDetail = () => {
               </p>
               <div className="text-sm sm:text-base lg:text-lg font-semibold mt-5">
                 <i className="fa-solid fa-star"></i>4.99 (159) <span>·</span>{" "}
-                <span className="underline">10 reviews</span>
+                <span className="underline hover:cursor-pointer">
+                  10 reviews
+                </span>
               </div>
             </div>
             {/* host */}
@@ -246,8 +251,8 @@ const RoomDetail = () => {
                 })}
               </div>
 
-              <button className="text-sm lg:text-base font-semibold mt-5 py-2 px-5 border border-black rounded-lg hover:bg-slate-100 dark:border-white bg-white text-black dark:hover:bg-gray-100">
-                Show all 10 amenities
+              <button className="text-sm lg:text-base font-semibold mt-5 py-3 px-8 border border-black rounded-lg hover:bg-slate-100 dark:border-white bg-white text-black dark:hover:bg-gray-200 duration-100 dark:duration-100">
+                Show all amenities
               </button>
             </div>
           </div>
@@ -255,9 +260,9 @@ const RoomDetail = () => {
 
         {/* booking card */}
         <div className="relative">
-          <div className="booking-card w-auto sm:w-96 lg:sticky top-24 right-0 lg:w-96">
+          {/* <div className="booking-card w-auto sm:w-96 lg:sticky top-24 right-0 lg:w-96">
             <div
-              className="rounded-md bg-white shadow-lg"
+              className="rounded-md bg-white shadow-lg dark:bg-[#111827] dark:text-white dark:border-[0.3px] dark:rounded-lg dark:border-white"
               style={{ top: "10px", padding: "20px 30px" }}
             >
               <div className="price-info text-sm lg:text-base mb-4">
@@ -275,7 +280,76 @@ const RoomDetail = () => {
                 Report this listing
               </div>
             </div>
-          </div>
+          </div> */}
+          {isMobile || isTablet ? (
+            <>
+              {/* mobile */}
+              <div
+                className="fixed bottom-0 inset-x-0 z-10 w-full h-16 bg-white border-t-2 p-3"
+                style={{ left: 0, right: 0 }}
+              >
+                <div className="grid grid-cols-2">
+                  <div>
+                    <span className="text-xl lg:text-2xl font-semibold">
+                      ${roomDetail?.giaTien}
+                    </span>{" "}
+                    night
+                  </div>
+                  <button
+                    onClick={() => setIsBookingCardOpen(!isBookingCardOpen)}
+                    className="py-3 px-8 rounded-md bg-[#DB0B64] text-white font-semibold text-md"
+                  >
+                    {isBookingCardOpen ? "Close reserve" : "Open Reserve"}
+                  </button>
+                </div>
+              </div>
+
+              {isBookingCardOpen && (
+                <div className="fixed z-10 bottom-14 left-0 right-0 w-full bg-white shadow-lg dark:bg-[#111827] dark:text-white p-4">
+                  <div className="rounded-md shadow-lg p-4 dark:border-[1px]">
+                    <div className="price-info text-sm lg:text-base mb-4">
+                      <span className="text-xl lg:text-2xl font-semibold">
+                        ${roomDetail?.giaTien}
+                      </span>{" "}
+                      night
+                    </div>
+                    <BookingPicker
+                      roomPrice={roomDetail?.giaTien}
+                      roomId={roomId}
+                    />
+                  </div>
+                  <div className="flex items-center justify-center gap-2 py-6">
+                    {reportIcon}
+                    <div className="text-sm text-center font-semibold text-gray-500 underline dark:text-white cursor-pointer">
+                      Report this listing
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="booking-card w-auto sm:w-96 lg:sticky top-24 right-0 lg:w-96">
+              {/* desktop */}
+              <div className="rounded-md bg-white shadow-lg dark:border-[1px] dark:bg-[#111827] dark:text-white p-4">
+                <div className="price-info text-sm lg:text-base mb-4">
+                  <span className="text-xl lg:text-2xl font-semibold">
+                    ${roomDetail?.giaTien}
+                  </span>{" "}
+                  night
+                </div>
+                <BookingPicker
+                  roomPrice={roomDetail?.giaTien}
+                  roomId={roomId}
+                />
+              </div>
+              <div className="flex items-center justify-center gap-2 py-6">
+                {reportIcon}
+                <div className="text-sm text-center font-semibold text-gray-500 underline dark:text-white cursor-pointer">
+                  Report this listing
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -371,7 +445,7 @@ const RoomDetail = () => {
             <div className="flex justify-start gap-5 py-3">
               {/* avatar */}
               <img
-                src={localUser ? user?.user.avatar : noAvatar}
+                src={localUser ? localUser?.user.avatar : noAvatar}
                 className="w-12 h-12 rounded-full"
                 alt="avatar"
               />
@@ -522,7 +596,7 @@ const RoomDetail = () => {
               <p>Responds within an hour</p>
             </div>
             <div className="flex-grow text-sm lg:text-base">
-              <button className="py-3 px-8 font-bold rounded-md bg-black text-white dark:bg-white dark:text-black hover:bg-gray-800 duration-100">
+              <button className="py-3 px-8 font-bold rounded-md bg-black text-white dark:bg-white dark:text-black hover:bg-gray-800 duration-100 dark:hover:bg-gray-200 dark:duration-100">
                 Message Host
               </button>
             </div>
