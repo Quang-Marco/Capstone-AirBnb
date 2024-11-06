@@ -4,6 +4,8 @@ import { NotificationContext } from "../../App";
 import { phongThueService } from "../../services/phongThue.service";
 import InputCustom from "../../components/FormInput/FormInput";
 import { Checkbox } from "antd";
+import { viTriService } from "../../services/viTri.service";
+
 const CreateNewRoom = () => {
   const { user } = useSelector((state) => state.authSlice);
 
@@ -25,12 +27,29 @@ const CreateNewRoom = () => {
     doXe: false,
     hoBoi: false,
     banUi: false,
-    maViTri: 0,
+    maViTri: null,
   };
   const [roomValue, setRoomValue] = useState({ initialRoomValue });
 
   const [errors, setErrors] = useState({});
-
+  const [locationOptions, setLocationOptions] = useState([]);
+  // get list location name
+  const getListLocation = async () => {
+    try {
+      const listLocation = await viTriService.getLocations();
+      return listLocation.data.content.map((location) => location.tenViTri);
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
+  };
+  useState(() => {
+    const fetchLocationOptions = async () => {
+      const options = await getListLocation();
+      setLocationOptions(options);
+    };
+    fetchLocationOptions();
+  }, []);
   const handleChangeValue = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -156,16 +175,29 @@ const CreateNewRoom = () => {
           <p className="italic text-red-500 text-sm">*{errors.moTa}</p>
         )}
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:space-x-2">
-          <InputCustom
-            contentLabel="Location"
-            name="maViTri"
-            type="number"
-            onChange={handleChangeValue}
-            value={roomValue.maViTri}
-          />
-          {errors.maViTri && (
-            <p className="italic text-red-500 text-sm">*{errors.maViTri}</p>
-          )}
+          <div>
+            <label className="block mb-2 text-sm font-medium text-gray-900">
+              Location
+            </label>
+            <select
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 appearance-none hover:cursor-pointer"
+              name="maViTri"
+              onChange={(e) =>
+                handleChangeValue({
+                  target: { name: "maViTri", value: e.target.value },
+                })
+              }
+              value={roomValue.maViTri}
+            >
+              <option value="">Select a location</option>
+              {locationOptions.map((option, index) => (
+                <option key={index} value={index}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <InputCustom
             contentLabel="Price"
             name="giaTien"

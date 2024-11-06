@@ -19,7 +19,7 @@ const ManageInfoLocation = () => {
     }
   };
   const [location, setLocations] = useState([]);
-  //call api user
+  //call api location
   const fetchLocations = async () => {
     try {
       const locationData = await getValueLocationApi();
@@ -33,7 +33,7 @@ const ManageInfoLocation = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalLocationOpen, setIsModalLocationOpen] = useState(false);
   const [isModalUploadOpen, setIsModalUploadOpen] = useState(false);
@@ -339,19 +339,8 @@ const ManageInfoLocation = () => {
         <Space size="middle">
           <button
             onClick={() => {
-              viTriService
-                .deleteLocation(record.id, user.token)
-                .then((res) => {
-                  handleNotification(res.data.message, "success");
-                  fetchLocations();
-                })
-                .catch((err) => {
-                  handleNotification(
-                    err.response.data.message || err.response.data.content,
-                    "error"
-                  );
-                  fetchLocations();
-                });
+              setIsConfirmDeleteOpen(true);
+              handleSelectedId(record.id);
             }}
             className="bg-red-500 text-white py-2 px-5 rounded-md hover:bg-red-500/80 duration-300"
           >
@@ -477,6 +466,34 @@ const ManageInfoLocation = () => {
                 </button>
               </form>
             </div>
+          </Modal>
+          {/* Confirm delete */}
+          <Modal
+            title="Confirm Deletion"
+            open={isConfirmDeleteOpen}
+            onOk={() => {
+              viTriService
+                .deleteLocation(selectedId, user.token)
+                .then((res) => {
+                  handleNotification(res.data.message, "success");
+                  fetchLocations();
+                  setIsConfirmDeleteOpen(false);
+                })
+                .catch((err) => {
+                  handleNotification(
+                    err.response.data.message || err.response.data.content,
+                    "error"
+                  );
+                  fetchLocations();
+                  setIsConfirmDeleteOpen(false);
+                });
+            }}
+            onCancel={() => setIsConfirmDeleteOpen(false)}
+            okText="Delete"
+            cancelText="Cancel"
+          >
+            Are you sure you want to delete this location? This action cannot be
+            undone.
           </Modal>
         </Space>
       ),

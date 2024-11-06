@@ -15,6 +15,8 @@ const ManageUser = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalUploadOpen, setIsModalUploadOpen] = useState(false);
   const [isModalAdminOpen, setIsModalAdminOpen] = useState(false);
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
   //search
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -40,6 +42,11 @@ const ManageUser = () => {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
+  const handleSelectedId = (id) => {
+    setSelectedId(id);
+  };
+
   // Hàm chuyển đổi chuỗi sang dạng không dấu
   const removeDiacritics = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -227,19 +234,8 @@ const ManageUser = () => {
         <Space size="middle">
           <button
             onClick={() => {
-              userService
-                .deleteUser(record.id)
-                .then((res) => {
-                  handleNotification(res.data.message, "success");
-                  fetchUsers();
-                })
-                .catch((err) => {
-                  handleNotification(
-                    err.response.data.message || err.response.data.content,
-                    "error"
-                  );
-                  fetchUsers();
-                });
+              setIsConfirmDeleteOpen(true);
+              handleSelectedId(record.id);
             }}
             className="bg-red-500 text-white py-2 px-5 rounded-md hover:bg-red-500/80 duration-300"
           >
@@ -407,6 +403,34 @@ const ManageUser = () => {
                 Delete
               </button>
             </form>
+          </Modal>
+          {/* Confirm delete */}
+          <Modal
+            title="Confirm Deletion"
+            open={isConfirmDeleteOpen}
+            onOk={() => {
+              userService
+                .deleteUser(selectedId)
+                .then((res) => {
+                  handleNotification(res.data.message, "success");
+                  fetchUsers();
+                  setIsConfirmDeleteOpen(false);
+                })
+                .catch((err) => {
+                  handleNotification(
+                    err.response.data.message || err.response.data.content,
+                    "error"
+                  );
+                  fetchUsers();
+                  setIsConfirmDeleteOpen(false);
+                });
+            }}
+            onCancel={() => setIsConfirmDeleteOpen(false)}
+            okText="Delete"
+            cancelText="Cancel"
+          >
+            Are you sure you want to delete this user? This action cannot be
+            undone.
           </Modal>
         </Space>
       ),

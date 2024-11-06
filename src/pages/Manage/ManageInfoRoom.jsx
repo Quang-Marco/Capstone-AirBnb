@@ -7,12 +7,23 @@ import { NotificationContext } from "../../App";
 import InputCustom from "../../components/FormInput/FormInput";
 import { useFormik } from "formik";
 import CreateNewRoom from "./CreateNewRoom";
+import { viTriService } from "../../services/viTri.service";
 const ManageInfoRoom = () => {
   const getValueRoomApi = async () => {
     try {
       const response = await phongThueService.getRooms();
 
-      return response.data.content;
+      const newRoom = await Promise.all(
+        response.data.content.map(async (room) => {
+          const newResponse = await viTriService.getLocationsById(room.maViTri);
+          return {
+            ...room,
+            tenViTri: newResponse.data.content.tenViTri,
+          };
+        })
+      );
+
+      return newRoom;
     } catch (err) {
       handleNotification(err.message, "error");
       throw err;
@@ -33,6 +44,7 @@ const ManageInfoRoom = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalAddRoomOpen, setIsModalAddRoomOpen] = useState(false);
   const [isModalUploadOpen, setIsModalUploadOpen] = useState(false);
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const { handleNotification } = useContext(NotificationContext);
 
   const [selectedId, setSelectedId] = useState(null);
@@ -187,11 +199,18 @@ const ManageInfoRoom = () => {
       key: "hinhAnh",
       render: (text) => <img className="h-14" src={text} alt="avatar" />,
     },
+    // {
+    //   title: "Location",
+    //   key: "maViTri",
+    //   dataIndex: "maViTri",
+    //   align: "center",
+    // },
     {
       title: "Location",
-      key: "maViTri",
-      dataIndex: "maViTri",
+      key: "tenViTri",
+      dataIndex: "tenViTri",
       align: "center",
+      render: (_, record) => record.tenViTri,
     },
     {
       title: "Max Guest ",
@@ -212,18 +231,8 @@ const ManageInfoRoom = () => {
         <Space size="middle">
           <button
             onClick={() => {
-              phongThueService
-                .deleteRoom(record.id, user.token)
-                .then((res) => {
-                  handleNotification(res.data.message, "success");
-                  fetchRoom();
-                })
-                .catch((err) => {
-                  handleNotification(
-                    err.response.data.message || err.response.data.content,
-                    "error"
-                  );
-                });
+              setIsConfirmDeleteOpen(true);
+              handleSelectedId(record.id);
             }}
             className="bg-red-500 text-white py-2 px-5 rounded-md hover:bg-red-500/80 duration-300"
           >
@@ -466,6 +475,34 @@ const ManageInfoRoom = () => {
                 </button>
               </form>
             </div>
+          </Modal>
+          {/* Confirm delete */}
+          <Modal
+            title="Confirm Deletion"
+            open={isConfirmDeleteOpen}
+            onOk={() => {
+              phongThueService
+                .deleteRoom(selectedId, user.token)
+                .then((res) => {
+                  handleNotification(res.data.message, "success");
+                  fetchRoom();
+                  setIsConfirmDeleteOpen(false);
+                })
+                .catch((err) => {
+                  handleNotification(
+                    err.response.data.message || err.response.data.content,
+                    "error"
+                  );
+                  fetchRoom();
+                  setIsConfirmDeleteOpen(false);
+                });
+            }}
+            onCancel={() => setIsConfirmDeleteOpen(false)}
+            okText="Delete"
+            cancelText="Cancel"
+          >
+            Are you sure you want to delete this room ? This action cannot be
+            undone.
           </Modal>
         </Space>
       ),

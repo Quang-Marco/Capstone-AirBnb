@@ -3,8 +3,15 @@ import { NotificationContext } from "../../App";
 import { userService } from "../../services/user.service";
 
 import InputCustom from "../../components/FormInput/FormInput";
+
 const CreateAdminstrator = () => {
   const { handleNotification } = useContext(NotificationContext);
+
+  const [selectedRole, setSelectedRole] = useState("ADMIN"); // Giá trị mặc định
+
+  // useEffect(() => {
+  //   console.log("Selected role:", selectedRole);
+  // }, [selectedRole]);
 
   const initialUserValue = {
     name: "",
@@ -18,14 +25,22 @@ const CreateAdminstrator = () => {
     skill: [],
     certification: [],
   };
-  const [userValue, setUserValue] = useState({ initialUserValue });
+  const [userValue, setUserValue] = useState(initialUserValue);
   const [errors, setErrors] = useState({});
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
-    setUserValue({
-      ...userValue,
-      [name]: value,
-    });
+    if (name === "role") {
+      setSelectedRole(value); // cập nhật state cho role
+      setUserValue({
+        ...userValue,
+        role: value, // cập nhật giá trị role trong userValue
+      });
+    } else {
+      setUserValue({
+        ...userValue,
+        [name]: value,
+      });
+    }
   };
 
   const validateForm = () => {
@@ -77,6 +92,7 @@ const CreateAdminstrator = () => {
     setUserValue(initialUserValue);
     setErrors({});
   };
+
   const handleSubmitFormCreateUser = (e) => {
     e.preventDefault();
     const formErrors = validateForm();
@@ -92,7 +108,8 @@ const CreateAdminstrator = () => {
           resetForm();
         })
         .catch((err) => {
-          handleNotification(err.message, "error");
+          console.log(err);
+          handleNotification(err.message || err.content, "error");
         });
     }
   };
@@ -167,17 +184,19 @@ const CreateAdminstrator = () => {
           <option value={false}>Female</option>
         </select>
       </div>
+
       <div>
         <label className="block mb-2 text-sm font-medium text-gray-900">
           Role
         </label>
         <select
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          name="role"
+          value={selectedRole}
           onChange={handleChangeValue}
         >
-          <option value={"ADMIN"}>ADMIN</option>
+          <option value="ADMIN">ADMIN</option>
         </select>
+        <p>Selected role: {selectedRole}</p>
         {errors.role && (
           <p className="italic mt-5 text-red-500 text-sm">*{errors.role}</p>
         )}
