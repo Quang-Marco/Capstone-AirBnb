@@ -7,7 +7,7 @@ export const userService = {
 
   updateUser: (id, newUser) => http.put(`/users/${id}`, newUser),
 
-  deleteUser: (id) => http.delete(`/users/${id}`),
+  deleteUser: (id) => http.delete(`/users?id=${id}`),
 
   getUserById: (id) => http.get(`/users/${id}`),
 

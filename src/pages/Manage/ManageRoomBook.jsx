@@ -9,11 +9,16 @@ import CreateNewRoomBook from "./CreateNewRoomBook";
 
 const ManageRoomBook = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleSelectedId = (id) => {
+    setSelectedId(id);
+  };
   //search
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const getValueRoomBookApi = async () => {
     try {
       const response = await datPhongService.getBookedRooms();
@@ -167,19 +172,8 @@ const ManageRoomBook = () => {
         <Space size="middle">
           <button
             onClick={() => {
-              datPhongService
-                .deleteBookedRoom(record.id)
-                .then((res) => {
-                  handleNotification(res.data.message, "success");
-                  fetchRoomBook();
-                })
-                .catch((err) => {
-                  handleNotification(
-                    err.response.data.message || err.response.data.content,
-                    "error"
-                  );
-                  fetchRoomBook();
-                });
+              setIsConfirmDeleteOpen(true);
+              handleSelectedId(record.id);
             }}
             className="bg-red-500 text-white py-2 px-5 rounded-md hover:bg-red-500/80 duration-300"
           >
@@ -260,6 +254,34 @@ const ManageRoomBook = () => {
                 touched={touched.maNguoiDung}
               />
             </form>
+          </Modal>
+          {/* Confirm delete */}
+          <Modal
+            title="Confirm Deletion"
+            open={isConfirmDeleteOpen}
+            onOk={() => {
+              datPhongService
+                .deleteBookedRoom(selectedId)
+                .then((res) => {
+                  handleNotification(res.data.message, "success");
+                  fetchRoomBook();
+                  setIsConfirmDeleteOpen(false);
+                })
+                .catch((err) => {
+                  handleNotification(
+                    err.response.data.message || err.response.data.content,
+                    "error"
+                  );
+                  fetchRoomBook();
+                  setIsConfirmDeleteOpen(false);
+                });
+            }}
+            onCancel={() => setIsConfirmDeleteOpen(false)}
+            okText="Delete"
+            cancelText="Cancel"
+          >
+            Are you sure you want to delete this room? This action cannot be
+            undone.
           </Modal>
         </Space>
       ),
