@@ -24,16 +24,6 @@ const Mapbox = ({ longitude, latitude, tenViTri, tinhThanh, image }) => {
 
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.scrollZoom.disable();
-
-      mapRef.current.on("click", () => {
-        mapRef.current.scrollZoom.enable();
-      });
-
-      mapRef.current.on("mouseout", () => {
-        mapRef.current.scrollZoom.disable();
-      });
-
       mapRef.current.flyTo({
         center: [longitude, latitude],
         zoom: 10,
@@ -50,8 +40,14 @@ const Mapbox = ({ longitude, latitude, tenViTri, tinhThanh, image }) => {
         longitude: longitude,
         latitude: latitude,
         zoom: 10,
+        scrollZoom: false,
       }}
       mapStyle="mapbox://styles/mapbox/streets-v11"
+      onClick={() => {
+        if (mapRef.current) {
+          mapRef.current.getMap().scrollZoom.enable();
+        }
+      }}
     >
       <Marker
         longitude={longitude}
