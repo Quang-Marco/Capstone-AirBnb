@@ -14,7 +14,6 @@ const UserMenu = () => {
   const { handleNotification } = useContext(NotificationContext);
   const { toggleTheme } = useContext(ThemeContext);
   const user = getLocalStorage("user");
-  console.log(user);
 
   const itemsUser = [
     {
@@ -53,7 +52,7 @@ const UserMenu = () => {
     {
       key: "4",
       label:
-        user.user.role == "ADMIN" ? (
+        user?.user.role == "ADMIN" ? (
           <Link
             to={pathDefault.admin}
             className="block p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300"
