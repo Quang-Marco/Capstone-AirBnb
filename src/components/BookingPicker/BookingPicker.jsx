@@ -12,7 +12,7 @@ import { pathDefault } from "../../common/path";
 
 const { RangePicker } = DatePicker;
 
-const BookingPicker = ({ roomPrice, roomId }) => {
+const BookingPicker = ({ roomPrice, roomId, maxGuest }) => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.authSlice);
   const localUser = getLocalStorage("user");
@@ -77,6 +77,13 @@ const BookingPicker = ({ roomPrice, roomId }) => {
     setIsGuestPickerOpen(!isGuestPickerOpen);
   };
 
+  const maxNumber = {
+    adults: maxGuest,
+    children: 2,
+    infants: 1,
+    pets: 2,
+  };
+
   const {
     handleSubmit,
     handleChange,
@@ -113,7 +120,13 @@ const BookingPicker = ({ roomPrice, roomId }) => {
           })
           .then((res) => {
             console.log(res);
-            handleNotification("Complete booking", "success");
+            handleNotification(
+              "Room added, redirect to your booked room.",
+              "success"
+            );
+            setTimeout(() => {
+              navigate(pathDefault.profile);
+            }, 1000);
             resetForm();
             setBookingDays(0);
             setTotalPrice(0);
@@ -234,6 +247,7 @@ const BookingPicker = ({ roomPrice, roomId }) => {
                       onClick={() =>
                         setFieldValue(item.field, values[item.field] + 1)
                       }
+                      disabled={values[item.field] >= maxNumber[item.field]}
                       className="px-1 py-[2px] rounded-full border border-black dark:border-white opacity-60 hover:opacity-100 duration-300"
                     >
                       <i className="fa-regular fa-plus w-5 h-5"></i>
@@ -243,8 +257,8 @@ const BookingPicker = ({ roomPrice, roomId }) => {
               );
             })}
             <div className="text-xs lg:text-sm text-gray-500">
-              This place has a maximum of 2 guests, not including infants. If
-              you're bringing more than 2 pets, please let your Host know.
+              {`This place has a maximum of ${maxGuest} guests, not including children and infants. If
+              you're bringing more than 2 pets, please let your Host know.`}
             </div>
             <div className="flex justify-end">
               <button

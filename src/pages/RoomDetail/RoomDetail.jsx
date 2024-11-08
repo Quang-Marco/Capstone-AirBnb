@@ -45,6 +45,10 @@ const RoomDetail = () => {
   const { isMobile, isTablet } = useResponsive();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (roomId) {
       phongThueService
         .getRoomsById(roomId)
@@ -260,27 +264,6 @@ const RoomDetail = () => {
 
         {/* booking card */}
         <div className="relative">
-          {/* <div className="booking-card w-auto sm:w-96 lg:sticky top-24 right-0 lg:w-96">
-            <div
-              className="rounded-md bg-white shadow-lg dark:bg-[#111827] dark:text-white dark:border-[0.3px] dark:rounded-lg dark:border-white"
-              style={{ top: "10px", padding: "20px 30px" }}
-            >
-              <div className="price-info text-sm lg:text-base mb-4">
-                <span className="text-xl lg:text-2xl font-semibold">
-                  ${roomDetail?.giaTien}
-                </span>{" "}
-                night
-              </div>
-
-              <BookingPicker roomPrice={roomDetail?.giaTien} roomId={roomId} />
-            </div>
-            <div className="flex items-center justify-center gap-2 py-6">
-              {reportIcon}
-              <div className="text-sm text-center font-semibold text-gray-500 underline dark:text-white cursor-pointer">
-                Report this listing
-              </div>
-            </div>
-          </div> */}
           {isMobile || isTablet ? (
             <>
               {/* mobile */}
@@ -299,14 +282,14 @@ const RoomDetail = () => {
                     onClick={() => setIsBookingCardOpen(!isBookingCardOpen)}
                     className="py-3 px-8 rounded-md bg-[#DB0B64] text-white font-semibold text-md"
                   >
-                    {isBookingCardOpen ? "Close reserve" : "Open Reserve"}
+                    {isBookingCardOpen ? "Close" : "Book room"}
                   </button>
                 </div>
               </div>
 
               {isBookingCardOpen && (
                 <div className="fixed z-10 bottom-14 left-0 right-0 w-full bg-white shadow-lg dark:bg-[#111827] dark:text-white p-4">
-                  <div className="rounded-md shadow-lg p-4 dark:border-[1px]">
+                  <div className="rounded-xl shadow-lg p-4 border-[1px] dark:border-[1px]">
                     <div className="price-info text-sm lg:text-base mb-4">
                       <span className="text-xl lg:text-2xl font-semibold">
                         ${roomDetail?.giaTien}
@@ -316,6 +299,7 @@ const RoomDetail = () => {
                     <BookingPicker
                       roomPrice={roomDetail?.giaTien}
                       roomId={roomId}
+                      maxGuest={roomDetail?.khach}
                     />
                   </div>
                   <div className="flex items-center justify-center gap-2 py-6">
@@ -328,9 +312,9 @@ const RoomDetail = () => {
               )}
             </>
           ) : (
-            <div className="booking-card w-auto sm:w-96 lg:sticky top-24 right-0 lg:w-96">
+            <div className="booking-card w-auto sm:w-96 lg:sticky top-24 right-0 lg:w-96 pt-10">
               {/* desktop */}
-              <div className="rounded-md bg-white shadow-lg dark:border-[1px] dark:bg-[#111827] dark:text-white p-4">
+              <div className="rounded-xl bg-white shadow-lg border-[1px] dark:border-[1px] dark:bg-[#111827] dark:text-white p-4">
                 <div className="price-info text-sm lg:text-base mb-4">
                   <span className="text-xl lg:text-2xl font-semibold">
                     ${roomDetail?.giaTien}
@@ -340,6 +324,7 @@ const RoomDetail = () => {
                 <BookingPicker
                   roomPrice={roomDetail?.giaTien}
                   roomId={roomId}
+                  maxGuest={roomDetail?.khach}
                 />
               </div>
               <div className="flex items-center justify-center gap-2 py-6">
