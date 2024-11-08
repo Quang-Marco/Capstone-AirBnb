@@ -8,7 +8,7 @@ import {
   VideoCameraOutlined,
   BarChartOutlined,
 } from "@ant-design/icons";
-import { Button, Layout, Menu, theme, Drawer } from "antd";
+import { Button, Layout, Menu, theme, Drawer, Tooltip } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { NotificationContext } from "../../App";
 import { pathDefault } from "../../common/path";
@@ -45,7 +45,7 @@ const AdminTemplate = () => {
   }, []);
 
   return (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen ">
       {isMobile ? (
         <Drawer
           title="Manage Menu"
@@ -173,7 +173,7 @@ const AdminTemplate = () => {
         </Sider>
       )}
       <Layout>
-        <Header className="p-0 bg-white flex items-center justify-between md:justify-start">
+        {/* <Header className="p-0 bg-white flex items-center justify-between md:justify-start">
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -182,6 +182,7 @@ const AdminTemplate = () => {
             }}
             className="w-16 h-16 text-lg md:block hidden"
           />
+
           <div className="md:hidden grid grid-cols-2  ">
             <Button
               type="text"
@@ -190,6 +191,60 @@ const AdminTemplate = () => {
               className="w-16 h-16 text-lg "
             />
             <div className="text-lg  font-bold ">Admin Dashboard</div>
+          </div>
+          <Button
+            icon={<HomeOutlined />}
+            onClick={() => navigate(pathDefault.homePage)}
+            className="bg-blue-500  hover:bg-blue-600 hover:cursor-pointer hover:text-blue-500 "
+            aria-label="Go to homepage"
+          ></Button>
+        </Header> */}
+        <Header className="p-0 bg-white flex items-start justify-between md:px-6">
+          {/* Desktop Layout */}
+          <div className="hidden md:flex  space-y-3 items-center justify-between w-full">
+            <Tooltip title={collapsed ? "Show" : "Close "}>
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                className="w-12 h-12 text-lg"
+                aria-label="Toggle sidebar"
+              />
+            </Tooltip>
+            {/* <div className="flex-1 text-lg font-bold text-center">
+              Admin Dashboard
+            </div> */}
+            <Tooltip title="Back to HomePage">
+              <Button
+                onClick={() => navigate(pathDefault.homePage)}
+                className="bg-blue-500 h-10 w-10  text-xl hover:bg-blue-600 text-white p-2 rounded-full "
+              >
+                <i className="fa-solid fa-house"></i>
+              </Button>
+            </Tooltip>
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="md:hidden flex items-center w-full justify-between mt-2">
+            <Tooltip title={"Show"}>
+              <Button
+                type="text"
+                icon={<MenuUnfoldOutlined />}
+                onClick={() => setDrawerVisible(true)}
+                className="w-12 ml-6 h-12 text-lg"
+              />
+            </Tooltip>
+            <div className="flex-1 text-lg font-bold text-center">
+              Admin Dashboard
+            </div>
+            <Tooltip title="Về trang chủ">
+              <Button
+                onClick={() => navigate(pathDefault.homePage)}
+                className="bg-blue-500 hover:bg-blue-600 text-white p-2 text-md px-3 py-23 mr-6 rounded-2/3"
+              >
+                <i className="fa-solid fa-house"></i>
+              </Button>
+            </Tooltip>
           </div>
         </Header>
         <Content

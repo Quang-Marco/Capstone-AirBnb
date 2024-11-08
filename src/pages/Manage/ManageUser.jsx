@@ -90,6 +90,7 @@ const ManageUser = () => {
       name: "",
       email: "",
       phone: "",
+      avatar: "",
       birthday: "",
       gender: "",
       role: "",
@@ -202,7 +203,16 @@ const ManageUser = () => {
       title: "Avatar",
       dataIndex: "avatar",
       key: "avatar",
-      render: (text) => <img className="h-20 w-24" src={text} alt="avatar" />,
+      render: (img) => (
+        <img
+          className="h-20 w-24"
+          src={
+            img ||
+            "https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png"
+          }
+          alt="avatar"
+        />
+      ),
     },
     {
       title: "Email",
@@ -408,6 +418,7 @@ const ManageUser = () => {
           <Modal
             title="Confirm Deletion"
             open={isConfirmDeleteOpen}
+            centered
             onOk={() => {
               userService
                 .deleteUser(selectedId)
