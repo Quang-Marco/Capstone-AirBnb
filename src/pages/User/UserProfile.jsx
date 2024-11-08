@@ -138,14 +138,14 @@ const UserProfile = () => {
         </div>
 
         <div className="rooms lg:col-span-2">
-          <h3 className="dark:text-white text-2xl sm:text-3xl font-semibold mb-10">
+          <h3 className="dark:text-white text-center text-2xl sm:text-3xl font-semibold mb-10">
             Booked rooms
           </h3>
           {listBookedRooms.map((category) => (
             <div
               //   to={pathDefault.homePage}
               key={category.id}
-              className="cursor-pointer relative overflow-hidden group mb-5"
+              className="cursor-pointer relative overflow-hidden group mb-5 lg:mb-10"
             >
               <div className="rounded-lg overflow-hidden mb-5">
                 <img
@@ -153,21 +153,45 @@ const UserProfile = () => {
                   src={category.hinhAnh}
                   alt={category.tenPhong}
                 />
+                <button
+                  type="button"
+                  className="heart h-10 w-10 rounded-full text-center text-gray-500 focus:text-red-500 bg-white hover:bg-gray-100 absolute top-2 right-2 opacity-0 duration-300 group-hover:opacity-100"
+                >
+                  <i className="fa-regular fa-heart"></i>
+                </button>
               </div>
-              <h3 className="dark:text-white text-xl sm:text-2xl font-semibold hover:underline duration-300">
-                {category.tenPhong}
-              </h3>
-              <p className="dark:text-white">
-                <span className="font-semibold">${category.giaTien}</span> night
-              </p>
-              <button
-                type="button"
-                className="heart h-10 w-10 rounded-full text-center text-gray-500 focus:text-red-500 bg-white hover:bg-gray-100 absolute top-2 right-2 opacity-0 duration-300 group-hover:opacity-100"
-              >
-                <i className="fa-regular fa-heart"></i>
-              </button>
+              <div>
+                <h3 className="dark:text-white text-xl sm:text-2xl font-semibold hover:underline duration-300">
+                  {category.tenPhong}
+                </h3>
+
+                <p className="text-gray-500">
+                  {category.khach} {category.khach == 1 ? "guest" : "guests"} -{" "}
+                  {category.phongNgu}{" "}
+                  {category.phongNgu == 1 ? "bedroom" : "bedrooms"} -{" "}
+                  {category.giuong} {category.giuong == 1 ? "bed" : "beds"} -{" "}
+                  {category.phongTam}{" "}
+                  {category.phongTam == 1 ? "bath" : "baths"}
+                </p>
+                <p className="text-gray-500">
+                  {category.wifi && "Wifi - "}
+                  {category.bep && "Kitchen - "}
+                  {category.dieuHoa && "Air conditioning - "}
+                  {category.mayGiat && "Washer"}
+                </p>
+                <p className="text-xl dark:text-white mt-2">
+                  <span className="font-semibold">${category.giaTien}</span>{" "}
+                  night
+                </p>
+              </div>
             </div>
           ))}
+
+          {listBookedRooms.length === 0 && (
+            <p className="col-span-4 text-center text-gray-500 h-10 sm:h-[350px] flex items-center justify-center">
+              You have not booked a room yet.
+            </p>
+          )}
         </div>
       </div>
     </Container>

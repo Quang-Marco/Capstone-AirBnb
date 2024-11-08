@@ -34,6 +34,7 @@ const resources = {
           profile: "Profile",
           experience: "Host an experience",
           helpCenter: "Help Center",
+          admin: "Admin",
         },
       },
 
@@ -176,6 +177,7 @@ const resources = {
           profile: "Trang cá nhân",
           experience: "Tổ chức trải nghiệm",
           helpCenter: "Trung tâm trợ giúp",
+          admin: "Quản trị viên",
         },
       },
 

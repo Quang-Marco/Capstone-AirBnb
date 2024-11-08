@@ -16,7 +16,6 @@ const EditProfile = ({ user }) => {
       initialValues: {
         name: user.user.name,
         email: user.user.email,
-        password: user.user.password,
         phone: user.user.phone,
         birthday: user.user.birthday,
         gender: user.user.gender,
@@ -51,12 +50,6 @@ const EditProfile = ({ user }) => {
         email: string()
           .required(notiValidation.empty)
           .email(notiValidation.email),
-        password: string()
-          .required(notiValidation.empty)
-          .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-            notiValidation.password
-          ),
         phone: string()
           .required(notiValidation.empty)
           .matches(/^(0|\+84)[3|5|7|8|9][0-9]{8}$/, notiValidation.phone),
@@ -109,18 +102,6 @@ const EditProfile = ({ user }) => {
             onBlur={handleBlur}
             errors={errors.email}
             touched={touched.email}
-          />
-          <FormInput
-            classWrapper="mb-2"
-            contentLabel="Password"
-            name="password"
-            placeholder="Change your password"
-            type="password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            errors={errors.password}
-            touched={touched.password}
           />
           <FormInput
             classWrapper="mb-2"

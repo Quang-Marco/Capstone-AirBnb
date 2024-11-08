@@ -267,7 +267,8 @@ const Categories = () => {
                   <h3 className="dark:text-white text-base font-semibold hover:underline duration-300">
                     {category.tenPhong}
                   </h3>
-                  <p className="dark:text-white">
+                  <p className="text-gray-500">Nov 9 - 14</p>
+                  <p className="dark:text-white mt-1">
                     <span className="font-semibold">${category.giaTien}</span>{" "}
                     night
                   </p>

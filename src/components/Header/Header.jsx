@@ -261,7 +261,14 @@ const Header = () => {
                 trigger={["click"]}
                 open={locationOpen}
                 onOpenChange={handleOpenLocation}
-                overlayStyle={{ paddingTop: "20px" }}
+                overlayStyle={{
+                  paddingTop: "20px",
+                }}
+                dropdownRender={(menu) => (
+                  <div style={{ maxHeight: "500px", overflowY: "auto" }}>
+                    {menu}
+                  </div>
+                )}
               >
                 <div className="lg:w-full">
                   <p className="text-xs sm:text-sm font-semibold block">

@@ -14,6 +14,7 @@ const UserMenu = () => {
   const { handleNotification } = useContext(NotificationContext);
   const { toggleTheme } = useContext(ThemeContext);
   const user = getLocalStorage("user");
+  console.log(user);
 
   const itemsUser = [
     {
@@ -51,6 +52,18 @@ const UserMenu = () => {
     },
     {
       key: "4",
+      label:
+        user.user.role == "ADMIN" ? (
+          <Link
+            to={pathDefault.admin}
+            className="block p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300"
+          >
+            {t("header.user.admin")}
+          </Link>
+        ) : null,
+    },
+    {
+      key: "5",
       label: (
         <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
           {t("header.airbnbYourHome")}
@@ -58,7 +71,7 @@ const UserMenu = () => {
       ),
     },
     {
-      key: "5",
+      key: "6",
       label: (
         <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
           {t("header.user.experience")}
@@ -66,7 +79,7 @@ const UserMenu = () => {
       ),
     },
     {
-      key: "6",
+      key: "7",
       label: (
         <p className="p-2 cursor-pointer text-sm hover:bg-gray-100 duration-300">
           {t("header.user.helpCenter")}
@@ -74,7 +87,7 @@ const UserMenu = () => {
       ),
     },
     {
-      key: "7",
+      key: "8",
       label: user ? (
         <div
           onClick={() => {
