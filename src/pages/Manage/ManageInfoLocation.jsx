@@ -471,6 +471,7 @@ const ManageInfoLocation = () => {
           <Modal
             title="Confirm Deletion"
             open={isConfirmDeleteOpen}
+            centered
             onOk={() => {
               viTriService
                 .deleteLocation(selectedId, user.token)

@@ -19,7 +19,6 @@ const CreateAdminstrator = () => {
     password: "",
     phone: "",
     birthday: "",
-    avatar: "",
     gender: true,
     role: "ADMIN",
     skill: [],

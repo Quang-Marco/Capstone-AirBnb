@@ -479,6 +479,7 @@ const ManageInfoRoom = () => {
           {/* Confirm delete */}
           <Modal
             title="Confirm Deletion"
+            centered
             open={isConfirmDeleteOpen}
             onOk={() => {
               phongThueService
