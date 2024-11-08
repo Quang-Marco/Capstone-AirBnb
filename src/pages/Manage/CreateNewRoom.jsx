@@ -27,7 +27,7 @@ const CreateNewRoom = () => {
     doXe: false,
     hoBoi: false,
     banUi: false,
-    maViTri: null,
+    maViTri: "",
   };
   const [roomValue, setRoomValue] = useState({ initialRoomValue });
 

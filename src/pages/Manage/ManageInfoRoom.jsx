@@ -34,6 +34,7 @@ const ManageInfoRoom = () => {
   const fetchRoom = async () => {
     try {
       const roomData = await getValueRoomApi();
+      console.log(roomData);
       setRooms(roomData);
     } catch (error) {
       handleNotification("Can't get room value", error);
@@ -75,7 +76,6 @@ const ManageInfoRoom = () => {
       const id = removeDiacritics(room.id.toString());
       const tenPhong = removeDiacritics(room.tenPhong.toLowerCase());
 
-      // Kiểm tra xem tất cả các từ trong searchTerms có xuất hiện trong id hoặc tenPhong hay không
       return searchTerms.every(
         (term) => id.includes(term) || tenPhong.includes(term)
       );
@@ -207,7 +207,7 @@ const ManageInfoRoom = () => {
     // },
     {
       title: "Location",
-      key: "tenViTri",
+      key: "maViTri",
       dataIndex: "tenViTri",
       align: "center",
       render: (_, record) => record.tenViTri,
