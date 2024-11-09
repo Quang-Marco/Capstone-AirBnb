@@ -17,7 +17,9 @@ const removeAccents = (str) =>
     .replace(/đ/g, "d")
     .replace(/Đ/g, "D")
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "")
+    .trim();
 
 const Header = () => {
   const { t } = useTranslation();
